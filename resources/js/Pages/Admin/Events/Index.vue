@@ -1,6 +1,6 @@
 <script setup>
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import Button from '@/components/ui/Button.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import Button from '@/Components/ui/Button.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 defineProps({ events: Object });

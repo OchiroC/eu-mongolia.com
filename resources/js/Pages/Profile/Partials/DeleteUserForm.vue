@@ -1,13 +1,13 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
-import Button from '@/components/ui/Button.vue';
-import Dialog from '@/components/ui/Dialog.vue';
-import DialogContent from '@/components/ui/DialogContent.vue';
-import DialogDescription from '@/components/ui/DialogDescription.vue';
-import DialogFooter from '@/components/ui/DialogFooter.vue';
-import DialogTitle from '@/components/ui/DialogTitle.vue';
-import Input from '@/components/ui/Input.vue';
-import Label from '@/components/ui/Label.vue';
+import Button from '@/Components/ui/Button.vue';
+import Dialog from '@/Components/ui/Dialog.vue';
+import DialogContent from '@/Components/ui/DialogContent.vue';
+import DialogDescription from '@/Components/ui/DialogDescription.vue';
+import DialogFooter from '@/Components/ui/DialogFooter.vue';
+import DialogTitle from '@/Components/ui/DialogTitle.vue';
+import Input from '@/Components/ui/Input.vue';
+import Label from '@/Components/ui/Label.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 

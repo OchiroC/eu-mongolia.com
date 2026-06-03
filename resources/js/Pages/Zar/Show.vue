@@ -1,19 +1,19 @@
 <script setup>
-import ListingCard from '@/components/ListingCard.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import Button from '@/components/ui/Button.vue';
-import Dialog from '@/components/ui/Dialog.vue';
-import DialogContent from '@/components/ui/DialogContent.vue';
-import DialogDescription from '@/components/ui/DialogDescription.vue';
-import DialogFooter from '@/components/ui/DialogFooter.vue';
-import DialogTitle from '@/components/ui/DialogTitle.vue';
-import Label from '@/components/ui/Label.vue';
-import Select from '@/components/ui/Select.vue';
-import SelectContent from '@/components/ui/SelectContent.vue';
-import SelectItem from '@/components/ui/SelectItem.vue';
-import SelectTrigger from '@/components/ui/SelectTrigger.vue';
-import SelectValue from '@/components/ui/SelectValue.vue';
-import Textarea from '@/components/ui/Textarea.vue';
+import ListingCard from '@/Components/ListingCard.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
+import Button from '@/Components/ui/Button.vue';
+import Dialog from '@/Components/ui/Dialog.vue';
+import DialogContent from '@/Components/ui/DialogContent.vue';
+import DialogDescription from '@/Components/ui/DialogDescription.vue';
+import DialogFooter from '@/Components/ui/DialogFooter.vue';
+import DialogTitle from '@/Components/ui/DialogTitle.vue';
+import Label from '@/Components/ui/Label.vue';
+import Select from '@/Components/ui/Select.vue';
+import SelectContent from '@/Components/ui/SelectContent.vue';
+import SelectItem from '@/Components/ui/SelectItem.vue';
+import SelectTrigger from '@/Components/ui/SelectTrigger.vue';
+import SelectValue from '@/Components/ui/SelectValue.vue';
+import Textarea from '@/Components/ui/Textarea.vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 

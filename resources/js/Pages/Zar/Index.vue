@@ -1,8 +1,8 @@
 <script setup>
-import ListingCard from '@/components/ListingCard.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import Button from '@/components/ui/Button.vue';
-import Input from '@/components/ui/Input.vue';
+import ListingCard from '@/Components/ListingCard.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
+import Button from '@/Components/ui/Button.vue';
+import Input from '@/Components/ui/Input.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { reactive, ref, watch } from 'vue';
 

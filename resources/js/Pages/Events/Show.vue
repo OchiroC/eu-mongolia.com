@@ -1,5 +1,5 @@
 <script setup>
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { formatDateTime } from '@/lib/date';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';

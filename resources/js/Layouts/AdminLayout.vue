@@ -1,5 +1,5 @@
 <script setup>
-import NotificationBell from '@/components/NotificationBell.vue';
+import NotificationBell from '@/Components/NotificationBell.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 

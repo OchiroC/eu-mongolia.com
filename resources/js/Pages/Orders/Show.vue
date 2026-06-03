@@ -1,7 +1,7 @@
 <script setup>
-import TicketQr from '@/components/TicketQr.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import Button from '@/components/ui/Button.vue';
+import TicketQr from '@/Components/TicketQr.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
+import Button from '@/Components/ui/Button.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({

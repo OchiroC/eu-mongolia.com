@@ -1,7 +1,7 @@
 <script setup>
-import BannerDisplay from '@/components/BannerDisplay.vue';
-import CommentsSection from '@/components/CommentsSection.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import BannerDisplay from '@/Components/BannerDisplay.vue';
+import CommentsSection from '@/Components/CommentsSection.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';

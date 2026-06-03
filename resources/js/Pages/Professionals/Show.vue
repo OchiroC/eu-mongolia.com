@@ -1,7 +1,7 @@
 <script setup>
-import BannerDisplay from '@/components/BannerDisplay.vue';
-import ProfessionalCard from '@/components/ProfessionalCard.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import BannerDisplay from '@/Components/BannerDisplay.vue';
+import ProfessionalCard from '@/Components/ProfessionalCard.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 

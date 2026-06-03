@@ -1,12 +1,12 @@
 <script setup>
-import BannerDisplay from '@/components/BannerDisplay.vue';
-import ListingCard from '@/components/ListingCard.vue';
-import ProfessionalCard from '@/components/ProfessionalCard.vue';
-import Select from '@/components/ui/Select.vue';
-import SelectContent from '@/components/ui/SelectContent.vue';
-import SelectItem from '@/components/ui/SelectItem.vue';
-import SelectTrigger from '@/components/ui/SelectTrigger.vue';
-import SelectValue from '@/components/ui/SelectValue.vue';
+import BannerDisplay from '@/Components/BannerDisplay.vue';
+import ListingCard from '@/Components/ListingCard.vue';
+import ProfessionalCard from '@/Components/ProfessionalCard.vue';
+import Select from '@/Components/ui/Select.vue';
+import SelectContent from '@/Components/ui/SelectContent.vue';
+import SelectItem from '@/Components/ui/SelectItem.vue';
+import SelectTrigger from '@/Components/ui/SelectTrigger.vue';
+import SelectValue from '@/Components/ui/SelectValue.vue';
 import { formatDateTime, timeAgo } from '@/lib/date';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';

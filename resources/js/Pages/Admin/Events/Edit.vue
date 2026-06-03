@@ -1,6 +1,6 @@
 <script setup>
-import EventForm from '@/components/EventForm.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import EventForm from '@/Components/EventForm.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({ event: Object });

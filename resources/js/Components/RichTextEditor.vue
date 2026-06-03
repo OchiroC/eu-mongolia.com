@@ -1,6 +1,6 @@
 <script setup>
-import Button from '@/components/ui/Button.vue';
-import Separator from '@/components/ui/Separator.vue';
+import Button from '@/Components/ui/Button.vue';
+import Separator from '@/Components/ui/Separator.vue';
 import { cn } from '@/lib/utils';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';

@@ -1,6 +1,6 @@
 <script setup>
-import ListingForm from '@/components/ListingForm.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import ListingForm from '@/Components/ListingForm.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 defineProps({ categories: Array });

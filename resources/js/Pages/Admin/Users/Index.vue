@@ -1,7 +1,7 @@
 <script setup>
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import Button from '@/components/ui/Button.vue';
-import Input from '@/components/ui/Input.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import Button from '@/Components/ui/Button.vue';
+import Input from '@/Components/ui/Input.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 

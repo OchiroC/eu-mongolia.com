@@ -1,13 +1,13 @@
 <script setup>
-import Button from '@/components/ui/Button.vue';
-import Checkbox from '@/components/ui/Checkbox.vue';
-import Input from '@/components/ui/Input.vue';
-import Label from '@/components/ui/Label.vue';
-import Select from '@/components/ui/Select.vue';
-import SelectContent from '@/components/ui/SelectContent.vue';
-import SelectItem from '@/components/ui/SelectItem.vue';
-import SelectTrigger from '@/components/ui/SelectTrigger.vue';
-import SelectValue from '@/components/ui/SelectValue.vue';
+import Button from '@/Components/ui/Button.vue';
+import Checkbox from '@/Components/ui/Checkbox.vue';
+import Input from '@/Components/ui/Input.vue';
+import Label from '@/Components/ui/Label.vue';
+import Select from '@/Components/ui/Select.vue';
+import SelectContent from '@/Components/ui/SelectContent.vue';
+import SelectItem from '@/Components/ui/SelectItem.vue';
+import SelectTrigger from '@/Components/ui/SelectTrigger.vue';
+import SelectValue from '@/Components/ui/SelectValue.vue';
 import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
 

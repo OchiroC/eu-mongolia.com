@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({

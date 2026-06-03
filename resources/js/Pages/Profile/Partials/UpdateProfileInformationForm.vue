@@ -1,10 +1,10 @@
 <script setup>
-import AvatarCropper from '@/components/AvatarCropper.vue';
+import AvatarCropper from '@/Components/AvatarCropper.vue';
 import InputError from '@/Components/InputError.vue';
-import Button from '@/components/ui/Button.vue';
-import Input from '@/components/ui/Input.vue';
-import Label from '@/components/ui/Label.vue';
-import Textarea from '@/components/ui/Textarea.vue';
+import Button from '@/Components/ui/Button.vue';
+import Input from '@/Components/ui/Input.vue';
+import Label from '@/Components/ui/Label.vue';
+import Textarea from '@/Components/ui/Textarea.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 

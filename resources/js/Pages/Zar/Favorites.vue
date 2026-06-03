@@ -1,6 +1,6 @@
 <script setup>
-import ListingCard from '@/components/ListingCard.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import ListingCard from '@/Components/ListingCard.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({ listings: Array });

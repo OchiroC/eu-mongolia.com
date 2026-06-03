@@ -1,6 +1,6 @@
 <script setup>
-import BannerDisplay from '@/components/BannerDisplay.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import BannerDisplay from '@/Components/BannerDisplay.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';

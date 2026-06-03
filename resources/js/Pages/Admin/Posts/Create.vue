@@ -1,6 +1,6 @@
 <script setup>
-import PostForm from '@/components/PostForm.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import PostForm from '@/Components/PostForm.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 defineProps({

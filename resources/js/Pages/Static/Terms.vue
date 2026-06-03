@@ -1,5 +1,5 @@
 <script setup>
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head } from '@inertiajs/vue3';
 </script>
 

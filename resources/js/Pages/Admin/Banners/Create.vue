@@ -1,6 +1,6 @@
 <script setup>
-import BannerForm from '@/components/BannerForm.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import BannerForm from '@/Components/BannerForm.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 defineProps({ advertisers: Array });

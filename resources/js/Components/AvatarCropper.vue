@@ -1,5 +1,5 @@
 <script setup>
-import Button from '@/components/ui/Button.vue';
+import Button from '@/Components/ui/Button.vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import { onBeforeUnmount, onMounted, ref } from 'vue';

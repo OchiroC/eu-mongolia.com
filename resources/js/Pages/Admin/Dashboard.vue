@@ -1,7 +1,7 @@
 <script setup>
-import BarChart from '@/components/BarChart.vue';
-import StatCard from '@/components/StatCard.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import BarChart from '@/Components/BarChart.vue';
+import StatCard from '@/Components/StatCard.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';

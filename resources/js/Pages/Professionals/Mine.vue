@@ -1,6 +1,6 @@
 <script setup>
-import Button from '@/components/ui/Button.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import Button from '@/Components/ui/Button.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({ professional: Object });

@@ -1,16 +1,16 @@
 <script setup>
-import ImageUpload from '@/components/ImageUpload.vue';
-import MultiImageUpload from '@/components/MultiImageUpload.vue';
-import RichTextEditor from '@/components/RichTextEditor.vue';
-import Button from '@/components/ui/Button.vue';
-import Input from '@/components/ui/Input.vue';
-import Label from '@/components/ui/Label.vue';
-import Select from '@/components/ui/Select.vue';
-import SelectContent from '@/components/ui/SelectContent.vue';
-import SelectItem from '@/components/ui/SelectItem.vue';
-import SelectTrigger from '@/components/ui/SelectTrigger.vue';
-import SelectValue from '@/components/ui/SelectValue.vue';
-import Textarea from '@/components/ui/Textarea.vue';
+import ImageUpload from '@/Components/ImageUpload.vue';
+import MultiImageUpload from '@/Components/MultiImageUpload.vue';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
+import Button from '@/Components/ui/Button.vue';
+import Input from '@/Components/ui/Input.vue';
+import Label from '@/Components/ui/Label.vue';
+import Select from '@/Components/ui/Select.vue';
+import SelectContent from '@/Components/ui/SelectContent.vue';
+import SelectItem from '@/Components/ui/SelectItem.vue';
+import SelectTrigger from '@/Components/ui/SelectTrigger.vue';
+import SelectValue from '@/Components/ui/SelectValue.vue';
+import Textarea from '@/Components/ui/Textarea.vue';
 import { uploadInlineImages } from '@/lib/uploadInlineImages';
 import { useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';

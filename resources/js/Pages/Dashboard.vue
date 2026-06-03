@@ -1,7 +1,7 @@
 <script setup>
-import StatCard from '@/components/StatCard.vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import Button from '@/components/ui/Button.vue';
+import StatCard from '@/Components/StatCard.vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
+import Button from '@/Components/ui/Button.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
