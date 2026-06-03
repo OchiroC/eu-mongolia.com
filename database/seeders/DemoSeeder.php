@@ -34,10 +34,10 @@ class DemoSeeder extends Seeder
 
         $demo = [
             ['name' => 'Б. Болормаа', 'profession' => 'Гэр бүлийн хуульч', 'cat' => 'Хуульч', 'city' => 'Берлин', 'country' => 'Герман', 'langs' => ['Монгол', 'Герман'], 'verified' => true, 'featured' => true],
-            ['name' => 'Д. Энхтайван', 'profession' => 'Шүдний эмч', 'cat' => 'Эмч', 'city' => 'Мюнхен', 'country' => 'Герман', 'langs' => ['Монгол', 'Герман', 'Англи'], 'verified' => true, 'featured' => false],
-            ['name' => 'С. Цэцэгмаа', 'profession' => 'Орчуулагч (DE↔MN)', 'cat' => 'Орчуулагч', 'city' => 'Франкфурт', 'country' => 'Герман', 'langs' => ['Монгол', 'Герман'], 'verified' => true, 'featured' => false],
+            ['name' => 'Д. Энхтайван', 'profession' => 'Шүдний эмч', 'cat' => 'Эмч / Эрүүл мэнд', 'city' => 'Мюнхен', 'country' => 'Герман', 'langs' => ['Монгол', 'Герман', 'Англи'], 'verified' => true, 'featured' => false],
+            ['name' => 'С. Цэцэгмаа', 'profession' => 'Орчуулагч (DE↔MN)', 'cat' => 'Орчуулагч', 'city' => 'Франкфурт', 'country' => 'Герман', 'langs' => ['Монгол', 'Герман'], 'verified' => true, 'featured' => true],
             ['name' => 'Г. Тэмүүлэн', 'profession' => 'Үсчин', 'cat' => 'Үсчин / Гоо сайхан', 'city' => 'Прага', 'country' => 'Чех', 'langs' => ['Монгол', 'Чех'], 'verified' => false, 'featured' => false],
-            ['name' => 'Н. Алтанцэцэг', 'profession' => 'Нягтлан бодогч', 'cat' => 'Бухгалтер / Татвар', 'city' => 'Вена', 'country' => 'Австри', 'langs' => ['Монгол', 'Англи'], 'verified' => true, 'featured' => false],
+            ['name' => 'Н. Алтанцэцэг', 'profession' => 'Нягтлан бодогч', 'cat' => 'Бухгалтер / Татвар', 'city' => 'Вена', 'country' => 'Австри', 'langs' => ['Монгол', 'Англи'], 'verified' => true, 'featured' => true],
             ['name' => 'О. Батбаяр', 'profession' => 'Гэрэл зурагчин', 'cat' => 'Гэрэл зурагчин', 'city' => 'Берлин', 'country' => 'Герман', 'langs' => ['Монгол'], 'verified' => false, 'featured' => false],
         ];
 

@@ -7,6 +7,7 @@ import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
     professionals: Object,
+    featured: { type: Array, default: () => [] },
     categories: { type: Array, default: () => [] },
     languages: { type: Array, default: () => [] },
     filters: Object,
@@ -32,16 +33,28 @@ function filterLang(lang) {
     go({ lang: props.filters.lang === lang ? undefined : lang });
 }
 
-// Ангиллын icon (зарын catIcon-той ижил багц)
+// Ангиллын icon-ууд
 const catIcon = {
     briefcase: 'M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
     wrench: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63',
     tag: 'M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z',
     shirt: 'M16 4l4 4-3 2v10H7V10L4 8l4-4 4 2 4-2z',
     device: 'M9 17H7A5 5 0 017 7h2m6 0h2a5 5 0 010 10h-2m-8-5h12',
+    heart: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+    globe: 'M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18',
+    map: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7',
+    home: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+    truck: 'M9 17a2 2 0 11-4 0 2 2 0 014 0zm10 0a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8 0h-3m4 0h2a1 1 0 001-1v-3.586a1 1 0 00-.293-.707l-2.414-2.414A1 1 0 0015.586 9H13',
+    car: 'M8 7h8l1.5 4.5M6.5 11.5L8 7M5 11h14a1 1 0 011 1v4a1 1 0 01-1 1h-1m-3 0H9m-3 0H5a1 1 0 01-1-1v-4a1 1 0 011-1m2 6a1 1 0 102 0m6 0a1 1 0 102 0',
+    book: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+    doc: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    camera: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9zm9 4a3 3 0 100 6 3 3 0 000-6z',
 };
 function iconFor(c) {
     return catIcon[c.icon] || catIcon.tag;
+}
+function initial(name) {
+    return (name || '?').charAt(0).toUpperCase();
 }
 const hasFilters = computed(() => !!(props.filters.category || props.filters.city || props.filters.lang || props.filters.search));
 </script>
@@ -105,6 +118,38 @@ const hasFilters = computed(() => !!(props.filters.category || props.filters.cit
                 @click="filterLang(lang)"
             >{{ lang }}</button>
         </div>
+
+        <!-- Онцлох (төлбөртэй) — том, зурагтай -->
+        <div v-if="featured.length" class="mb-8">
+            <div class="mb-3 flex items-center gap-1.5">
+                <svg class="h-5 w-5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 7.1-1.01L12 2z" /></svg>
+                <h2 class="text-lg font-bold text-gray-900">Онцлох мэргэжилтэн</h2>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <Link
+                    v-for="p in featured"
+                    :key="p.id"
+                    :href="`/professionals/${p.slug}`"
+                    class="group overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-soft ring-1 ring-amber-100 transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    <div class="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-brand-500 to-brand-700">
+                        <img v-if="p.photo" :src="p.photo" :alt="p.name" class="h-full w-full object-cover transition group-hover:scale-105" />
+                        <div v-else class="flex h-full w-full items-center justify-center text-5xl font-bold text-white/90">{{ initial(p.name) }}</div>
+                        <span class="absolute left-2.5 top-2.5 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Онцлох</span>
+                    </div>
+                    <div class="p-3.5">
+                        <div class="flex items-center gap-1">
+                            <h3 class="truncate font-semibold text-gray-900 group-hover:text-brand-700">{{ p.name }}</h3>
+                            <svg v-if="p.is_verified" class="h-4 w-4 shrink-0 text-brand-600" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2l2.39 1.74 2.95-.02 1.06 2.76 2.43 1.7-.92 2.81.92 2.81-2.43 1.7-1.06 2.76-2.95-.02L12 22l-2.39-1.76-2.95.02-1.06-2.76-2.43-1.7.92-2.81-.92-2.81 2.43-1.7L6.66 3.7l2.95.02L12 2zm-1.1 13.2l5.2-5.2-1.4-1.4-3.8 3.8-1.8-1.8-1.4 1.4 3.2 3.2z" clip-rule="evenodd" /></svg>
+                        </div>
+                        <p v-if="p.profession" class="truncate text-sm text-brand-700">{{ p.profession }}</p>
+                        <p class="mt-0.5 truncate text-xs text-gray-400">{{ p.category }}<span v-if="p.city"> · {{ p.city }}</span></p>
+                    </div>
+                </Link>
+            </div>
+        </div>
+
+        <h2 v-if="featured.length && professionals.data.length" class="mb-3 text-lg font-bold text-gray-900">Бүх мэргэжилтэн</h2>
 
         <div v-if="professionals.data.length" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             <ProfessionalCard v-for="p in professionals.data" :key="p.id" :pro="p" />

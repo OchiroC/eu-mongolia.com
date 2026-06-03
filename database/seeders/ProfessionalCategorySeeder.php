@@ -10,20 +10,27 @@ class ProfessionalCategorySeeder extends Seeder
 {
     public function run(): void
     {
+        // Европ дахь монголчуудад бодитоор хэрэгтэй ангиллууд.
         $categories = [
             ['name' => 'Хуульч', 'icon' => 'briefcase'],
-            ['name' => 'Эмч', 'icon' => 'wrench'],
-            ['name' => 'Орчуулагч', 'icon' => 'tag'],
+            ['name' => 'Виз / Цагаачлал', 'icon' => 'doc'],
+            ['name' => 'Эмч / Эрүүл мэнд', 'icon' => 'heart'],
+            ['name' => 'Орчуулагч', 'icon' => 'globe'],
+            ['name' => 'Аялал жуулчлал / Хөтөч', 'icon' => 'map'],
+            ['name' => 'Үл хөдлөх / Орон сууц', 'icon' => 'home'],
+            ['name' => 'Тээвэр / Нүүлгэлт', 'icon' => 'truck'],
+            ['name' => 'Авто засвар', 'icon' => 'car'],
             ['name' => 'Үсчин / Гоо сайхан', 'icon' => 'shirt'],
-            ['name' => 'Засвар үйлчилгээ', 'icon' => 'wrench'],
-            ['name' => 'Багш / Хичээл', 'icon' => 'briefcase'],
+            ['name' => 'Боловсрол / Хичээл', 'icon' => 'book'],
             ['name' => 'Бухгалтер / Татвар', 'icon' => 'briefcase'],
-            ['name' => 'Гэрэл зурагчин', 'icon' => 'device'],
+            ['name' => 'IT / Веб', 'icon' => 'device'],
+            ['name' => 'Гэрэл зурагчин', 'icon' => 'camera'],
+            ['name' => 'Гэрээ / Бичиг баримт', 'icon' => 'doc'],
             ['name' => 'Бусад', 'icon' => 'tag'],
         ];
 
         foreach ($categories as $i => $cat) {
-            ProfessionalCategory::firstOrCreate(
+            ProfessionalCategory::updateOrCreate(
                 ['slug' => Str::slug($cat['name'])],
                 ['name' => $cat['name'], 'icon' => $cat['icon'], 'sort_order' => $i],
             );

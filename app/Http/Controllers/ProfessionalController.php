@@ -17,8 +17,22 @@ class ProfessionalController extends Controller
 
     public function index(Request $request): Response
     {
+        // Онцлох (төлбөртэй) мэргэжилтнүүд — зөвхөн шүүлтгүй, эхний хуудсанд дээр тодрон харагдана.
+        $noFilters = ! $request->hasAny(['category', 'city', 'lang', 'search']);
+        $featured = $noFilters
+            ? Professional::active()->with('category:id,name')
+                ->where('is_featured', true)
+                ->where(fn ($q) => $q->whereNull('featured_until')->orWhere('featured_until', '>=', now()))
+                ->latest()
+                ->take(4)
+                ->get()
+                ->map(fn ($p) => $this->card($p))
+            : collect();
+        $featuredIds = $featured->pluck('id')->all();
+
         $pros = Professional::active()
             ->with('category:id,name,slug')
+            ->whereNotIn('id', $featuredIds)
             ->when($request->category, fn ($q, $slug) =>
                 $q->whereHas('category', fn ($c) => $c->where('slug', $slug)))
             ->when($request->city, fn ($q, $city) => $q->where('city', 'like', "%{$city}%"))
@@ -34,6 +48,7 @@ class ProfessionalController extends Controller
 
         return Inertia::render('Professionals/Index', [
             'professionals' => $pros,
+            'featured' => $featured,
             'categories' => ProfessionalCategory::orderBy('sort_order')->withCount(['professionals' => fn ($q) => $q->where('status', 'active')])->get(['id', 'name', 'slug', 'icon']),
             'languages' => ['Монгол', 'Герман', 'Англи', 'Франц', 'Орос', 'Чех', 'Польш'],
             'filters' => $request->only(['category', 'city', 'lang', 'search']),
