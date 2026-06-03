@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        @apply bg-sand-50 text-gray-800 antialiased;
+    }
+
+    /* shadcn-vue загварын токенууд. --primary нь брэндийн цэнхэр. */
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 221 83% 53%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 221 83% 53%;
+        --radius: 0.5rem;
+    }
+}
+
+/* Tiptap-аас гарсан HTML контентыг харуулах загвар (мэдээ/эвент дэлгэрэнгүй) */
+.rich-content {
+    @apply leading-relaxed text-gray-800;
+}
+.rich-content h1 { @apply mt-6 mb-3 text-2xl font-bold text-gray-900; }
+.rich-content h2 { @apply mt-6 mb-3 text-xl font-bold text-gray-900; }
+.rich-content h3 { @apply mt-5 mb-2 text-lg font-semibold text-gray-900; }
+.rich-content p { @apply my-3; }
+/* Хоосон параграф (Enter дарж үүсгэсэн хоосон мөр) өндрөө хадгална */
+.rich-content p:empty { @apply my-0 min-h-[1.5em]; }
+.rich-content ul { @apply my-3 list-disc pl-6; }
+.rich-content ol { @apply my-3 list-decimal pl-6; }
+.rich-content li { @apply my-1; }
+.rich-content blockquote { @apply my-4 border-l-4 border-gray-200 pl-4 italic text-gray-600; }
+.rich-content a { @apply font-medium text-brand-700 underline underline-offset-2; }
+.rich-content strong { @apply font-semibold; }
+.rich-content hr { @apply my-6 border-gray-200; }
+.rich-content img { @apply my-4 max-w-full rounded-lg; }
+/* YouTube embed-ийг responsive болгоно (16:9) */
+.rich-content div[data-youtube-video] {
+    @apply my-5 overflow-hidden rounded-xl;
+}
+.rich-content div[data-youtube-video] iframe,
+.rich-content iframe {
+    @apply aspect-video h-auto w-full rounded-xl;
+}
+
+/* Tiptap засварлагчийн талбар */
+.ProseMirror {
+    @apply min-h-[220px] outline-none;
+}
+.ProseMirror img { @apply max-w-full rounded-lg; }
+.ProseMirror div[data-youtube-video] iframe { @apply aspect-video h-auto w-full max-w-full; }
+.ProseMirror :is(h1, h2, h3, p, ul, ol, blockquote) {
+    /* .rich-content-тэй ижил дүрмийг засварлагч дотор ч мөрдүүлнэ */
+}
+.ProseMirror h1 { @apply mt-4 mb-2 text-2xl font-bold text-gray-900; }
+.ProseMirror h2 { @apply mt-4 mb-2 text-xl font-bold text-gray-900; }
+.ProseMirror h3 { @apply mt-3 mb-1.5 text-lg font-semibold text-gray-900; }
+.ProseMirror p { @apply my-2; }
+.ProseMirror ul { @apply my-2 list-disc pl-6; }
+.ProseMirror ol { @apply my-2 list-decimal pl-6; }
+.ProseMirror blockquote { @apply my-3 border-l-4 border-gray-200 pl-4 italic text-gray-600; }
+.ProseMirror a { @apply font-medium text-brand-700 underline; }
+/* placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+    @apply pointer-events-none float-left h-0 text-gray-400;
+    content: attr(data-placeholder);
+}

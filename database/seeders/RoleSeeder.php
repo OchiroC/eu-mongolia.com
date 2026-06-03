@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Дүрүүд болон үндсэн админ хэрэглэгчийг үүсгэнэ.
+     */
+    public function run(): void
+    {
+        // Дүрүүд: admin = бүх эрх, organizer = эвент зохион байгуулагч,
+        // advertiser = зар/баннер байршуулагч, user = энгийн гишүүн.
+        foreach (['admin', 'organizer', 'advertiser', 'user'] as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
+
+        // Үндсэн админ хэрэглэгч.
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@eu-mongolia.test'],
+            ['name' => 'Админ', 'password' => Hash::make('password')]
+        );
+        $admin->assignRole('admin');
+    }
+}

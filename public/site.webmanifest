@@ -1,0 +1,12 @@
+{
+    "name": "EU Mongolia",
+    "short_name": "EU Mongolia",
+    "description": "Европ дахь монголчуудын зар, мэдээ, эвентийн нэгдсэн платформ.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    ]
+}
