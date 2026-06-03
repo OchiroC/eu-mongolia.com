@@ -9,6 +9,18 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./resources/js', import.meta.url)),
         },
     },
+    build: {
+        rollupOptions: {
+            // Гуравдагч талын сангийн (@vueuse/core г.м) "#__PURE__" annotation
+            // байрлалын тухай хор хөнөөлгүй warning-ийг нууна.
+            onLog(level, log, handler) {
+                if (log.code === 'INVALID_ANNOTATION' && /#__PURE__/.test(log.message ?? '')) {
+                    return;
+                }
+                handler(level, log);
+            },
+        },
+    },
     plugins: [
         laravel({
             input: 'resources/js/app.js',
