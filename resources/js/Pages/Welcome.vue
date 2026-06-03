@@ -119,7 +119,7 @@ function eventMonth(value) {
                     <Link href="/zar" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Зар</Link>
                     <Link href="/news" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэдээ</Link>
                     <Link href="/events" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Эвент</Link>
-                    <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэргэжилтэн</Link>
+                    <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэргэжлийн үйлчилгээ</Link>
                 </nav>
 
                 <Link :href="user ? '/zar/new' : '/register'" class="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
@@ -348,7 +348,7 @@ function eventMonth(value) {
                 <!-- Онцлох мэргэжилтэн -->
                 <section v-if="featuredProfessionals.length">
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Мэргэжилтэн</h2>
+                        <h2 class="text-xl font-bold text-gray-900">Мэргэжлийн үйлчилгээ</h2>
                         <Link href="/professionals" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
                     </div>
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">

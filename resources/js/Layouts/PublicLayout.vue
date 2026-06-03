@@ -17,7 +17,7 @@ const nav = [
     { name: 'Зар', href: '/zar' },
     { name: 'Мэдээ', href: '/news' },
     { name: 'Эвент', href: '/events' },
-    { name: 'Мэргэжилтэн', href: '/professionals' },
+    { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },
 ];
 
 function isActive(href) {

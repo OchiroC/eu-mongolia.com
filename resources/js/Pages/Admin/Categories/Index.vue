@@ -115,10 +115,10 @@ function removeNews(cat) {
                 </div>
             </div>
 
-            <!-- Мэргэжилтний ангилал -->
+            <!-- Мэргэжлийн үйлчилгээний ангилал -->
             <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-100">
                 <div class="flex items-center justify-between border-b border-gray-100 px-5 py-3.5">
-                    <h2 class="font-semibold text-gray-900">Мэргэжилтний ангилал</h2>
+                    <h2 class="font-semibold text-gray-900">Үйлчилгээний ангилал</h2>
                     <Button size="sm" @click="openAdd('professional')">+ Нэмэх</Button>
                 </div>
                 <div class="divide-y divide-gray-50">

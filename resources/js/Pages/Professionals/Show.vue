@@ -30,7 +30,7 @@ function reveal() {
     <Head :title="professional.name" />
 
     <PublicLayout>
-        <Link href="/professionals" class="inline-flex items-center gap-1 text-sm text-brand-700 hover:underline">← Мэргэжилтэн рүү буцах</Link>
+        <Link href="/professionals" class="inline-flex items-center gap-1 text-sm text-brand-700 hover:underline">← Мэргэжлийн үйлчилгээ рүү буцах</Link>
 
         <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <article class="min-w-0">

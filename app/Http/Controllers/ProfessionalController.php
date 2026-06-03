@@ -34,7 +34,7 @@ class ProfessionalController extends Controller
 
         return Inertia::render('Professionals/Index', [
             'professionals' => $pros,
-            'categories' => ProfessionalCategory::orderBy('sort_order')->withCount(['professionals' => fn ($q) => $q->where('status', 'active')])->get(['id', 'name', 'slug']),
+            'categories' => ProfessionalCategory::orderBy('sort_order')->withCount(['professionals' => fn ($q) => $q->where('status', 'active')])->get(['id', 'name', 'slug', 'icon']),
             'languages' => ['Монгол', 'Герман', 'Англи', 'Франц', 'Орос', 'Чех', 'Польш'],
             'filters' => $request->only(['category', 'city', 'lang', 'search']),
             'seo' => [

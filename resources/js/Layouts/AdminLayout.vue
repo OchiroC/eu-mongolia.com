@@ -13,7 +13,7 @@ const nav = [
     { name: 'Эвент', href: '/admin/events', icon: 'calendar' },
     { name: 'Модерац', href: '/admin/reports', icon: 'flag' },
     { name: 'Сэтгэгдэл', href: '/admin/comments', icon: 'comment' },
-    { name: 'Мэргэжилтэн', href: '/admin/professionals', icon: 'badge' },
+    { name: 'Мэргэжлийн үйлчилгээ', href: '/admin/professionals', icon: 'badge' },
     { name: 'Хэрэглэгч', href: '/admin/users', icon: 'users' },
     { name: 'Ангилал', href: '/admin/categories', icon: 'folder' },
     { name: 'Тасалбар шалгах', href: '/admin/check-in', icon: 'ticket' },

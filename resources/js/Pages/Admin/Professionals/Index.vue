@@ -31,10 +31,10 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
 </script>
 
 <template>
-    <Head title="Мэргэжилтэн" />
+    <Head title="Мэргэжлийн үйлчилгээ" />
 
     <AdminLayout>
-        <template #title>Мэргэжилтний лавлах</template>
+        <template #title>Мэргэжлийн үйлчилгээ</template>
 
         <div class="mb-5 flex flex-wrap gap-2">
             <button
