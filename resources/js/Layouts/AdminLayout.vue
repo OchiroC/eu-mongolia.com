@@ -5,25 +5,33 @@ import { computed, ref } from 'vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
+const userRoles = computed(() => user.value?.roles ?? []);
+const isAdmin = computed(() => userRoles.value.includes('admin'));
 
-const nav = [
-    { name: 'Хяналтын самбар', href: '/admin', icon: 'grid' },
-    { name: 'Мэдээ', href: '/admin/posts', icon: 'news' },
-    { name: 'Guide', href: '/admin/guides', icon: 'book' },
-    { name: 'Ажил', href: '/admin/jobs', icon: 'briefcase' },
-    { name: 'Асуулт хариулт', href: '/admin/questions', icon: 'question' },
-    { name: 'Аялал (carpool)', href: '/admin/rides', icon: 'car' },
-    { name: 'Элчин / Тусламж', href: '/admin/embassies', icon: 'shield' },
-    { name: 'Зар / Баннер', href: '/admin/banners', icon: 'ad' },
-    { name: 'Эвент', href: '/admin/events', icon: 'calendar' },
-    { name: 'Модерац', href: '/admin/reports', icon: 'flag' },
-    { name: 'Сэтгэгдэл', href: '/admin/comments', icon: 'comment' },
-    { name: 'Мэргэжлийн үйлчилгээ', href: '/admin/professionals', icon: 'badge' },
-    { name: 'Хэрэглэгч', href: '/admin/users', icon: 'users' },
-    { name: 'Ангилал', href: '/admin/categories', icon: 'folder' },
-    { name: 'Тасалбар шалгах', href: '/admin/check-in', icon: 'ticket' },
-    { name: 'Тохиргоо', href: '/admin/settings', icon: 'settings' },
+// roles: тухайн цэсийг харж болох ажилтны дүрүүд. admin бүгдийг харна.
+const allNav = [
+    { name: 'Хяналтын самбар', href: '/admin', icon: 'grid', roles: [] },
+    { name: 'Мэдээ', href: '/admin/posts', icon: 'news', roles: ['editor'] },
+    { name: 'Guide', href: '/admin/guides', icon: 'book', roles: ['editor'] },
+    { name: 'Ажил', href: '/admin/jobs', icon: 'briefcase', roles: [] },
+    { name: 'Асуулт хариулт', href: '/admin/questions', icon: 'question', roles: ['moderator'] },
+    { name: 'Аялал (carpool)', href: '/admin/rides', icon: 'car', roles: [] },
+    { name: 'Элчин / Тусламж', href: '/admin/embassies', icon: 'shield', roles: [] },
+    { name: 'Зар / Баннер', href: '/admin/banners', icon: 'ad', roles: ['advertiser'] },
+    { name: 'Эвент', href: '/admin/events', icon: 'calendar', roles: ['organizer'] },
+    { name: 'Модерац', href: '/admin/reports', icon: 'flag', roles: ['moderator'] },
+    { name: 'Сэтгэгдэл', href: '/admin/comments', icon: 'comment', roles: ['moderator'] },
+    { name: 'Мэргэжлийн үйлчилгээ', href: '/admin/professionals', icon: 'badge', roles: [] },
+    { name: 'Хэрэглэгч', href: '/admin/users', icon: 'users', roles: [] },
+    { name: 'Ангилал', href: '/admin/categories', icon: 'folder', roles: [] },
+    { name: 'Тасалбар шалгах', href: '/admin/check-in', icon: 'ticket', roles: ['organizer'] },
+    { name: 'Тохиргоо', href: '/admin/settings', icon: 'settings', roles: [] },
 ];
+
+// admin бүгдийг, ажилтан зөвхөн өөрийн эрхийн цэсийг харна.
+const nav = computed(() => isAdmin.value
+    ? allNav
+    : allNav.filter((item) => item.roles.some((r) => userRoles.value.includes(r))));
 
 const pendingReports = computed(() => page.props.pendingReports ?? 0);
 const pendingComments = computed(() => page.props.pendingComments ?? 0);

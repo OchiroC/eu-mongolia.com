@@ -14,9 +14,10 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Дүрүүд: admin = бүх эрх, organizer = эвент зохион байгуулагч,
-        // advertiser = зар/баннер байршуулагч, user = энгийн гишүүн.
-        foreach (['admin', 'organizer', 'advertiser', 'user'] as $role) {
+        // Дүрүүд: admin = бүх эрх, editor = сэтгүүлч (мэдээ/Guide),
+        // moderator = сэтгэгдэл/гомдол/асуулт, organizer = эвент,
+        // advertiser = баннер, user = энгийн гишүүн.
+        foreach (['admin', 'editor', 'moderator', 'organizer', 'advertiser', 'user'] as $role) {
             Role::firstOrCreate(['name' => $role]);
         }
 

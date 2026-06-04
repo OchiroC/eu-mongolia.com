@@ -183,84 +183,98 @@ Route::get('/questions/{question:slug}', [QuestionController::class, 'show'])->n
 // Аяллын дэлгэрэнгүй (динамик параметр тул доор)
 Route::get('/rides/{ride}', [RideController::class, 'show'])->name('rides.show');
 
-// Админ хэсэг (зөвхөн admin дүртэй)
-Route::middleware(['auth', 'role:admin'])
+// Админ хэсэг — admin + ажилтны дүрүүд (editor/moderator/organizer/advertiser)
+Route::middleware(['auth', 'role:admin|editor|moderator|organizer|advertiser'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('posts', AdminPostController::class)->except('show');
-
-        Route::resource('banners', AdminBannerController::class)->except('show');
-        Route::patch('banners/{banner}/status', [AdminBannerController::class, 'setStatus'])->name('banners.status');
-        Route::post('banners/{banner}/pay', [AdminBannerController::class, 'pay'])->name('banners.pay');
-
-        Route::get('events/{event}/sales', [AdminEventController::class, 'sales'])->name('events.sales');
-        Route::resource('events', AdminEventController::class)->except('show');
-
-        Route::resource('guides', AdminGuideController::class)->except('show');
-
-        // Ажлын байр модерац
-        Route::get('jobs', [AdminJobController::class, 'index'])->name('jobs.index');
-        Route::post('jobs/{job}/close', [AdminJobController::class, 'close'])->name('jobs.close');
-        Route::delete('jobs/{job}', [AdminJobController::class, 'destroy'])->name('jobs.destroy');
-
-        // Асуулт хариулт модерац
-        Route::get('questions', [AdminQuestionController::class, 'index'])->name('questions.index');
-        Route::delete('questions/{question}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
-
-        // Хамтдаа аялах модерац
-        Route::get('rides', [AdminRideController::class, 'index'])->name('rides.index');
-        Route::post('rides/{ride}/close', [AdminRideController::class, 'close'])->name('rides.close');
-        Route::delete('rides/{ride}', [AdminRideController::class, 'destroy'])->name('rides.destroy');
-
-        // Элчин сайдын яам / тусламж
-        Route::get('embassies', [AdminEmbassyController::class, 'index'])->name('embassies.index');
-        Route::post('embassies', [AdminEmbassyController::class, 'store'])->name('embassies.store');
-        Route::put('embassies/{embassy}', [AdminEmbassyController::class, 'update'])->name('embassies.update');
-        Route::delete('embassies/{embassy}', [AdminEmbassyController::class, 'destroy'])->name('embassies.destroy');
-
-        Route::get('check-in', [CheckInController::class, 'index'])->name('check-in');
-        Route::post('check-in', [CheckInController::class, 'verify'])->name('check-in.verify');
-
-        // Модерац — зарын гомдол
-        Route::get('reports', [AdminReportController::class, 'index'])->name('reports.index');
-        Route::post('reports/{report}/dismiss', [AdminReportController::class, 'dismiss'])->name('reports.dismiss');
-        Route::post('reports/{report}/hide', [AdminReportController::class, 'hide'])->name('reports.hide');
-        Route::delete('reports/{report}/listing', [AdminReportController::class, 'destroyListing'])->name('reports.destroy-listing');
-
-        // Хэрэглэгч удирдах
-        Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
-        Route::post('users/{user}/toggle-role', [AdminUserController::class, 'toggleRole'])->name('users.toggle-role');
-        Route::post('users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('users.toggle-block');
-
-        // Ангилал удирдах (listing | news)
-        Route::get('categories', [AdminCategoryController::class, 'index'])->name('categories.index');
-        Route::post('categories/{type}', [AdminCategoryController::class, 'store'])->name('categories.store');
-        Route::put('categories/{type}/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
-        Route::delete('categories/{type}/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
-
-        // Засварлагчийн зураг upload
+        // Засварлагчийн зураг upload (бүх ажилтан)
         Route::post('media', [MediaController::class, 'store'])->name('media.store');
 
-        // Сэтгэгдлийн модерац
-        Route::get('comments', [AdminCommentController::class, 'index'])->name('comments.index');
-        Route::post('comments/{comment}/approve', [AdminCommentController::class, 'approve'])->name('comments.approve');
-        Route::post('comments/{comment}/spam', [AdminCommentController::class, 'spam'])->name('comments.spam');
-        Route::delete('comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
+        // Сэтгүүлч (editor) + admin: Мэдээ, Guide
+        Route::middleware('role:admin|editor')->group(function () {
+            Route::resource('posts', AdminPostController::class)->except('show');
+            Route::resource('guides', AdminGuideController::class)->except('show');
+        });
 
-        // Мэргэжилтний лавлах удирдах
-        Route::get('professionals', [AdminProfessionalController::class, 'index'])->name('professionals.index');
-        Route::post('professionals/{professional}/approve', [AdminProfessionalController::class, 'approve'])->name('professionals.approve');
-        Route::post('professionals/{professional}/verify', [AdminProfessionalController::class, 'verify'])->name('professionals.verify');
-        Route::post('professionals/{professional}/feature', [AdminProfessionalController::class, 'feature'])->name('professionals.feature');
-        Route::post('professionals/{professional}/deactivate', [AdminProfessionalController::class, 'deactivate'])->name('professionals.deactivate');
-        Route::delete('professionals/{professional}', [AdminProfessionalController::class, 'destroy'])->name('professionals.destroy');
+        // Модератор (moderator) + admin: сэтгэгдэл, гомдол, асуулт
+        Route::middleware('role:admin|moderator')->group(function () {
+            Route::get('comments', [AdminCommentController::class, 'index'])->name('comments.index');
+            Route::post('comments/{comment}/approve', [AdminCommentController::class, 'approve'])->name('comments.approve');
+            Route::post('comments/{comment}/spam', [AdminCommentController::class, 'spam'])->name('comments.spam');
+            Route::delete('comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
 
-        // Сайтын тохиргоо
-        Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
-        Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+            Route::get('reports', [AdminReportController::class, 'index'])->name('reports.index');
+            Route::post('reports/{report}/dismiss', [AdminReportController::class, 'dismiss'])->name('reports.dismiss');
+            Route::post('reports/{report}/hide', [AdminReportController::class, 'hide'])->name('reports.hide');
+            Route::delete('reports/{report}/listing', [AdminReportController::class, 'destroyListing'])->name('reports.destroy-listing');
+
+            Route::get('questions', [AdminQuestionController::class, 'index'])->name('questions.index');
+            Route::delete('questions/{question}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
+        });
+
+        // Эвент зохион байгуулагч (organizer) + admin
+        Route::middleware('role:admin|organizer')->group(function () {
+            Route::get('events/{event}/sales', [AdminEventController::class, 'sales'])->name('events.sales');
+            Route::resource('events', AdminEventController::class)->except('show');
+            Route::get('check-in', [CheckInController::class, 'index'])->name('check-in');
+            Route::post('check-in', [CheckInController::class, 'verify'])->name('check-in.verify');
+        });
+
+        // Сурталчлагч (advertiser) + admin: баннер
+        Route::middleware('role:admin|advertiser')->group(function () {
+            Route::resource('banners', AdminBannerController::class)->except('show');
+            Route::patch('banners/{banner}/status', [AdminBannerController::class, 'setStatus'])->name('banners.status');
+            Route::post('banners/{banner}/pay', [AdminBannerController::class, 'pay'])->name('banners.pay');
+        });
+
+        // Зөвхөн admin
+        Route::middleware('role:admin')->group(function () {
+            // Хэрэглэгч (ажилтан) удирдах
+            Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
+            Route::get('users/create', [AdminUserController::class, 'create'])->name('users.create');
+            Route::post('users', [AdminUserController::class, 'store'])->name('users.store');
+            Route::get('users/{user}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+            Route::put('users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+            Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+            Route::post('users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('users.toggle-block');
+
+            // Ангилал удирдах (listing | news | professional)
+            Route::get('categories', [AdminCategoryController::class, 'index'])->name('categories.index');
+            Route::post('categories/{type}', [AdminCategoryController::class, 'store'])->name('categories.store');
+            Route::put('categories/{type}/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
+            Route::delete('categories/{type}/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+            // Ажлын байр
+            Route::get('jobs', [AdminJobController::class, 'index'])->name('jobs.index');
+            Route::post('jobs/{job}/close', [AdminJobController::class, 'close'])->name('jobs.close');
+            Route::delete('jobs/{job}', [AdminJobController::class, 'destroy'])->name('jobs.destroy');
+
+            // Хамтдаа аялах
+            Route::get('rides', [AdminRideController::class, 'index'])->name('rides.index');
+            Route::post('rides/{ride}/close', [AdminRideController::class, 'close'])->name('rides.close');
+            Route::delete('rides/{ride}', [AdminRideController::class, 'destroy'])->name('rides.destroy');
+
+            // Элчин сайдын яам / тусламж
+            Route::get('embassies', [AdminEmbassyController::class, 'index'])->name('embassies.index');
+            Route::post('embassies', [AdminEmbassyController::class, 'store'])->name('embassies.store');
+            Route::put('embassies/{embassy}', [AdminEmbassyController::class, 'update'])->name('embassies.update');
+            Route::delete('embassies/{embassy}', [AdminEmbassyController::class, 'destroy'])->name('embassies.destroy');
+
+            // Мэргэжлийн үйлчилгээ удирдах
+            Route::get('professionals', [AdminProfessionalController::class, 'index'])->name('professionals.index');
+            Route::post('professionals/{professional}/approve', [AdminProfessionalController::class, 'approve'])->name('professionals.approve');
+            Route::post('professionals/{professional}/verify', [AdminProfessionalController::class, 'verify'])->name('professionals.verify');
+            Route::post('professionals/{professional}/feature', [AdminProfessionalController::class, 'feature'])->name('professionals.feature');
+            Route::post('professionals/{professional}/deactivate', [AdminProfessionalController::class, 'deactivate'])->name('professionals.deactivate');
+            Route::delete('professionals/{professional}', [AdminProfessionalController::class, 'destroy'])->name('professionals.destroy');
+
+            // Сайтын тохиргоо
+            Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
+            Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+        });
     });
 
 require __DIR__.'/auth.php';

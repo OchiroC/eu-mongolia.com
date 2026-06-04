@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Visit;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -20,11 +21,28 @@ class DashboardController extends Controller
     /**
      * Хэрэглэгч admin бол удирдлагын самбар, үгүй бол хувийн самбар руу.
      */
-    public function index(Request $request): Response
+    public function index(Request $request): Response|RedirectResponse
     {
-        return $request->user()->hasRole('admin')
-            ? $this->admin()
-            : $this->user($request);
+        $user = $request->user();
+
+        if ($user->hasRole('admin')) {
+            return $this->admin();
+        }
+
+        // Ажилтан (editor/moderator/...) /admin дээр ирвэл өөрийн хэсэг рүү чиглүүлнэ.
+        if ($request->routeIs('admin.dashboard')) {
+            $target = match (true) {
+                $user->hasRole('editor') => 'admin.posts.index',
+                $user->hasRole('moderator') => 'admin.comments.index',
+                $user->hasRole('organizer') => 'admin.events.index',
+                $user->hasRole('advertiser') => 'admin.banners.index',
+                default => 'dashboard',
+            };
+
+            return redirect()->route($target);
+        }
+
+        return $this->user($request);
     }
 
     /**
