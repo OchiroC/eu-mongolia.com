@@ -1,9 +1,36 @@
 <script setup>
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import Button from '@/Components/ui/Button.vue';
+import Dialog from '@/Components/ui/Dialog.vue';
+import DialogContent from '@/Components/ui/DialogContent.vue';
+import DialogDescription from '@/Components/ui/DialogDescription.vue';
+import DialogTitle from '@/Components/ui/DialogTitle.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 defineProps({ listings: Array });
+
+// Онцлох багцууд (mock төлбөр)
+const packages = [
+    { days: 7, price: 2, label: '7 хоног' },
+    { days: 14, price: 3.5, label: '14 хоног', popular: true },
+    { days: 30, price: 6, label: '30 хоног' },
+];
+
+const promoteOpen = ref(false);
+const promoteFor = ref(null);
+
+function openPromote(l) {
+    promoteFor.value = l;
+    promoteOpen.value = true;
+}
+function buyPromote(days) {
+    if (!promoteFor.value) return;
+    router.post(`/zar/${promoteFor.value.id}/promote`, { days }, {
+        preserveScroll: true,
+        onSuccess: () => { promoteOpen.value = false; },
+    });
+}
 
 const statusLabel = { active: 'Идэвхтэй', sold: 'Зарагдсан', inactive: 'Нуусан' };
 const statusClass = {
@@ -52,8 +79,9 @@ function destroy(l) {
                 </Link>
 
                 <div class="min-w-0 flex-1">
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
                         <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusClass[l.status]">{{ statusLabel[l.status] }}</span>
+                        <span v-if="l.is_featured" class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">★ Онцлох · {{ l.featured_until }} хүртэл</span>
                         <span class="text-xs text-gray-400">👁 {{ l.views }}</span>
                     </div>
                     <Link :href="`/zar/${l.slug}`" class="mt-1 block truncate font-semibold text-gray-900 hover:text-brand-700">{{ l.title }}</Link>
@@ -61,6 +89,9 @@ function destroy(l) {
                 </div>
 
                 <div class="flex shrink-0 flex-wrap gap-2">
+                    <Button v-if="l.status === 'active'" size="sm" class="bg-amber-500 hover:bg-amber-600" @click="openPromote(l)">
+                        ★ {{ l.is_featured ? 'Сунгах' : 'Онцлох' }}
+                    </Button>
                     <Button v-if="l.status !== 'sold'" variant="outline" size="sm" @click="setStatus(l, 'sold')">Зарагдсан</Button>
                     <Button v-else variant="secondary" size="sm" @click="setStatus(l, 'active')">Дахин нийтлэх</Button>
                     <Button :as="Link" :href="`/zar/${l.id}/edit`" variant="secondary" size="sm">Засах</Button>
@@ -73,5 +104,36 @@ function destroy(l) {
             <p class="text-gray-500">Та одоогоор зар нийтлээгүй байна.</p>
             <Link href="/zar/new" class="mt-3 inline-block font-semibold text-brand-700 hover:underline">Анхны зараа нэмэх →</Link>
         </div>
+
+        <!-- Онцлох багц сонгох -->
+        <Dialog v-model:open="promoteOpen">
+            <DialogContent class="max-w-md">
+                <DialogTitle>Зар онцлох</DialogTitle>
+                <DialogDescription>
+                    Онцлох зар нь жагсаалт болон нүүр хуудсанд <span class="font-medium text-amber-600">★ тэмдэгтэйгээр дээр</span> харагдана. Илүү олон хүн харж, хурдан зарагдана.
+                </DialogDescription>
+
+                <div class="mt-2 space-y-2">
+                    <button
+                        v-for="p in packages"
+                        :key="p.days"
+                        type="button"
+                        class="flex w-full items-center justify-between rounded-xl border p-4 text-left transition hover:border-amber-400 hover:bg-amber-50/50"
+                        :class="p.popular ? 'border-amber-300 bg-amber-50/40' : 'border-gray-200'"
+                        @click="buyPromote(p.days)"
+                    >
+                        <div>
+                            <p class="font-semibold text-gray-900">
+                                {{ p.label }}
+                                <span v-if="p.popular" class="ml-1 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Түгээмэл</span>
+                            </p>
+                            <p class="text-xs text-gray-400">Зарыг {{ p.label }} онцолно</p>
+                        </div>
+                        <span class="text-lg font-bold text-gray-900">{{ p.price }}€</span>
+                    </button>
+                </div>
+                <p class="mt-1 text-center text-xs text-gray-400">Туршилтын (mock) төлбөр — карт холбогдоогүй.</p>
+            </DialogContent>
+        </Dialog>
     </PublicLayout>
 </template>

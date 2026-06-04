@@ -23,14 +23,14 @@ class HomeController extends Controller
                 ->withCount(['listings' => fn ($q) => $q->where('status', 'active')])
                 ->get(['id', 'name', 'slug', 'icon']),
             'featuredListings' => Listing::active()
-                ->where('is_featured', true)
+                ->currentlyFeatured()
                 ->with('category:id,name,slug,icon')
                 ->latest()
                 ->take(5)
                 ->get()
                 ->map(fn ($l) => $this->card($l)),
             'latestListings' => Listing::active()
-                ->where('is_featured', false)
+                ->whereNot(fn ($q) => $q->currentlyFeatured())
                 ->with('category:id,name,slug,icon')
                 ->latest()
                 ->take(8)
@@ -56,11 +56,13 @@ class HomeController extends Controller
                 ->orderBy('starts_at')
                 ->take(3)
                 ->get(['id', 'title', 'slug', 'cover_image', 'venue', 'city', 'starts_at']),
-            // Онцлох мэргэжилтэн (лавлахын реклам)
+            // Онцлох (төлбөртэй) мэргэжлийн үйлчилгээ — нүүрэнд зөвхөн онцлохыг харуулна.
             'featuredProfessionals' => Professional::active()
+                ->where('is_featured', true)
+                ->where(fn ($q) => $q->whereNull('featured_until')->orWhere('featured_until', '>=', now()))
                 ->with('category:id,name')
-                ->orderedForList()
-                ->take(6)
+                ->latest()
+                ->take(8)
                 ->get()
                 ->map(fn ($p) => [
                     'id' => $p->id,
@@ -99,7 +101,7 @@ class HomeController extends Controller
             'city' => $l->city,
             'postal_code' => $l->postal_code,
             'cover' => $l->cover,
-            'is_featured' => $l->is_featured,
+            'is_featured' => $l->isCurrentlyFeatured(),
             'created_at' => $l->created_at->toIso8601String(),
         ];
     }

@@ -34,8 +34,7 @@ class ListingController extends Controller
             ->when($request->min_price, fn ($q, $v) => $q->where('price', '>=', $v))
             ->when($request->max_price, fn ($q, $v) => $q->where('price', '<=', $v))
             ->when($request->price_type === 'free', fn ($q) => $q->whereIn('price_type', ['free', 'giveaway']))
-            ->orderByDesc('is_featured')
-            ->orderByDesc('created_at')
+            ->orderedForList()
             ->paginate(16)
             ->withQueryString()
             ->through(fn ($l) => $this->cardData($l));
@@ -127,6 +126,8 @@ class ListingController extends Controller
                 ...$this->cardData($l),
                 'status' => $l->status,
                 'views' => $l->views,
+                'is_featured' => $l->isCurrentlyFeatured(),
+                'featured_until' => $l->isCurrentlyFeatured() ? $l->featured_until?->format('Y.m.d') : null,
             ]);
 
         return Inertia::render('Zar/MyListings', ['listings' => $listings]);
@@ -199,6 +200,27 @@ class ListingController extends Controller
         return back()->with('success', 'Төлөв шинэчлэгдлээ.');
     }
 
+    /** Mock төлбөр — зарыг тодорхой хоногоор онцлох болгоно (хугацаа дуусаагүй бол сунгана). */
+    public function promote(Request $request, Listing $listing): RedirectResponse
+    {
+        $this->authorizeOwner($request, $listing);
+
+        $days = (int) $request->validate([
+            'days' => ['required', 'integer', 'in:7,14,30'],
+        ])['days'];
+
+        $base = $listing->isCurrentlyFeatured() && $listing->featured_until
+            ? $listing->featured_until
+            : now();
+
+        $listing->update([
+            'is_featured' => true,
+            'featured_until' => $base->copy()->addDays($days),
+        ]);
+
+        return back()->with('success', "Таны зар {$days} хоног онцлох боллоо. (mock төлбөр)");
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -213,7 +235,7 @@ class ListingController extends Controller
             'city' => $l->city,
             'postal_code' => $l->postal_code,
             'cover' => $l->cover,
-            'is_featured' => $l->is_featured,
+            'is_featured' => $l->isCurrentlyFeatured(),
             'category' => $l->category?->only(['name', 'slug', 'icon']),
             'created_at' => $l->created_at->toIso8601String(),
         ];

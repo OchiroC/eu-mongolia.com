@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/zar/{listing}', [ListingController::class, 'update'])->name('zar.update');
     Route::delete('/zar/{listing}', [ListingController::class, 'destroy'])->name('zar.destroy');
     Route::patch('/zar/{listing}/status', [ListingController::class, 'markStatus'])->name('zar.status');
+    Route::post('/zar/{listing}/promote', [ListingController::class, 'promote'])->name('zar.promote');
 
     // Хадгалсан зар (favorite)
     Route::get('/my/favorites', [FavoriteController::class, 'index'])->name('favorites.index');

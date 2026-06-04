@@ -348,10 +348,10 @@ function eventMonth(value) {
                 <!-- Онцлох мэргэжилтэн -->
                 <section v-if="featuredProfessionals.length">
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Мэргэжлийн үйлчилгээ</h2>
+                        <h2 class="text-xl font-bold text-gray-900">Онцлох мэргэжлийн үйлчилгээ</h2>
                         <Link href="/professionals" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
                     </div>
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                         <ProfessionalCard v-for="p in featuredProfessionals" :key="p.id" :pro="p" />
                     </div>
                 </section>
