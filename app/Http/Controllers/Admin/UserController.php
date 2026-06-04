@@ -14,13 +14,12 @@ use Inertia\Response;
 
 class UserController extends Controller
 {
-    /** Ажилтанд олгож болох дүрүүд (admin-ийг UI-аас олгох/хасах боломжгүй). */
+    /** Ажилтанд олгож болох эрхүүд (admin-ийг UI-аас олгох/хасах боломжгүй). */
     public const STAFF_ROLES = [
         'editor' => 'Сэтгүүлч (мэдээ, Guide)',
         'moderator' => 'Модератор (сэтгэгдэл, гомдол, асуулт)',
         'organizer' => 'Эвент зохион байгуулагч',
-        'advertiser' => 'Сурталчлагч (баннер)',
-        'user' => 'Энгийн хэрэглэгч',
+        'advertiser' => 'Marketing (баннер)',
     ];
 
     public function index(Request $request): Response

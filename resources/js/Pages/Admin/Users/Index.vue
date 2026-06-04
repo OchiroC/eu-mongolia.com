@@ -81,7 +81,7 @@ function initials(name) {
                 <thead class="bg-gray-50 text-left text-xs uppercase text-gray-500">
                     <tr>
                         <th class="px-4 py-3">Хэрэглэгч</th>
-                        <th class="px-4 py-3">Дүр</th>
+                        <th class="px-4 py-3">Эрх</th>
                         <th class="px-4 py-3">Зар</th>
                         <th class="px-4 py-3">Бүртгүүлсэн</th>
                         <th class="px-4 py-3">Төлөв</th>
@@ -165,7 +165,7 @@ function initials(name) {
                         <p v-if="form.errors.password" class="text-sm text-destructive">{{ form.errors.password }}</p>
                     </div>
                     <div class="space-y-1.5">
-                        <Label>Дүр</Label>
+                        <Label>Эрх</Label>
                         <SelectNative v-model="form.role">
                             <option v-for="r in roleOptions" :key="r.key" :value="r.key">{{ r.label }}</option>
                         </SelectNative>
