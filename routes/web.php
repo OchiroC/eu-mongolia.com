@@ -4,11 +4,15 @@ use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CheckInController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Admin\EmbassyController as AdminEmbassyController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\GuideController as AdminGuideController;
+use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProfessionalController as AdminProfessionalController;
+use App\Http\Controllers\Admin\QuestionController as AdminQuestionController;
+use App\Http\Controllers\Admin\RideController as AdminRideController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -18,7 +22,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GuideController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\EmbassyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\RideController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
@@ -59,6 +68,18 @@ Route::get('/professionals', [ProfessionalController::class, 'index'])->name('pr
 // Заавар / Гарын авлага (нийтэд)
 Route::get('/guides', [GuideController::class, 'index'])->name('guides.index');
 Route::get('/guides/{guide:slug}', [GuideController::class, 'show'])->name('guides.show');
+
+// Ажлын байр (нийтэд)
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+
+// Асуулт хариулт (нийтэд)
+Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
+
+// Элчин сайдын яам / яаралтай тусламж (нийтэд)
+Route::get('/embassy', [EmbassyController::class, 'index'])->name('embassy.index');
+
+// Хамтдаа аялах (нийтэд)
+Route::get('/rides', [RideController::class, 'index'])->name('rides.index');
 
 // Баннер — клик/харагдсан тоолуур
 Route::get('/banners/{banner}/click', [BannerController::class, 'click'])->name('banners.click');
@@ -110,6 +131,33 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments/{comment}/react', [CommentController::class, 'react'])->name('comments.react');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+    // Хамтдаа аялах (нийтэд харагдах show-аас дээгүүр)
+    Route::get('/rides/new', [RideController::class, 'create'])->name('rides.create');
+    Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
+    Route::get('/my/rides', [RideController::class, 'myRides'])->name('rides.my');
+    Route::get('/rides/{ride}/edit', [RideController::class, 'edit'])->name('rides.edit');
+    Route::put('/rides/{ride}', [RideController::class, 'update'])->name('rides.update');
+    Route::post('/rides/{ride}/close', [RideController::class, 'close'])->name('rides.close');
+    Route::delete('/rides/{ride}', [RideController::class, 'destroy'])->name('rides.destroy');
+
+    // Асуулт хариулт (нийтэд харагдах show-аас дээгүүр)
+    Route::get('/questions/ask', [QuestionController::class, 'create'])->name('questions.create');
+    Route::post('/questions', [QuestionController::class, 'store'])->name('questions.store');
+    Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+    Route::post('/questions/{question:slug}/answers', [AnswerController::class, 'store'])->name('answers.store');
+    Route::post('/answers/{answer}/vote', [AnswerController::class, 'vote'])->name('answers.vote');
+    Route::post('/answers/{answer}/accept', [AnswerController::class, 'accept'])->name('answers.accept');
+    Route::delete('/answers/{answer}', [AnswerController::class, 'destroy'])->name('answers.destroy');
+
+    // Ажлын байр — өөрийн зар (нийтэд харагдах show-аас дээгүүр)
+    Route::get('/jobs/new', [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/my/jobs', [JobController::class, 'myJobs'])->name('jobs.my');
+    Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
+    Route::post('/jobs/{job}/close', [JobController::class, 'close'])->name('jobs.close');
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+
     // Мэргэжилтэн — өөрийн профайл (нийтэд харагдах show-аас дээгүүр)
     Route::get('/professionals/apply', [ProfessionalController::class, 'create'])->name('professionals.create');
     Route::post('/professionals', [ProfessionalController::class, 'store'])->name('professionals.store');
@@ -125,6 +173,15 @@ Route::get('/zar/{listing:slug}', [ListingController::class, 'show'])->name('zar
 
 // Мэргэжилтний дэлгэрэнгүй (динамик параметр тул доор)
 Route::get('/professionals/{professional:slug}', [ProfessionalController::class, 'show'])->name('professionals.show');
+
+// Ажлын байрны дэлгэрэнгүй (динамик параметр тул доор)
+Route::get('/jobs/{job:slug}', [JobController::class, 'show'])->name('jobs.show');
+
+// Асуултын дэлгэрэнгүй (динамик параметр тул доор)
+Route::get('/questions/{question:slug}', [QuestionController::class, 'show'])->name('questions.show');
+
+// Аяллын дэлгэрэнгүй (динамик параметр тул доор)
+Route::get('/rides/{ride}', [RideController::class, 'show'])->name('rides.show');
 
 // Админ хэсэг (зөвхөн admin дүртэй)
 Route::middleware(['auth', 'role:admin'])
@@ -143,6 +200,26 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('events', AdminEventController::class)->except('show');
 
         Route::resource('guides', AdminGuideController::class)->except('show');
+
+        // Ажлын байр модерац
+        Route::get('jobs', [AdminJobController::class, 'index'])->name('jobs.index');
+        Route::post('jobs/{job}/close', [AdminJobController::class, 'close'])->name('jobs.close');
+        Route::delete('jobs/{job}', [AdminJobController::class, 'destroy'])->name('jobs.destroy');
+
+        // Асуулт хариулт модерац
+        Route::get('questions', [AdminQuestionController::class, 'index'])->name('questions.index');
+        Route::delete('questions/{question}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
+
+        // Хамтдаа аялах модерац
+        Route::get('rides', [AdminRideController::class, 'index'])->name('rides.index');
+        Route::post('rides/{ride}/close', [AdminRideController::class, 'close'])->name('rides.close');
+        Route::delete('rides/{ride}', [AdminRideController::class, 'destroy'])->name('rides.destroy');
+
+        // Элчин сайдын яам / тусламж
+        Route::get('embassies', [AdminEmbassyController::class, 'index'])->name('embassies.index');
+        Route::post('embassies', [AdminEmbassyController::class, 'store'])->name('embassies.store');
+        Route::put('embassies/{embassy}', [AdminEmbassyController::class, 'update'])->name('embassies.update');
+        Route::delete('embassies/{embassy}', [AdminEmbassyController::class, 'destroy'])->name('embassies.destroy');
 
         Route::get('check-in', [CheckInController::class, 'index'])->name('check-in');
         Route::post('check-in', [CheckInController::class, 'verify'])->name('check-in.verify');

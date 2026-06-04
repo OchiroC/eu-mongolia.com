@@ -45,18 +45,18 @@ const countryModel = computed({ get: () => props.filters.country ?? '', set: (v)
 </script>
 
 <template>
-    <Head title="Заавар / Гарын авлага" />
+    <Head title="Guide / Гарын авлага" />
 
     <PublicLayout>
         <!-- Hero -->
         <div class="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 px-6 py-8 sm:px-10">
             <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
             <div class="relative max-w-xl">
-                <h1 class="text-2xl font-bold text-white sm:text-3xl">Заавар / Гарын авлага</h1>
-                <p class="mt-2 text-sm text-brand-100 sm:text-base">Европод виз, бүртгэл, даатгал, татвар, жолооны үнэмлэх зэрэг асуудлыг алхам алхмаар шийдэх практик заавар.</p>
+                <h1 class="text-2xl font-bold text-white sm:text-3xl">Guide / Гарын авлага</h1>
+                <p class="mt-2 text-sm text-brand-100 sm:text-base">Европод виз, бүртгэл, даатгал, татвар, жолооны үнэмлэх зэрэг асуудлыг алхам алхмаар шийдэх практик гарын авлага.</p>
             </div>
             <div class="relative mt-5 rounded-2xl bg-white p-1.5 shadow-lg sm:max-w-md">
-                <input v-model="search" type="search" placeholder="Заавар хайх..." class="w-full rounded-xl border-0 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-0" />
+                <input v-model="search" type="search" placeholder="Guide хайх..." class="w-full rounded-xl border-0 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-0" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@ const countryModel = computed({ get: () => props.filters.country ?? '', set: (v)
         </div>
 
         <div v-else class="rounded-3xl border border-dashed border-gray-200 bg-white py-16 text-center">
-            <p class="font-medium text-gray-700">Заавар олдсонгүй</p>
+            <p class="font-medium text-gray-700">Guide олдсонгүй</p>
             <p class="text-sm text-gray-400">Сэдэв эсвэл улсаа өөрчилж үзнэ үү.</p>
         </div>
 

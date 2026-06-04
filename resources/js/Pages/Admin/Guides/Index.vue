@@ -9,20 +9,20 @@ const statusLabel = { draft: 'Ноорог', published: 'Нийтлэгдсэн'
 const statusClass = { draft: 'bg-gray-100 text-gray-600', published: 'bg-green-100 text-green-700' };
 
 function destroy(id) {
-    if (confirm('Энэ зааварыг устгах уу?')) {
+    if (confirm('Энэ Guide-ийг устгах уу?')) {
         router.delete(`/admin/guides/${id}`, { preserveScroll: true });
     }
 }
 </script>
 
 <template>
-    <Head title="Заавар" />
+    <Head title="Guide" />
 
     <AdminLayout>
-        <template #title>Заавар / Гарын авлага</template>
+        <template #title>Guide / Гарын авлага</template>
 
         <div class="mb-4 flex justify-end">
-            <Button :as="Link" href="/admin/guides/create" size="sm">+ Шинэ заавар</Button>
+            <Button :as="Link" href="/admin/guides/create" size="sm">+ Шинэ Guide</Button>
         </div>
 
         <div class="overflow-x-auto rounded-lg bg-white shadow-sm ring-1 ring-gray-100">
@@ -56,7 +56,7 @@ function destroy(id) {
                         </td>
                     </tr>
                     <tr v-if="!guides.data.length">
-                        <td colspan="6" class="px-4 py-8 text-center text-gray-400">Заавар алга байна.</td>
+                        <td colspan="6" class="px-4 py-8 text-center text-gray-400">Guide алга байна.</td>
                     </tr>
                 </tbody>
             </table>

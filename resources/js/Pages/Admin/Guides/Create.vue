@@ -7,10 +7,10 @@ defineProps({ topics: Array, countries: Array });
 </script>
 
 <template>
-    <Head title="Шинэ заавар" />
+    <Head title="Шинэ Guide" />
 
     <AdminLayout>
-        <template #title>Шинэ заавар</template>
+        <template #title>Шинэ Guide</template>
         <GuideForm :topics="topics" :countries="countries" submit-url="/admin/guides" method="post" />
     </AdminLayout>
 </template>

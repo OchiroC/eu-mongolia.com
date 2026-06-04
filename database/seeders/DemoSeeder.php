@@ -22,6 +22,124 @@ class DemoSeeder extends Seeder
         $this->reports();
         $this->professionals();
         $this->guides();
+        $this->jobs();
+        $this->questions();
+        $this->embassies();
+        $this->rides();
+    }
+
+    private function rides(): void
+    {
+        $user = User::first();
+        if (! $user) {
+            return;
+        }
+
+        $demo = [
+            ['from' => 'Берлин', 'fc' => 'Герман', 'to' => 'Мюнхен', 'tc' => 'Герман', 'days' => 3, 'seats' => 3, 'price' => '€25'],
+            ['from' => 'Прага', 'fc' => 'Чех', 'to' => 'Берлин', 'tc' => 'Герман', 'days' => 5, 'seats' => 2, 'price' => '€30'],
+            ['from' => 'Вена', 'fc' => 'Австри', 'to' => 'Прага', 'tc' => 'Чех', 'days' => 7, 'seats' => 4, 'price' => 'Тохиролцоно'],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\Ride::firstOrCreate(
+                ['user_id' => $user->id, 'from_city' => $d['from'], 'to_city' => $d['to'], 'depart_at' => now()->addDays($d['days'])->setTime(9, 0)],
+                [
+                    'from_country' => $d['fc'], 'to_country' => $d['tc'],
+                    'seats' => $d['seats'], 'price' => $d['price'],
+                    'notes' => 'Цуглах цэгийг тохиролцоно. (demo)',
+                    'contact_phone' => '+49 170 0000000',
+                    'status' => 'active',
+                ],
+            );
+        }
+    }
+
+    private function embassies(): void
+    {
+        $demo = [
+            ['name' => 'Монгол Улсаас ХБНГУ-д суугаа ЭСЯ', 'country' => 'Герман', 'city' => 'Берлин', 'website' => 'https://berlin.embassy.mn', 'sort' => 1],
+            ['name' => 'Монгол Улсаас Австри Улсад суугаа ЭСЯ', 'country' => 'Австри', 'city' => 'Вена', 'website' => 'https://vienna.embassy.mn', 'sort' => 2],
+            ['name' => 'Монгол Улсаас Чех Улсад суугаа ЭСЯ', 'country' => 'Чех', 'city' => 'Прага', 'website' => 'https://prague.embassy.mn', 'sort' => 3],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\Embassy::firstOrCreate(
+                ['name' => $d['name']],
+                [
+                    'kind' => 'embassy',
+                    'country' => $d['country'],
+                    'city' => $d['city'],
+                    'website' => $d['website'],
+                    'notes' => 'Холбоо барих мэдээллийг албан ёсны вэбсайтаас баталгаажуулна уу. (demo)',
+                    'sort_order' => $d['sort'],
+                    'is_active' => true,
+                ],
+            );
+        }
+    }
+
+    private function questions(): void
+    {
+        $user = User::first();
+        if (! $user) {
+            return;
+        }
+
+        $demo = [
+            ['title' => 'Германд оюутны визээ хэрхэн сунгах вэ?', 'cat' => 'visa', 'country' => 'Герман'],
+            ['title' => 'Берлинд хямд орон сууц яаж олох вэ?', 'cat' => 'housing', 'country' => 'Герман'],
+            ['title' => 'Чехэд цагийн ажил олоход юу анхаарах вэ?', 'cat' => 'work', 'country' => 'Чех'],
+            ['title' => 'Гэр бүлийн эмч (Hausarzt) яаж бүртгүүлэх вэ?', 'cat' => 'health', 'country' => 'Герман'],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\Question::firstOrCreate(
+                ['slug' => Str::slug($d['title'])],
+                [
+                    'user_id' => $user->id,
+                    'title' => $d['title'],
+                    'body' => $d['title'].' Хэн нэг туршлагатай хүн зөвлөгөө өгөөч. (demo)',
+                    'category' => $d['cat'],
+                    'country' => $d['country'],
+                ],
+            );
+        }
+    }
+
+    private function jobs(): void
+    {
+        $user = User::first();
+        if (! $user) {
+            return;
+        }
+
+        $demo = [
+            ['title' => 'Ресторанд туслах ажилтан', 'company' => 'Khaan Buuz', 'type' => 'part_time', 'cat' => 'service', 'city' => 'Берлин', 'country' => 'Герман', 'salary' => '€13/цаг'],
+            ['title' => 'Агуулахын ажилтан', 'company' => 'Logistik GmbH', 'type' => 'full_time', 'cat' => 'logistics', 'city' => 'Мюнхен', 'country' => 'Герман', 'salary' => '€2,400/сар'],
+            ['title' => 'Цэвэрлэгээний ажилтан', 'company' => null, 'type' => 'part_time', 'cat' => 'cleaning', 'city' => 'Прага', 'country' => 'Чех', 'salary' => 'Тохиролцоно'],
+            ['title' => 'Настан асрах туслах', 'company' => 'Pflege Plus', 'type' => 'full_time', 'cat' => 'care', 'city' => 'Вена', 'country' => 'Австри', 'salary' => '€2,100/сар'],
+            ['title' => 'Веб хөгжүүлэгч (хагас цаг)', 'company' => 'Remote', 'type' => 'part_time', 'cat' => 'it', 'city' => null, 'country' => 'Герман', 'salary' => '€20/цаг'],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\JobPost::firstOrCreate(
+                ['slug' => Str::slug($d['title'].'-'.($d['company'] ?? $d['city']))],
+                [
+                    'user_id' => $user->id,
+                    'title' => $d['title'],
+                    'company' => $d['company'],
+                    'description' => $d['title'].' — дэлгэрэнгүй мэдээллийг холбоо барьж асууна уу. (demo)',
+                    'employment_type' => $d['type'],
+                    'category' => $d['cat'],
+                    'city' => $d['city'],
+                    'country' => $d['country'],
+                    'salary' => $d['salary'],
+                    'contact_email' => 'demo@eu-mongolia.test',
+                    'status' => 'active',
+                ],
+            );
+        }
     }
 
     private function guides(): void

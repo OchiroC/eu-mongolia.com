@@ -15,7 +15,10 @@ const menuRef = ref(null);
 const nav = [
     { name: 'Нүүр', href: '/' },
     { name: 'Зар', href: '/zar' },
-    { name: 'Заавар', href: '/guides' },
+    { name: 'Ажил', href: '/jobs' },
+    { name: 'Аялал', href: '/rides' },
+    { name: 'Асуулт', href: '/questions' },
+    { name: 'Guide', href: '/guides' },
     { name: 'Мэдээ', href: '/news' },
     { name: 'Эвент', href: '/events' },
     { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },
@@ -206,6 +209,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                 <p class="text-sm text-gray-400">© 2026 EU Mongolia — Европ дахь монголчуудын платформ</p>
                 <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-gray-500">
                     <Link href="/about" class="hover:text-brand-700">Бидний тухай</Link>
+                    <Link href="/embassy" class="hover:text-brand-700">Элчин / Тусламж</Link>
                     <Link href="/contact" class="hover:text-brand-700">Холбоо барих</Link>
                     <Link href="/terms" class="hover:text-brand-700">Нөхцөл</Link>
                     <Link href="/privacy" class="hover:text-brand-700">Нууцлал</Link>

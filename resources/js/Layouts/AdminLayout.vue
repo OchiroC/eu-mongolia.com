@@ -9,7 +9,11 @@ const user = computed(() => page.props.auth?.user);
 const nav = [
     { name: 'Хяналтын самбар', href: '/admin', icon: 'grid' },
     { name: 'Мэдээ', href: '/admin/posts', icon: 'news' },
-    { name: 'Заавар', href: '/admin/guides', icon: 'book' },
+    { name: 'Guide', href: '/admin/guides', icon: 'book' },
+    { name: 'Ажил', href: '/admin/jobs', icon: 'briefcase' },
+    { name: 'Асуулт хариулт', href: '/admin/questions', icon: 'question' },
+    { name: 'Аялал (carpool)', href: '/admin/rides', icon: 'car' },
+    { name: 'Элчин / Тусламж', href: '/admin/embassies', icon: 'shield' },
     { name: 'Зар / Баннер', href: '/admin/banners', icon: 'ad' },
     { name: 'Эвент', href: '/admin/events', icon: 'calendar' },
     { name: 'Модерац', href: '/admin/reports', icon: 'flag' },
@@ -75,6 +79,10 @@ function initials(name) {
                             <template v-else-if="item.icon === 'comment'"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4-.8L3 20l1.3-3.5C3.5 15.3 3 13.7 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></template>
                             <template v-else-if="item.icon === 'badge'"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></template>
                             <template v-else-if="item.icon === 'book'"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></template>
+                            <template v-else-if="item.icon === 'briefcase'"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></template>
+                            <template v-else-if="item.icon === 'question'"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></template>
+                            <template v-else-if="item.icon === 'shield'"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></template>
+                            <template v-else-if="item.icon === 'car'"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8l1.5 4.5M6.5 11.5L8 7M5 11h14a1 1 0 011 1v4a1 1 0 01-1 1h-1m-3 0H9m-3 0H5a1 1 0 01-1-1v-4a1 1 0 011-1m2 6a1 1 0 102 0m6 0a1 1 0 102 0" /></template>
                             <template v-else-if="item.icon === 'settings'"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></template>
                             <template v-else><path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></template>
                         </svg>

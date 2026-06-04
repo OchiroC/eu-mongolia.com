@@ -7,10 +7,10 @@ defineProps({ guide: Object, topics: Array, countries: Array });
 </script>
 
 <template>
-    <Head title="Заавар засах" />
+    <Head title="Guide засах" />
 
     <AdminLayout>
-        <template #title>Заавар засах</template>
+        <template #title>Guide засах</template>
         <GuideForm :guide="guide" :topics="topics" :countries="countries" :submit-url="`/admin/guides/${guide.id}`" method="put" />
     </AdminLayout>
 </template>

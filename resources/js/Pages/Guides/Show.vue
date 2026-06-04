@@ -10,7 +10,7 @@ defineProps({
 });
 
 const quickLinks = [
-    { name: 'Бүх заавар', href: '/guides' },
+    { name: 'Бүх Guide', href: '/guides' },
     { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },
     { name: 'Мэдээ', href: '/news' },
 ];
@@ -20,7 +20,7 @@ const quickLinks = [
     <Head :title="guide.title" />
 
     <PublicLayout>
-        <Link href="/guides" class="inline-flex items-center gap-1 text-sm text-brand-700 hover:underline">← Заавар руу буцах</Link>
+        <Link href="/guides" class="inline-flex items-center gap-1 text-sm text-brand-700 hover:underline">← Guide руу буцах</Link>
 
         <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
             <article class="min-w-0">
@@ -40,7 +40,7 @@ const quickLinks = [
                 <div class="rich-content mt-6 max-w-none" v-html="guide.body"></div>
 
                 <div class="mt-8 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    ⚠️ Энэхүү заавар нь ерөнхий мэдээллийн зорилготой. Албан ёсны эх сурвалж, холбогдох байгууллагаас баталгаажуулна уу.
+                    ⚠️ Энэхүү гарын авлага нь ерөнхий мэдээллийн зорилготой. Албан ёсны эх сурвалж, холбогдох байгууллагаас баталгаажуулна уу.
                 </div>
             </article>
 
@@ -53,7 +53,7 @@ const quickLinks = [
                 <BannerDisplay placement="home_sidebar" variant="box" :placeholder="true" />
 
                 <div v-if="related.length" class="rounded-2xl border border-gray-100 bg-white p-4 shadow-soft">
-                    <h3 class="mb-2 text-sm font-semibold text-gray-900">Холбоотой заавар</h3>
+                    <h3 class="mb-2 text-sm font-semibold text-gray-900">Холбоотой Guide</h3>
                     <Link
                         v-for="r in related"
                         :key="r.id"
