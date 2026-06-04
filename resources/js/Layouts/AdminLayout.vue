@@ -13,6 +13,7 @@ const allNav = [
     { name: 'Хяналтын самбар', href: '/admin', icon: 'grid', roles: [] },
     { name: 'Мэдээ', href: '/admin/posts', icon: 'news', roles: ['editor'] },
     { name: 'Guide', href: '/admin/guides', icon: 'book', roles: ['editor'] },
+    { name: 'Орон сууц', href: '/admin/housing', icon: 'home', roles: [] },
     { name: 'Ажил', href: '/admin/jobs', icon: 'briefcase', roles: [] },
     { name: 'Асуулт хариулт', href: '/admin/questions', icon: 'question', roles: ['moderator'] },
     { name: 'Аялал (carpool)', href: '/admin/rides', icon: 'car', roles: [] },
@@ -21,7 +22,9 @@ const allNav = [
     { name: 'Эвент', href: '/admin/events', icon: 'calendar', roles: ['organizer'] },
     { name: 'Модерац', href: '/admin/reports', icon: 'flag', roles: ['moderator'] },
     { name: 'Сэтгэгдэл', href: '/admin/comments', icon: 'comment', roles: ['moderator'] },
-    { name: 'Мэргэжлийн үйлчилгээ', href: '/admin/professionals', icon: 'badge', roles: [] },
+    { name: 'Туслах', href: '/admin/professionals', icon: 'badge', roles: [] },
+    { name: 'Бизнес', href: '/admin/businesses', icon: 'store', roles: [] },
+    { name: 'Хүүхдийн булан', href: '/admin/kids', icon: 'star', roles: [] },
     { name: 'Хэрэглэгч', href: '/admin/users', icon: 'users', roles: [] },
     { name: 'Ангилал', href: '/admin/categories', icon: 'folder', roles: [] },
     { name: 'Тасалбар шалгах', href: '/admin/check-in', icon: 'ticket', roles: ['organizer'] },
@@ -36,6 +39,7 @@ const nav = computed(() => isAdmin.value
 const pendingReports = computed(() => page.props.pendingReports ?? 0);
 const pendingComments = computed(() => page.props.pendingComments ?? 0);
 const pendingProfessionals = computed(() => page.props.pendingProfessionals ?? 0);
+const pendingBusinesses = computed(() => page.props.pendingBusinesses ?? 0);
 
 const mobileOpen = ref(false);
 
@@ -91,6 +95,9 @@ function initials(name) {
                             <template v-else-if="item.icon === 'question'"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></template>
                             <template v-else-if="item.icon === 'shield'"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></template>
                             <template v-else-if="item.icon === 'car'"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8l1.5 4.5M6.5 11.5L8 7M5 11h14a1 1 0 011 1v4a1 1 0 01-1 1h-1m-3 0H9m-3 0H5a1 1 0 01-1-1v-4a1 1 0 011-1m2 6a1 1 0 102 0m6 0a1 1 0 102 0" /></template>
+                            <template v-else-if="item.icon === 'home'"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></template>
+                            <template v-else-if="item.icon === 'store'"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18l-1.5 6H4.5L3 3zm1 6v10a1 1 0 001 1h14a1 1 0 001-1V9M9 21v-6h6v6" /></template>
+                            <template v-else-if="item.icon === 'star'"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></template>
                             <template v-else-if="item.icon === 'settings'"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></template>
                             <template v-else><path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></template>
                         </svg>
@@ -110,6 +117,11 @@ function initials(name) {
                             class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
                             :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
                         >{{ pendingProfessionals }}</span>
+                        <span
+                            v-if="item.icon === 'store' && pendingBusinesses > 0"
+                            class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                            :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
+                        >{{ pendingBusinesses }}</span>
                     </Link>
                 </nav>
 

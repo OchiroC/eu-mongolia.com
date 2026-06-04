@@ -15,13 +15,16 @@ const menuRef = ref(null);
 const nav = [
     { name: 'Нүүр', href: '/' },
     { name: 'Зар', href: '/zar' },
+    { name: 'Орон сууц', href: '/housing' },
     { name: 'Ажил', href: '/jobs' },
     { name: 'Аялал', href: '/rides' },
     { name: 'Асуулт', href: '/questions' },
     { name: 'Guide', href: '/guides' },
     { name: 'Мэдээ', href: '/news' },
     { name: 'Эвент', href: '/events' },
-    { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },
+    { name: 'Туслах', href: '/professionals' },
+    { name: 'Бизнес', href: '/businesses' },
+    { name: 'Хүүхэд', href: '/kids' },
 ];
 
 function isActive(href) {
@@ -63,6 +66,9 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                 </nav>
 
                 <div class="flex items-center gap-2 text-sm">
+                    <Link href="/search" class="rounded-lg p-2 text-gray-500 transition hover:bg-gray-50 hover:text-brand-600" aria-label="Хайх">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </Link>
                     <template v-if="user">
                         <Link href="/zar/new" class="hidden rounded-full bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 sm:inline-flex">
                             + Зар нэмэх

@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
+use App\Http\Controllers\Admin\BusinessController as AdminBusinessController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CheckInController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\EmbassyController as AdminEmbassyController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\GuideController as AdminGuideController;
+use App\Http\Controllers\Admin\HousingController as AdminHousingController;
 use App\Http\Controllers\Admin\JobController as AdminJobController;
+use App\Http\Controllers\Admin\KidsController as AdminKidsController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProfessionalController as AdminProfessionalController;
@@ -23,9 +26,13 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmbassyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HousingController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\KidsController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\ListingController;
@@ -71,6 +78,18 @@ Route::get('/guides/{guide:slug}', [GuideController::class, 'show'])->name('guid
 
 // Ажлын байр (нийтэд)
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+
+// Орон сууц / өрөө хуваалцах (нийтэд)
+Route::get('/housing', [HousingController::class, 'index'])->name('housing.index');
+
+// Монгол бизнес лавлах (нийтэд)
+Route::get('/businesses', [BusinessController::class, 'index'])->name('businesses.index');
+
+// Хүүхдийн булан (нийтэд)
+Route::get('/kids', [KidsController::class, 'index'])->name('kids.index');
+
+// Нэгдсэн хайлт (нийтэд)
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Асуулт хариулт (нийтэд)
 Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
@@ -149,6 +168,24 @@ Route::middleware('auth')->group(function () {
     Route::post('/answers/{answer}/accept', [AnswerController::class, 'accept'])->name('answers.accept');
     Route::delete('/answers/{answer}', [AnswerController::class, 'destroy'])->name('answers.destroy');
 
+    // Бизнес — өөрийн (нийтэд харагдах show-аас дээгүүр)
+    Route::get('/businesses/new', [BusinessController::class, 'create'])->name('businesses.create');
+    Route::post('/businesses', [BusinessController::class, 'store'])->name('businesses.store');
+    Route::get('/my/businesses', [BusinessController::class, 'myBusinesses'])->name('businesses.my');
+    Route::get('/businesses/{business}/edit', [BusinessController::class, 'edit'])->name('businesses.edit');
+    Route::put('/businesses/{business}', [BusinessController::class, 'update'])->name('businesses.update');
+    Route::post('/businesses/{business}/promote', [BusinessController::class, 'promote'])->name('businesses.promote');
+    Route::delete('/businesses/{business}', [BusinessController::class, 'destroy'])->name('businesses.destroy');
+
+    // Орон сууц — өөрийн зар (нийтэд харагдах show-аас дээгүүр)
+    Route::get('/housing/new', [HousingController::class, 'create'])->name('housing.create');
+    Route::post('/housing', [HousingController::class, 'store'])->name('housing.store');
+    Route::get('/my/housing', [HousingController::class, 'myListings'])->name('housing.my');
+    Route::get('/housing/{housing}/edit', [HousingController::class, 'edit'])->name('housing.edit');
+    Route::put('/housing/{housing}', [HousingController::class, 'update'])->name('housing.update');
+    Route::post('/housing/{housing}/close', [HousingController::class, 'close'])->name('housing.close');
+    Route::delete('/housing/{housing}', [HousingController::class, 'destroy'])->name('housing.destroy');
+
     // Ажлын байр — өөрийн зар (нийтэд харагдах show-аас дээгүүр)
     Route::get('/jobs/new', [JobController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
@@ -176,6 +213,12 @@ Route::get('/professionals/{professional:slug}', [ProfessionalController::class,
 
 // Ажлын байрны дэлгэрэнгүй (динамик параметр тул доор)
 Route::get('/jobs/{job:slug}', [JobController::class, 'show'])->name('jobs.show');
+
+// Орон сууцны дэлгэрэнгүй (динамик параметр тул доор)
+Route::get('/housing/{housing:slug}', [HousingController::class, 'show'])->name('housing.show');
+
+// Бизнесийн дэлгэрэнгүй (динамик параметр тул доор)
+Route::get('/businesses/{business:slug}', [BusinessController::class, 'show'])->name('businesses.show');
 
 // Асуултын дэлгэрэнгүй (динамик параметр тул доор)
 Route::get('/questions/{question:slug}', [QuestionController::class, 'show'])->name('questions.show');
@@ -251,6 +294,24 @@ Route::middleware(['auth', 'role:admin|editor|moderator|organizer|advertiser'])
             Route::get('jobs', [AdminJobController::class, 'index'])->name('jobs.index');
             Route::post('jobs/{job}/close', [AdminJobController::class, 'close'])->name('jobs.close');
             Route::delete('jobs/{job}', [AdminJobController::class, 'destroy'])->name('jobs.destroy');
+
+            // Орон сууц
+            Route::get('housing', [AdminHousingController::class, 'index'])->name('housing.index');
+            Route::post('housing/{housing}/close', [AdminHousingController::class, 'close'])->name('housing.close');
+            Route::delete('housing/{housing}', [AdminHousingController::class, 'destroy'])->name('housing.destroy');
+
+            // Монгол бизнес лавлах
+            Route::get('businesses', [AdminBusinessController::class, 'index'])->name('businesses.index');
+            Route::post('businesses/{business}/approve', [AdminBusinessController::class, 'approve'])->name('businesses.approve');
+            Route::post('businesses/{business}/feature', [AdminBusinessController::class, 'feature'])->name('businesses.feature');
+            Route::post('businesses/{business}/deactivate', [AdminBusinessController::class, 'deactivate'])->name('businesses.deactivate');
+            Route::delete('businesses/{business}', [AdminBusinessController::class, 'destroy'])->name('businesses.destroy');
+
+            // Хүүхдийн булан
+            Route::get('kids', [AdminKidsController::class, 'index'])->name('kids.index');
+            Route::post('kids', [AdminKidsController::class, 'store'])->name('kids.store');
+            Route::put('kids/{kid}', [AdminKidsController::class, 'update'])->name('kids.update');
+            Route::delete('kids/{kid}', [AdminKidsController::class, 'destroy'])->name('kids.destroy');
 
             // Хамтдаа аялах
             Route::get('rides', [AdminRideController::class, 'index'])->name('rides.index');

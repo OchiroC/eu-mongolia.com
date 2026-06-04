@@ -28,6 +28,102 @@ class DemoSeeder extends Seeder
         $this->comments();
         $this->embassies();
         $this->rides();
+        $this->housing();
+        $this->businesses();
+        $this->kids();
+    }
+
+    private function kids(): void
+    {
+        $demo = [
+            ['title' => 'Монгол цагаан толгой сурах', 'category' => 'language', 'description' => 'Үсэг, авиа сурах дасгал, видео.', 'url' => 'https://example.com', 'age_range' => '4-7', 'featured' => true],
+            ['title' => 'Монгол ардын үлгэрүүд', 'category' => 'books', 'description' => 'Сонгодог үлгэр, ном.', 'url' => 'https://example.com', 'age_range' => '5-10'],
+            ['title' => 'Хүүхдийн монгол дуунууд', 'category' => 'video', 'description' => 'YouTube цомог.', 'url' => 'https://youtube.com', 'age_range' => '2-8'],
+            ['title' => 'Берлин дэх монгол хэлний бямбын сургууль', 'category' => 'school', 'description' => 'Бямба гариг бүр хичээл.', 'city' => 'Берлин', 'country' => 'Герман', 'contact' => 'school@example.com', 'featured' => true],
+            ['title' => 'Цагаан сар, ёс заншил', 'category' => 'culture', 'description' => 'Баяр ёслол, уламжлал танилцуулга.'],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\KidsResource::firstOrCreate(
+                ['title' => $d['title']],
+                [
+                    'category' => $d['category'],
+                    'description' => $d['description'] ?? null,
+                    'url' => $d['url'] ?? null,
+                    'city' => $d['city'] ?? null,
+                    'country' => $d['country'] ?? null,
+                    'contact' => $d['contact'] ?? null,
+                    'age_range' => $d['age_range'] ?? null,
+                    'is_featured' => $d['featured'] ?? false,
+                    'is_active' => true,
+                ],
+            );
+        }
+    }
+
+    private function businesses(): void
+    {
+        $user = $this->author();
+
+        $demo = [
+            ['name' => 'Хаан Буузны газар', 'cat' => 'restaurant', 'city' => 'Берлин', 'country' => 'Герман', 'address' => 'Karl-Marx-Str. 100, Berlin', 'featured' => true],
+            ['name' => 'Монгол Маркет', 'cat' => 'grocery', 'city' => 'Мюнхен', 'country' => 'Герман', 'address' => 'Lindwurmstr. 50, München', 'featured' => true],
+            ['name' => 'Говь Кафе', 'cat' => 'cafe', 'city' => 'Прага', 'country' => 'Чех', 'address' => 'Wenceslas Square, Praha', 'featured' => false],
+            ['name' => 'Анар Гоо Сайхан', 'cat' => 'beauty', 'city' => 'Вена', 'country' => 'Австри', 'address' => 'Mariahilfer Str. 10, Wien', 'featured' => false],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\Business::firstOrCreate(
+                ['slug' => Str::slug($d['name'])],
+                [
+                    'user_id' => $user->id,
+                    'name' => $d['name'],
+                    'category' => $d['cat'],
+                    'description' => $d['name'].' — Европ дахь монголчуудад үйлчилж байна. (demo)',
+                    'city' => $d['city'],
+                    'country' => $d['country'],
+                    'address' => $d['address'],
+                    'phone' => '+49 30 0000000',
+                    'hours' => 'Да–Ня 10:00–22:00',
+                    'is_featured' => $d['featured'],
+                    'featured_until' => $d['featured'] ? now()->addDays(30) : null,
+                    'status' => 'active',
+                ],
+            );
+        }
+    }
+
+    private function housing(): void
+    {
+        $user = $this->author();
+
+        $demo = [
+            ['title' => 'Берлинд гэрэлтэй өрөө түрээслүүлнэ', 'type' => 'room', 'city' => 'Берлин', 'country' => 'Герман', 'price' => 420, 'rooms' => '1', 'size' => 18, 'furnished' => true],
+            ['title' => 'Мюнхен WG-д нэг хүний орон зай', 'type' => 'wg', 'city' => 'Мюнхен', 'country' => 'Герман', 'price' => 550, 'rooms' => '1', 'size' => 20, 'furnished' => true],
+            ['title' => '2 өрөө байр түрээслүүлнэ', 'type' => 'apartment', 'city' => 'Прага', 'country' => 'Чех', 'price' => 700, 'rooms' => '2', 'size' => 55, 'furnished' => false],
+            ['title' => 'Оюутан охин өрөө хайж байна', 'type' => 'seeking', 'city' => 'Вена', 'country' => 'Австри', 'price' => null, 'rooms' => null, 'size' => null, 'furnished' => false],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\HousingPost::firstOrCreate(
+                ['slug' => Str::slug($d['title'])],
+                [
+                    'user_id' => $user->id,
+                    'title' => $d['title'],
+                    'type' => $d['type'],
+                    'city' => $d['city'],
+                    'country' => $d['country'],
+                    'price' => $d['price'],
+                    'rooms' => $d['rooms'],
+                    'size' => $d['size'],
+                    'furnished' => $d['furnished'],
+                    'gender_pref' => 'any',
+                    'description' => 'Дэлгэрэнгүйг холбоо барьж асууна уу. (demo)',
+                    'contact_phone' => '+49 170 0000000',
+                    'status' => 'active',
+                ],
+            );
+        }
     }
 
     /** Контентын зохиогч — хэрэглэгч байхгүй бол үүсгэнэ (хоосон DB дээр ч seed ажиллана). */

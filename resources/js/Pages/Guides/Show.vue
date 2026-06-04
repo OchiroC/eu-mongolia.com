@@ -11,7 +11,7 @@ defineProps({
 
 const quickLinks = [
     { name: 'Бүх Guide', href: '/guides' },
-    { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },
+    { name: 'Туслах', href: '/professionals' },
     { name: 'Мэдээ', href: '/news' },
 ];
 </script>

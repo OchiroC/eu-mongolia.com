@@ -117,13 +117,16 @@ function eventMonth(value) {
 
                 <nav class="hidden items-center gap-1 text-sm md:flex">
                     <Link href="/zar" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Зар</Link>
+                    <Link href="/housing" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Орон сууц</Link>
                     <Link href="/jobs" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Ажил</Link>
                     <Link href="/rides" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Аялал</Link>
                     <Link href="/questions" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Асуулт</Link>
                     <Link href="/guides" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Guide</Link>
                     <Link href="/news" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэдээ</Link>
                     <Link href="/events" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Эвент</Link>
-                    <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэргэжлийн үйлчилгээ</Link>
+                    <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Туслах</Link>
+                    <Link href="/businesses" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Бизнес</Link>
+                    <Link href="/kids" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Хүүхэд</Link>
                 </nav>
 
                 <Link :href="user ? '/zar/new' : '/register'" class="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">

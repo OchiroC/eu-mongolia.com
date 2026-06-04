@@ -70,6 +70,9 @@ class HandleInertiaRequests extends Middleware
             'pendingProfessionals' => fn () => ($user && $user->hasRole('admin') && Schema::hasTable('professionals'))
                 ? \App\Models\Professional::where('status', 'pending')->count()
                 : 0,
+            'pendingBusinesses' => fn () => ($user && $user->hasRole('admin') && Schema::hasTable('businesses'))
+                ? \App\Models\Business::where('status', 'pending')->count()
+                : 0,
             // Уншаагүй зурвасын тоо (header badge)
             'unreadMessages' => fn () => ($user && Schema::hasTable('messages'))
                 ? \App\Models\Message::whereNull('read_at')
