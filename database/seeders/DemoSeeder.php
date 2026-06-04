@@ -24,16 +24,56 @@ class DemoSeeder extends Seeder
         $this->guides();
         $this->jobs();
         $this->questions();
+        $this->answers();
+        $this->comments();
         $this->embassies();
         $this->rides();
     }
 
+    /** Контентын зохиогч — хэрэглэгч байхгүй бол үүсгэнэ (хоосон DB дээр ч seed ажиллана). */
+    private function author(): User
+    {
+        return User::first() ?? User::create([
+            'name' => 'EU Mongolia',
+            'email' => 'demo@eu-mongolia.test',
+            'password' => bcrypt(Str::random(32)),
+            'email_verified_at' => now(),
+        ]);
+    }
+
+    private function answers(): void
+    {
+        $user = $this->author();
+
+        \App\Models\Question::where('answers_count', 0)->get()->each(function ($q) use ($user) {
+            $a = $q->answers()->create([
+                'user_id' => $user->id,
+                'body' => 'Миний туршлагаас хэлэхэд эхлээд холбогдох байгууллагаас цаг авч, шаардлагатай бичиг баримтаа бүрдүүлээрэй. (demo хариулт)',
+                'votes_count' => 0,
+            ]);
+            $q->update(['answers_count' => 1, 'best_answer_id' => $a->id]);
+        });
+    }
+
+    private function comments(): void
+    {
+        $user = $this->author();
+
+        Post::query()->latest('published_at')->take(3)->get()->each(function (Post $post) use ($user) {
+            if ($post->comments()->exists()) {
+                return;
+            }
+            $post->comments()->create([
+                'user_id' => $user->id,
+                'body' => 'Сонирхолтой мэдээ байна, баярлалаа! (demo)',
+                'status' => 'approved',
+            ]);
+        });
+    }
+
     private function rides(): void
     {
-        $user = User::first();
-        if (! $user) {
-            return;
-        }
+        $user = $this->author();
 
         $demo = [
             ['from' => 'Берлин', 'fc' => 'Герман', 'to' => 'Мюнхен', 'tc' => 'Герман', 'days' => 3, 'seats' => 3, 'price' => '€25'],
@@ -81,10 +121,7 @@ class DemoSeeder extends Seeder
 
     private function questions(): void
     {
-        $user = User::first();
-        if (! $user) {
-            return;
-        }
+        $user = $this->author();
 
         $demo = [
             ['title' => 'Германд оюутны визээ хэрхэн сунгах вэ?', 'cat' => 'visa', 'country' => 'Герман'],
@@ -109,10 +146,7 @@ class DemoSeeder extends Seeder
 
     private function jobs(): void
     {
-        $user = User::first();
-        if (! $user) {
-            return;
-        }
+        $user = $this->author();
 
         $demo = [
             ['title' => 'Ресторанд туслах ажилтан', 'company' => 'Khaan Buuz', 'type' => 'part_time', 'cat' => 'service', 'city' => 'Берлин', 'country' => 'Герман', 'salary' => '€13/цаг'],
@@ -144,10 +178,7 @@ class DemoSeeder extends Seeder
 
     private function guides(): void
     {
-        $user = User::first();
-        if (! $user) {
-            return;
-        }
+        $user = $this->author();
 
         $demo = [
             ['title' => 'Германд хотын бүртгэл (Anmeldung) хийх', 'topic' => 'registration', 'country' => 'Герман', 'featured' => true, 'excerpt' => 'Шинээр нүүж ирээд 14 хоногийн дотор Bürgeramt дээр бүртгүүлэх алхмууд.'],
@@ -178,9 +209,9 @@ class DemoSeeder extends Seeder
 
     private function professionals(): void
     {
-        $user = User::first();
-        if (! $user || ProfessionalCategory::count() === 0) {
-            return;
+        $user = $this->author();
+        if (ProfessionalCategory::count() === 0) {
+            (new ProfessionalCategorySeeder)->run();
         }
 
         $byName = fn ($n) => ProfessionalCategory::where('name', $n)->first()?->id;
@@ -246,10 +277,7 @@ class DemoSeeder extends Seeder
 
     private function reports(): void
     {
-        $user = User::first();
-        if (! $user) {
-            return;
-        }
+        $user = $this->author();
 
         $reasons = ['spam', 'scam', 'duplicate', 'prohibited', 'offensive'];
 
