@@ -117,6 +117,7 @@ function eventMonth(value) {
 
                 <nav class="hidden items-center gap-1 text-sm md:flex">
                     <Link href="/zar" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Зар</Link>
+                    <Link href="/guides" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Заавар</Link>
                     <Link href="/news" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэдээ</Link>
                     <Link href="/events" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Эвент</Link>
                     <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэргэжлийн үйлчилгээ</Link>

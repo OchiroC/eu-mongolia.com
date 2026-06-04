@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CheckInController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\GuideController as AdminGuideController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProfessionalController as AdminProfessionalController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NewsController;
@@ -53,6 +55,10 @@ Route::get('/zar', [ListingController::class, 'index'])->name('zar.index');
 
 // Мэргэжилтний лавлах (нийтэд)
 Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
+
+// Заавар / Гарын авлага (нийтэд)
+Route::get('/guides', [GuideController::class, 'index'])->name('guides.index');
+Route::get('/guides/{guide:slug}', [GuideController::class, 'show'])->name('guides.show');
 
 // Баннер — клик/харагдсан тоолуур
 Route::get('/banners/{banner}/click', [BannerController::class, 'click'])->name('banners.click');
@@ -135,6 +141,8 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('events/{event}/sales', [AdminEventController::class, 'sales'])->name('events.sales');
         Route::resource('events', AdminEventController::class)->except('show');
+
+        Route::resource('guides', AdminGuideController::class)->except('show');
 
         Route::get('check-in', [CheckInController::class, 'index'])->name('check-in');
         Route::post('check-in', [CheckInController::class, 'verify'])->name('check-in.verify');

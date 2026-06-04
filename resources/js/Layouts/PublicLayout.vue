@@ -15,6 +15,7 @@ const menuRef = ref(null);
 const nav = [
     { name: 'Нүүр', href: '/' },
     { name: 'Зар', href: '/zar' },
+    { name: 'Заавар', href: '/guides' },
     { name: 'Мэдээ', href: '/news' },
     { name: 'Эвент', href: '/events' },
     { name: 'Мэргэжлийн үйлчилгээ', href: '/professionals' },

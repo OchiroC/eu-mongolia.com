@@ -21,6 +21,41 @@ class DemoSeeder extends Seeder
         $this->tags();
         $this->reports();
         $this->professionals();
+        $this->guides();
+    }
+
+    private function guides(): void
+    {
+        $user = User::first();
+        if (! $user) {
+            return;
+        }
+
+        $demo = [
+            ['title' => 'Германд хотын бүртгэл (Anmeldung) хийх', 'topic' => 'registration', 'country' => 'Герман', 'featured' => true, 'excerpt' => 'Шинээр нүүж ирээд 14 хоногийн дотор Bürgeramt дээр бүртгүүлэх алхмууд.'],
+            ['title' => 'ВНЖ (Aufenthaltstitel) сунгах заавар', 'topic' => 'visa', 'country' => 'Герман', 'featured' => true, 'excerpt' => 'Цаг авах, бүрдүүлэх бичиг баримт, хураамж, анхаарах зүйлс.'],
+            ['title' => 'Эрүүл мэндийн даатгал хэрхэн сонгох', 'topic' => 'insurance', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Gesetzlich vs privat — оюутан, ажилтанд аль нь тохиромжтой вэ.'],
+            ['title' => 'Чехэд оюутны визээр ирэхэд', 'topic' => 'study', 'country' => 'Чех', 'featured' => false, 'excerpt' => 'Элсэлт, виз, ирсний дараах бүртгэлийн талаар.'],
+            ['title' => 'Жолооны үнэмлэхээ хөрвүүлэх', 'topic' => 'driving', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Монгол үнэмлэхээ ЕХ-ны үнэмлэх рүү хөрвүүлэх боломж, нөхцөл.'],
+            ['title' => 'Банкны данс нээх (Германд)', 'topic' => 'bank', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Шаардлагатай бичиг баримт, онлайн банкны сонголтууд.'],
+        ];
+
+        foreach ($demo as $d) {
+            \App\Models\Guide::firstOrCreate(
+                ['slug' => Str::slug($d['title'])],
+                [
+                    'user_id' => $user->id,
+                    'title' => $d['title'],
+                    'excerpt' => $d['excerpt'],
+                    'body' => '<h2>Ерөнхий мэдээлэл</h2><p>'.$d['excerpt'].' Энэ нь жишээ агуулга (demo).</p><h3>Алхмууд</h3><ol><li>Цаг товлох / бүртгүүлэх</li><li>Бичиг баримт бүрдүүлэх</li><li>Холбогдох газартаа очих</li></ol><p>Дэлгэрэнгүйг албан ёсны эх сурвалжаас шалгана уу.</p>',
+                    'topic' => $d['topic'],
+                    'country' => $d['country'],
+                    'is_featured' => $d['featured'],
+                    'status' => 'published',
+                    'published_at' => now(),
+                ],
+            );
+        }
     }
 
     private function professionals(): void
