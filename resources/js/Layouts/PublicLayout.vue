@@ -53,18 +53,6 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                     <span class="text-lg font-bold">Mongolia</span>
                 </Link>
 
-                <nav class="hidden gap-1 md:flex">
-                    <Link
-                        v-for="item in nav"
-                        :key="item.href"
-                        :href="item.href"
-                        class="rounded-lg px-3 py-2 text-sm font-medium transition"
-                        :class="isActive(item.href) ? 'bg-brand-50 text-brand-700' : 'text-gray-600 hover:bg-gray-50 hover:text-brand-700'"
-                    >
-                        {{ item.name }}
-                    </Link>
-                </nav>
-
                 <div class="flex items-center gap-2 text-sm">
                     <Link href="/search" class="rounded-lg p-2 text-gray-500 transition hover:bg-gray-50 hover:text-brand-600" aria-label="Хайх">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -154,6 +142,21 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </div>
+            </div>
+
+            <!-- Нав мөр (дэлгэцэн дээр доор нь тусдаа) -->
+            <div class="hidden border-t border-gray-100 md:block">
+                <nav class="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 py-1.5">
+                    <Link
+                        v-for="item in nav"
+                        :key="item.href"
+                        :href="item.href"
+                        class="shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition"
+                        :class="isActive(item.href) ? 'bg-brand-50 text-brand-700' : 'text-gray-600 hover:bg-gray-50 hover:text-brand-700'"
+                    >
+                        {{ item.name }}
+                    </Link>
+                </nav>
             </div>
 
             <!-- Мобайл цэс -->

@@ -22,7 +22,7 @@
         {{-- Favicon / brand --}}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg">
         <link rel="apple-touch-icon" href="/favicon.svg">
-        <link rel="manifest" href="/site.webmanifest">
+        <link rel="manifest" href="/site.webmanifest" crossorigin="use-credentials">
 
         {{-- Open Graph / Twitter (нийгмийн сүлжээнд хуваалцахад) --}}
         <meta property="og:type" content="website">
