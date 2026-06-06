@@ -48,10 +48,10 @@ const user = computed(() => usePage().props.auth?.user);
                 <div class="mt-5 border-t border-gray-100 pt-5">
                     <p class="mb-2 text-sm font-medium text-gray-700">Жолооч: {{ ride.user }}</p>
                     <template v-if="user">
-                        <a v-if="ride.contact_phone" :href="`tel:${ride.contact_phone}`" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">📞 {{ ride.contact_phone }}</a>
+                        <a v-if="ride.contact_phone" :href="`tel:${ride.contact_phone}`" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">📞 {{ ride.contact_phone }}</a>
                         <p v-else class="text-sm text-gray-400">Утас оруулаагүй байна.</p>
                     </template>
-                    <Link v-else href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">Холбоо барихын тулд нэвтрэх</Link>
+                    <Link v-else href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">Холбоо барихын тулд нэвтрэх</Link>
                     <Link v-if="ride.owned" href="/my/rides" class="mt-2 block text-center text-xs text-brand-700 hover:underline">Миний аялал засах</Link>
                 </div>
 

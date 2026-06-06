@@ -40,7 +40,7 @@ function price(p) {
                 <h1 class="text-2xl font-bold text-gray-900">Орон сууц / Өрөө хуваалцах</h1>
                 <p class="mt-1 text-sm text-gray-500">Европ дахь монголчуудад зориулсан түрээс, өрөө, WG зар.</p>
             </div>
-            <Link :href="user ? '/housing/new' : '/login'" class="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">
+            <Link :href="user ? '/housing/new' : '/login'" class="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                 Зар нэмэх
             </Link>
@@ -67,10 +67,10 @@ function price(p) {
                 v-for="p in posts.data"
                 :key="p.id"
                 :href="`/housing/${p.slug}`"
-                class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+                class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
             >
-                <div class="relative aspect-[4/3] bg-gray-100">
-                    <img v-if="p.cover" :src="p.cover" :alt="p.title" class="h-full w-full object-cover" />
+                <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                    <img v-if="p.cover" :src="p.cover" :alt="p.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                     <div v-else class="flex h-full w-full items-center justify-center text-gray-300">
                         <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                     </div>

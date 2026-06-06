@@ -48,9 +48,9 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
         <!-- Толгой -->
         <header class="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-                <Link href="/" class="flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-bold text-white">EU</span>
-                    <span class="text-lg font-bold">Mongolia</span>
+                <Link href="/" class="group flex items-center gap-2">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>
+                    <span class="text-lg font-bold tracking-tight">Mongolia</span>
                 </Link>
 
                 <div class="flex items-center gap-2 text-sm">
@@ -58,7 +58,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </Link>
                     <template v-if="user">
-                        <Link href="/zar/new" class="hidden rounded-full bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 sm:inline-flex">
+                        <Link href="/zar/new" class="hidden rounded-full bg-brand-600 px-4 py-2 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0 sm:inline-flex">
                             + Зар нэмэх
                         </Link>
                         <Link href="/messages" class="relative hidden rounded-lg p-2 text-gray-500 hover:bg-gray-50 hover:text-brand-600 sm:block" aria-label="Зурвас">
@@ -133,8 +133,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
                         </div>
                     </template>
                     <template v-else>
-                        <Link href="/login" class="hidden px-3 py-2 font-medium text-gray-600 hover:text-brand-700 sm:block">Нэвтрэх</Link>
-                        <Link href="/register" class="hidden rounded-full bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 sm:inline-flex">Бүртгүүлэх</Link>
+                        <Link href="/login" class="hidden px-3 py-2 font-medium text-gray-600 transition hover:text-brand-700 sm:block">Нэвтрэх</Link>
+                        <Link href="/register" class="hidden rounded-full bg-brand-600 px-4 py-2 font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0 sm:inline-flex">Бүртгүүлэх</Link>
                     </template>
 
                     <!-- Мобайл цэс товч -->

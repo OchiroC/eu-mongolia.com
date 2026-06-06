@@ -115,7 +115,7 @@ function initial(name) {
                 ></textarea>
                 <p v-if="form.errors.body" class="mt-1 text-sm text-destructive">{{ form.errors.body }}</p>
                 <div class="mt-2 text-right">
-                    <button type="button" :disabled="form.processing || !form.body.trim()" class="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-50" @click="submitAnswer">Хариулт нэмэх</button>
+                    <button type="button" :disabled="form.processing || !form.body.trim()" class="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0 disabled:opacity-50" @click="submitAnswer">Хариулт нэмэх</button>
                 </div>
             </div>
             <p v-else class="mt-6 rounded-2xl bg-brand-50/60 px-4 py-3 text-center text-sm text-gray-600">

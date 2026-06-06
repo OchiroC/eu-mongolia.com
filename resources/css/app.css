@@ -7,9 +7,28 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
     }
     body {
         @apply bg-sand-50 text-gray-800 antialiased;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: 'cv11', 'ss01';
+    }
+
+    /* Гарчгийн нягт мөр, тэнцвэртэй мөр таслалт */
+    h1, h2, h3, h4 {
+        @apply tracking-tight;
+        text-wrap: balance;
+    }
+
+    /* Нэгдсэн focus тэмдэглэгээ — гар/keyboard навигацид зориулсан */
+    :focus-visible {
+        @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-white;
+    }
+
+    /* Зургийн өнгөлгөө: drag сонголтыг хаах */
+    img {
+        @apply select-none;
     }
 
     /* shadcn-vue загварын токенууд. --primary нь брэндийн цэнхэр. */

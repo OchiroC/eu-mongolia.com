@@ -128,10 +128,10 @@ function filterTag(slug) {
                 v-for="post in posts.data"
                 :key="post.id"
                 :href="`/news/${post.slug}`"
-                class="group overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-100 transition hover:shadow-md"
+                class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
             >
-                <div class="aspect-video bg-gray-100">
-                    <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover" />
+                <div class="aspect-video overflow-hidden bg-gray-100">
+                    <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                 </div>
                 <div class="p-4">
                     <span v-if="post.category" class="text-xs font-medium text-brand-700">

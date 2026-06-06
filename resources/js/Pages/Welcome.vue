@@ -110,8 +110,8 @@ function eventMonth(value) {
         <!-- Толгой -->
         <header class="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
-                <Link href="/" class="flex shrink-0 items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-bold text-white">EU</span>
+                <Link href="/" class="group flex shrink-0 items-center gap-2">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>
                     <span class="text-lg font-bold tracking-tight">Mongolia</span>
                 </Link>
 
@@ -129,7 +129,7 @@ function eventMonth(value) {
                     <Link href="/kids" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Хүүхэд</Link>
                 </nav>
 
-                <Link :href="user ? '/zar/new' : '/register'" class="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
+                <Link :href="user ? '/zar/new' : '/register'" class="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                     Зар нэмэх
                 </Link>
@@ -256,10 +256,10 @@ function eventMonth(value) {
                             v-for="event in restEvents"
                             :key="event.id"
                             :href="`/events/${event.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
                         >
-                            <div class="relative aspect-video bg-gray-100">
-                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />
+                            <div class="relative aspect-video overflow-hidden bg-gray-100">
+                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 <div v-else class="h-full w-full bg-gradient-to-br from-brand-500 to-brand-700"></div>
                                 <div class="absolute left-3 top-3 flex h-12 w-12 flex-col items-center justify-center rounded-xl bg-white/95 text-gray-900 shadow-sm backdrop-blur">
                                     <span class="text-base font-bold leading-none">{{ eventDay(event.starts_at) }}</span>
@@ -311,8 +311,14 @@ function eventMonth(value) {
                 <!-- Шинэ зар -->
                 <section>
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Шинэ зар</h2>
-                        <Link href="/zar" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
+                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
+                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
+                            Шинэ зар
+                        </h2>
+                        <Link href="/zar" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
+                            Бүгд
+                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </Link>
                     </div>
                     <div v-if="latestListings.length" class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                         <ListingCard v-for="l in latestListings" :key="l.id" :listing="l" />
@@ -326,18 +332,24 @@ function eventMonth(value) {
                 <!-- Мэдээ -->
                 <section v-if="featuredNews.length">
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Мэдээ</h2>
-                        <Link href="/news" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
+                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
+                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
+                            Мэдээ
+                        </h2>
+                        <Link href="/news" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
+                            Бүгд
+                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </Link>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <Link
                             v-for="post in featuredNews"
                             :key="post.id"
                             :href="`/news/${post.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
                         >
-                            <div class="relative aspect-video bg-gray-100">
-                                <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover" />
+                            <div class="relative aspect-video overflow-hidden bg-gray-100">
+                                <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 <div v-else class="flex h-full w-full items-center justify-center text-gray-300">
                                     <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m-6 8h6m-6-4h6m-6 8h6m4-12v12a2 2 0 01-2 2" /></svg>
                                 </div>
@@ -355,8 +367,14 @@ function eventMonth(value) {
                 <!-- Онцлох мэргэжилтэн -->
                 <section v-if="featuredProfessionals.length">
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Онцлох мэргэжлийн үйлчилгээ</h2>
-                        <Link href="/professionals" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
+                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
+                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
+                            Онцлох мэргэжлийн үйлчилгээ
+                        </h2>
+                        <Link href="/professionals" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
+                            Бүгд
+                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </Link>
                     </div>
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                         <ProfessionalCard v-for="p in featuredProfessionals" :key="p.id" :pro="p" />
@@ -366,18 +384,24 @@ function eventMonth(value) {
                 <!-- Удахгүй болох эвент -->
                 <section v-if="upcomingEvents.length">
                     <div class="mb-5 flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-gray-900">Удахгүй болох эвент</h2>
-                        <Link href="/events" class="text-sm font-medium text-brand-700 hover:underline">Бүгд →</Link>
+                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
+                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
+                            Удахгүй болох эвент
+                        </h2>
+                        <Link href="/events" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
+                            Бүгд
+                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </Link>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <Link
                             v-for="event in upcomingEvents"
                             :key="event.id"
                             :href="`/events/${event.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
                         >
-                            <div class="relative aspect-video bg-gray-100">
-                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />
+                            <div class="relative aspect-video overflow-hidden bg-gray-100">
+                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 <div v-else class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-500 to-brand-700 text-white/50">
                                     <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                 </div>
@@ -397,12 +421,14 @@ function eventMonth(value) {
 
                 <!-- Зар нэмэх CTA -->
                 <section>
-                    <div class="flex flex-col items-center justify-between gap-5 rounded-3xl bg-gray-900 px-8 py-10 text-center sm:flex-row sm:text-left">
-                        <div>
+                    <div class="relative flex flex-col items-center justify-between gap-5 overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-brand-950 px-8 py-10 text-center sm:flex-row sm:text-left">
+                        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-brand-500/20 blur-3xl"></div>
+                        <div class="pointer-events-none absolute -bottom-16 left-1/4 h-48 w-48 rounded-full bg-brand-400/10 blur-3xl"></div>
+                        <div class="relative">
                             <h2 class="text-2xl font-bold text-white">Зараа үнэгүй нийтэлээрэй</h2>
                             <p class="mt-1.5 text-gray-400">Хэдхэн минутын дотор олон мянган монголчуудад хүргэ.</p>
                         </div>
-                        <Link :href="user ? '/zar/new' : '/register'" class="shrink-0 rounded-full bg-white px-7 py-3 font-semibold text-gray-900 transition hover:bg-gray-100">
+                        <Link :href="user ? '/zar/new' : '/register'" class="relative shrink-0 rounded-full bg-white px-7 py-3 font-semibold text-gray-900 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-brand-50 hover:text-brand-700 active:translate-y-0">
                             + Зар нэмэх
                         </Link>
                     </div>

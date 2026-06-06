@@ -136,7 +136,7 @@ const quickLinks = [
                             </span>
                             <span class="text-sm font-medium text-gray-700 group-hover:text-brand-700">{{ link.name }}</span>
                         </Link>
-                        <Link :href="user ? '/zar/new' : '/register'" class="flex items-center justify-center gap-1.5 bg-brand-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-700">
+                        <Link :href="user ? '/zar/new' : '/register'" class="flex items-center justify-center gap-1.5 bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                             Зар нэмэх
                         </Link>

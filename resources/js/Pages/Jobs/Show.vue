@@ -46,7 +46,7 @@ const user = computed(() => usePage().props.auth?.user);
 
                         <template v-if="job.contact">
                             <div class="space-y-2">
-                                <a v-if="job.contact.apply_url" :href="job.contact.apply_url" target="_blank" rel="noopener" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">Өргөдөл гаргах →</a>
+                                <a v-if="job.contact.apply_url" :href="job.contact.apply_url" target="_blank" rel="noopener" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">Өргөдөл гаргах →</a>
                                 <a v-if="job.contact.email" :href="`mailto:${job.contact.email}`" class="block rounded-lg bg-brand-50 px-4 py-2.5 text-center text-sm font-semibold text-brand-700 hover:bg-brand-100">✉️ {{ job.contact.email }}</a>
                                 <a v-if="job.contact.phone" :href="`tel:${job.contact.phone}`" class="block rounded-lg bg-gray-100 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-200">📞 {{ job.contact.phone }}</a>
                                 <p v-if="!job.contact.apply_url && !job.contact.email && !job.contact.phone" class="text-sm text-gray-400">Холбоо барих мэдээлэл оруулаагүй.</p>
@@ -54,7 +54,7 @@ const user = computed(() => usePage().props.auth?.user);
                         </template>
                         <template v-else>
                             <p class="mb-3 text-sm text-gray-500">Холбоо барих мэдээллийг харахын тулд нэвтэрнэ үү.</p>
-                            <Link href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">Нэвтрэх</Link>
+                            <Link href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">Нэвтрэх</Link>
                         </template>
                     </div>
 

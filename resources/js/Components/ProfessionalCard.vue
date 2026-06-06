@@ -11,13 +11,16 @@ function initial(name) {
 <template>
     <Link
         :href="`/professionals/${pro.slug}`"
-        class="group relative flex flex-col items-center rounded-2xl border bg-white p-5 text-center shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+        class="group relative flex flex-col items-center rounded-2xl border bg-white p-5 text-center shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
         :class="pro.is_featured ? 'border-amber-200 ring-1 ring-amber-100' : 'border-gray-100'"
     >
-        <span v-if="pro.is_featured" class="absolute left-3 top-3 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Онцлох</span>
+        <span v-if="pro.is_featured" class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900 shadow-sm">
+            <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21 9.27l-4.5 4.39L17.8 21 12 17.27 6.2 21l1.3-7.34L3 9.27l6.1-1.01L12 2z" /></svg>
+            Онцлох
+        </span>
 
-        <span class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-2xl font-bold text-brand-700">
-            <img v-if="pro.photo" :src="pro.photo" :alt="pro.name" class="h-full w-full object-cover" />
+        <span class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-2xl font-bold text-brand-700 ring-4 ring-brand-50 transition duration-300 group-hover:ring-brand-100">
+            <img v-if="pro.photo" :src="pro.photo" :alt="pro.name" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
             <template v-else>{{ initial(pro.name) }}</template>
         </span>
 

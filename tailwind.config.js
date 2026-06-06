@@ -82,6 +82,11 @@ export default {
             },
             boxShadow: {
                 soft: '0 1px 2px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.06)',
+                // Давхаргат, зөөлөн карт сүүдрүүд (нэгдсэн өнгөлгөө)
+                card: '0 1px 2px 0 rgba(16, 24, 40, 0.04), 0 1px 3px 0 rgba(16, 24, 40, 0.06)',
+                'card-md': '0 4px 12px -2px rgba(16, 24, 40, 0.08), 0 2px 6px -2px rgba(16, 24, 40, 0.05)',
+                'card-lg': '0 18px 40px -12px rgba(16, 24, 40, 0.16), 0 6px 14px -8px rgba(16, 24, 40, 0.10)',
+                'brand-glow': '0 8px 24px -6px rgba(37, 99, 235, 0.45)',
             },
             keyframes: {
                 'accordion-down': {

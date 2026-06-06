@@ -50,8 +50,8 @@ const catEmoji = {
                 :href="r.url || undefined"
                 :target="r.url ? '_blank' : undefined"
                 :rel="r.url ? 'noopener' : undefined"
-                class="group flex flex-col rounded-2xl border bg-white p-5 shadow-soft transition"
-                :class="[r.is_featured ? 'border-amber-200 ring-1 ring-amber-100' : 'border-gray-100', r.url ? 'hover:-translate-y-0.5 hover:shadow-md' : '']"
+                class="group flex flex-col rounded-2xl border bg-white p-5 shadow-card transition duration-300"
+                :class="[r.is_featured ? 'border-amber-200 ring-1 ring-amber-100' : 'border-gray-100', r.url ? 'hover:-translate-y-1 hover:shadow-card-lg' : '']"
             >
                 <div class="flex items-start gap-3">
                     <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-xl">{{ catEmoji[r.category] || '✨' }}</span>
