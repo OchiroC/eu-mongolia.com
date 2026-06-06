@@ -70,7 +70,7 @@ function price(p) {
                 class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
             >
                 <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img v-if="p.cover" :src="p.cover" :alt="p.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <img v-if="p.cover" :src="p.cover" :alt="p.title" class="h-full w-full object-cover" />
                     <div v-else class="flex h-full w-full items-center justify-center text-gray-300">
                         <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                     </div>

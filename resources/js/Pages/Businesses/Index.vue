@@ -90,7 +90,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Link v-for="b in featured" :key="b.id" :href="`/businesses/${b.slug}`" class="group overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-card ring-1 ring-amber-100 transition duration-300 hover:-translate-y-1 hover:shadow-card-lg">
                     <div class="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-brand-500 to-brand-700">
-                        <img v-if="b.photo" :src="b.photo" :alt="b.name" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                        <img v-if="b.photo" :src="b.photo" :alt="b.name" class="h-full w-full object-cover" />
                         <div v-else class="flex h-full w-full items-center justify-center text-5xl font-bold text-white/90">{{ initial(b.name) }}</div>
                         <span class="absolute left-2.5 top-2.5 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Онцлох</span>
                     </div>

@@ -44,7 +44,7 @@ watch(search, (value) => {
                 class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
             >
                 <div class="aspect-video overflow-hidden bg-gray-100">
-                    <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />
                 </div>
                 <div class="p-4">
                     <p class="text-xs font-medium text-brand-700">{{ formatDateTime(event.starts_at) }}</p>

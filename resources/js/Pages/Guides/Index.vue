@@ -95,7 +95,7 @@ const countryModel = computed({ get: () => props.filters.country ?? '', set: (v)
                 class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
             >
                 <div v-if="g.cover_image" class="aspect-[16/9] overflow-hidden bg-gray-100">
-                    <img :src="g.cover_image" :alt="g.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <img :src="g.cover_image" :alt="g.title" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-1 flex-col p-4">
                     <div class="flex flex-wrap items-center gap-1.5">

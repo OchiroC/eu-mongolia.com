@@ -72,7 +72,7 @@ function price(v) {
                     <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
                         <Link v-for="s in similar" :key="s.id" :href="`/housing/${s.slug}`" class="group overflow-hidden rounded-xl border border-gray-100 bg-white">
                             <div class="aspect-[4/3] overflow-hidden bg-gray-100">
-                                <img v-if="s.cover" :src="s.cover" alt="" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                                <img v-if="s.cover" :src="s.cover" alt="" class="h-full w-full object-cover" />
                             </div>
                             <div class="p-2">
                                 <p class="text-sm font-semibold text-gray-900">{{ s.price ? s.price + '€' : 'Тохиролцоно' }}</p>

@@ -20,7 +20,7 @@ function initial(name) {
         </span>
 
         <span class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-2xl font-bold text-brand-700 ring-4 ring-brand-50 transition duration-300 group-hover:ring-brand-100">
-            <img v-if="pro.photo" :src="pro.photo" :alt="pro.name" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            <img v-if="pro.photo" :src="pro.photo" :alt="pro.name" class="h-full w-full object-cover" />
             <template v-else>{{ initial(pro.name) }}</template>
         </span>
 
