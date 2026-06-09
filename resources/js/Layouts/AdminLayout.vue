@@ -166,7 +166,18 @@ function initials(name) {
                     </button>
                     <h1 class="text-lg font-semibold text-gray-900"><slot name="title">Удирдлага</slot></h1>
                 </div>
-                <NotificationBell />
+                <div class="flex items-center gap-2">
+                    <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                    >
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18" /></svg>
+                        <span class="hidden sm:inline">Сайт харах</span>
+                    </a>
+                    <NotificationBell />
+                </div>
             </header>
 
             <div v-if="page.props.flash?.success" class="mx-5 mt-4">
