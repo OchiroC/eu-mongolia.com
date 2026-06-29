@@ -471,8 +471,7 @@ function eventMonth(value) {
                     </div>
                 </div>
                 <p class="mt-8 text-center text-xs leading-relaxed text-gray-400">
-                    Yazguur — хараат бус олон нийтийн платформ.<br class="sm:hidden" />
-                    Европын Холбоо (EU)-той албан ёсны хамааралгүй. © 2026
+                    © 2026 Yazguur — Европ дахь монголчуудын платформ
                 </p>
             </div>
         </footer>
