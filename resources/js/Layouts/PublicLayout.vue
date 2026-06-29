@@ -46,7 +46,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
 <template>
     <div class="flex min-h-screen flex-col bg-gray-50 text-gray-900">
         <!-- Толгой -->
-        <header class="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
+        <header class="sticky top-0 z-30 border-b border-gray-100/80 bg-white/75 backdrop-blur-xl">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
                 <Link href="/" class="group flex items-center gap-2">
                     <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>

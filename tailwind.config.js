@@ -88,6 +88,13 @@ export default {
                 'card-lg': '0 18px 40px -12px rgba(16, 24, 40, 0.16), 0 6px 14px -8px rgba(16, 24, 40, 0.10)',
                 'brand-glow': '0 8px 24px -6px rgba(37, 99, 235, 0.45)',
             },
+            backgroundImage: {
+                // Нарийн grid фон (hero/секцэд гүн өгөх)
+                'grid-light':
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='none'%3E%3Cpath d='M0 .5H31.5V32' stroke='rgba(255,255,255,0.07)'/%3E%3C/svg%3E\")",
+                'grid-slate':
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='none'%3E%3Cpath d='M0 .5H31.5V32' stroke='%23e2e8f0'/%3E%3C/svg%3E\")",
+            },
             keyframes: {
                 'accordion-down': {
                     from: { height: '0' },
@@ -97,10 +104,21 @@ export default {
                     from: { height: 'var(--reka-accordion-content-height)' },
                     to: { height: '0' },
                 },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-14px)' },
+                },
+                'fade-up': {
+                    from: { opacity: '0', transform: 'translateY(12px)' },
+                    to: { opacity: '1', transform: 'translateY(0)' },
+                },
             },
             animation: {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
+                float: 'float 8s ease-in-out infinite',
+                'float-slow': 'float 12s ease-in-out infinite',
+                'fade-up': 'fade-up 0.6s ease-out both',
             },
         },
     },

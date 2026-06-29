@@ -108,7 +108,7 @@ function eventMonth(value) {
         </div>
 
         <!-- Толгой -->
-        <header class="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
+        <header class="sticky top-0 z-30 border-b border-gray-100/80 bg-white/75 backdrop-blur-xl">
             <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
                 <Link href="/" class="group flex shrink-0 items-center gap-2">
                     <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>
@@ -139,9 +139,9 @@ function eventMonth(value) {
         <!-- Хайлтын мөр -->
         <section class="border-b border-gray-100 bg-white">
             <div class="mx-auto max-w-7xl px-5 py-4">
-                <div class="flex flex-col items-stretch gap-1.5 rounded-xl border border-gray-200 bg-white p-1.5 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100 sm:flex-row sm:items-center">
+                <div class="flex flex-col items-stretch gap-1.5 rounded-2xl border border-gray-200/80 bg-white p-2 shadow-card-md ring-1 ring-transparent transition focus-within:border-brand-300 focus-within:shadow-card-lg focus-within:ring-brand-100 sm:flex-row sm:items-center">
                     <Select v-model="catModel">
-                        <SelectTrigger class="border-0 text-gray-600 focus:ring-0 focus:ring-offset-0 sm:w-48 sm:border-r sm:border-gray-100">
+                        <SelectTrigger class="h-12 border-0 text-gray-600 focus:ring-0 focus:ring-offset-0 sm:w-48 sm:border-r sm:border-gray-100">
                             <SelectValue placeholder="Бүх ангилал" />
                         </SelectTrigger>
                         <SelectContent>
@@ -149,21 +149,24 @@ function eventMonth(value) {
                             <SelectItem v-for="cat in categories" :key="cat.id" :value="cat.slug">{{ cat.name }}</SelectItem>
                         </SelectContent>
                     </Select>
-                    <input
-                        v-model="search"
-                        type="search"
-                        placeholder="Юу хайж байна?"
-                        class="min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-0"
-                        @keydown.enter="doSearch"
-                    />
+                    <div class="flex min-w-0 flex-1 items-center gap-2 px-3">
+                        <svg class="h-5 w-5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        <input
+                            v-model="search"
+                            type="search"
+                            placeholder="Юу хайж байна?"
+                            class="min-w-0 flex-1 border-0 bg-transparent py-3 text-gray-900 placeholder-gray-400 focus:ring-0"
+                            @keydown.enter="doSearch"
+                        />
+                    </div>
                     <input
                         v-model="location"
                         type="text"
                         placeholder="Хот"
-                        class="hidden w-36 border-0 border-l border-gray-100 bg-transparent px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-0 lg:block"
+                        class="hidden w-36 border-0 border-l border-gray-100 bg-transparent px-3 py-3 text-gray-900 placeholder-gray-400 focus:ring-0 lg:block"
                         @keydown.enter="doSearch"
                     />
-                    <button class="shrink-0 rounded-lg bg-brand-600 px-6 py-2.5 font-semibold text-white transition hover:bg-brand-700" @click="doSearch">
+                    <button class="shrink-0 rounded-xl bg-brand-600 px-7 py-3 font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0" @click="doSearch">
                         Хайх
                     </button>
                 </div>
@@ -211,7 +214,7 @@ function eventMonth(value) {
                 <!-- Онцлох эвент — том зурагтай hero -->
                 <section v-if="heroEvent" class="space-y-4">
                     <!-- Гол том эвент -->
-                    <Link :href="`/events/${heroEvent.slug}`" class="group relative block overflow-hidden rounded-3xl bg-gray-900">
+                    <Link :href="`/events/${heroEvent.slug}`" class="group relative block overflow-hidden rounded-[2rem] bg-gray-900 shadow-card-lg ring-1 ring-black/5">
                         <img
                             v-if="heroEvent.cover_image"
                             :src="heroEvent.cover_image"
@@ -276,30 +279,51 @@ function eventMonth(value) {
 
                 <!-- Онцлох эвент байхгүй бол: сайтын өөрийн hero -->
                 <section v-else>
-                    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900">
-                        <!-- Чимэглэл -->
-                        <div class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl"></div>
-                        <div class="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-brand-400/20 blur-2xl"></div>
+                    <div class="hero-aurora relative overflow-hidden rounded-[2rem] shadow-card-lg ring-1 ring-white/10">
+                        <!-- Grid texture + хөвөх гэрлүүд -->
+                        <div class="pointer-events-none absolute inset-0 bg-grid-light [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"></div>
+                        <div class="pointer-events-none absolute -right-20 -top-24 h-72 w-72 animate-float rounded-full bg-white/20 blur-3xl"></div>
+                        <div class="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 animate-float-slow rounded-full bg-brand-300/30 blur-3xl"></div>
 
-                        <div class="relative flex h-80 flex-col justify-center px-6 py-10 sm:h-[440px] sm:px-12">
-                            <span class="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div class="relative flex min-h-[22rem] flex-col justify-center px-6 py-12 sm:min-h-[28rem] sm:px-14">
+                            <span class="inline-flex w-fit animate-fade-up items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 backdrop-blur">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75"></span>
+                                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                                </span>
                                 EU Mongolia
                             </span>
-                            <h2 class="mt-4 max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-                                Европ дахь монголчуудын нэгдсэн платформ
+                            <h2 class="mt-5 max-w-3xl animate-fade-up text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl" style="animation-delay: 60ms">
+                                Европ дахь монголчуудын
+                                <span class="text-gradient-light">нэгдсэн платформ</span>
                             </h2>
-                            <p class="mt-3 max-w-xl text-base text-brand-100 sm:text-lg">
-                                Европ даяар амьдрах монголчуудад зориулсан орон зай. Худалдаа, ажил, орон сууц, арга хэмжээ, мэдээлэл, зөвлөгөө — хэрэгтэй бүхнээ нэг дороос.
+                            <p class="mt-4 max-w-xl animate-fade-up text-base leading-relaxed text-brand-100 sm:text-lg" style="animation-delay: 120ms">
+                                Худалдаа, ажил, орон сууц, арга хэмжээ, мэдээлэл, зөвлөгөө — хэрэгтэй бүхнээ нэг дороос.
                             </p>
-                            <div class="mt-6 flex flex-wrap gap-3">
-                                <Link href="/zar" class="inline-flex items-center gap-1.5 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-brand-50">
+                            <div class="mt-7 flex animate-fade-up flex-wrap gap-3" style="animation-delay: 180ms">
+                                <Link href="/zar" class="group inline-flex items-center gap-1.5 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
                                     Зар үзэх
-                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                                    <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                                 </Link>
-                                <Link :href="user ? '/zar/new' : '/register'" class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/20">
+                                <Link :href="user ? '/zar/new' : '/register'" class="glass-dark inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 active:translate-y-0">
                                     {{ user ? 'Зар нэмэх' : 'Нэгдэх' }}
                                 </Link>
+                            </div>
+
+                            <!-- Итгэлийн дохио -->
+                            <div class="mt-8 flex animate-fade-up flex-wrap items-center gap-x-7 gap-y-2 text-sm text-brand-100/90" style="animation-delay: 240ms">
+                                <span class="inline-flex items-center gap-2">
+                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    Үнэгүй зар нийтлэх
+                                </span>
+                                <span class="inline-flex items-center gap-2">
+                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                    Европ даяар
+                                </span>
+                                <span class="inline-flex items-center gap-2">
+                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    Хотоор хайх
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -421,12 +445,13 @@ function eventMonth(value) {
 
                 <!-- Зар нэмэх CTA -->
                 <section>
-                    <div class="relative flex flex-col items-center justify-between gap-5 overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-brand-950 px-8 py-10 text-center sm:flex-row sm:text-left">
-                        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-brand-500/20 blur-3xl"></div>
-                        <div class="pointer-events-none absolute -bottom-16 left-1/4 h-48 w-48 rounded-full bg-brand-400/10 blur-3xl"></div>
+                    <div class="hero-aurora relative flex flex-col items-center justify-between gap-5 overflow-hidden rounded-[2rem] px-8 py-12 text-center shadow-card-lg ring-1 ring-white/10 sm:flex-row sm:text-left">
+                        <div class="pointer-events-none absolute inset-0 bg-grid-light [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"></div>
+                        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 animate-float rounded-full bg-white/15 blur-3xl"></div>
+                        <div class="pointer-events-none absolute -bottom-16 left-1/4 h-48 w-48 animate-float-slow rounded-full bg-brand-300/20 blur-3xl"></div>
                         <div class="relative">
-                            <h2 class="text-2xl font-bold text-white">Зараа үнэгүй нийтэлээрэй</h2>
-                            <p class="mt-1.5 text-gray-400">Хэдхэн минутын дотор олон мянган монголчуудад хүргэ.</p>
+                            <h2 class="text-2xl font-bold text-white sm:text-3xl">Зараа үнэгүй нийтэлээрэй</h2>
+                            <p class="mt-1.5 text-brand-100">Хэдхэн минутын дотор олон мянган монголчуудад хүргэ.</p>
                         </div>
                         <Link :href="user ? '/zar/new' : '/register'" class="relative shrink-0 rounded-full bg-white px-7 py-3 font-semibold text-gray-900 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-brand-50 hover:text-brand-700 active:translate-y-0">
                             + Зар нэмэх

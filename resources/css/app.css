@@ -56,6 +56,33 @@
     }
 }
 
+/* ── Орчин үеийн дизайны туслах класс (utility) ───────────── */
+@layer utilities {
+    /* Брэндийн градиент текст (гарчгийн аксентэд) */
+    .text-gradient {
+        @apply bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400 bg-clip-text text-transparent;
+    }
+    .text-gradient-light {
+        @apply bg-gradient-to-r from-white via-brand-100 to-brand-200 bg-clip-text text-transparent;
+    }
+    /* Шилэн (glass) гадаргуу */
+    .glass {
+        @apply bg-white/70 backdrop-blur-xl ring-1 ring-black/5;
+    }
+    .glass-dark {
+        @apply bg-white/10 backdrop-blur-md ring-1 ring-white/15;
+    }
+    /* Hero-д зориулсан гүн градиент дэвсгэр (брэнд) */
+    .hero-aurora {
+        background-color: #1d4ed8;
+        background-image:
+            radial-gradient(at 18% 18%, rgba(96, 165, 250, 0.55) 0px, transparent 50%),
+            radial-gradient(at 82% 12%, rgba(37, 99, 235, 0.45) 0px, transparent 45%),
+            radial-gradient(at 90% 88%, rgba(29, 78, 216, 0.55) 0px, transparent 45%),
+            radial-gradient(at 8% 92%, rgba(59, 130, 246, 0.45) 0px, transparent 45%);
+    }
+}
+
 /* Tiptap-аас гарсан HTML контентыг харуулах загвар (мэдээ/эвент дэлгэрэнгүй) */
 .rich-content {
     @apply leading-relaxed text-gray-800;
