@@ -27,7 +27,7 @@ class RideController extends Controller
             'rides' => $rides,
             'filters' => $request->only(['from', 'to', 'date']),
             'seo' => [
-                'title' => 'Хамтдаа аялах — EU Mongolia',
+                'title' => 'Хамтдаа аялах — Yazguur',
                 'description' => 'Европын хот, улс хооронд машин хуваалцан аялах зар. Зардлаа хуваая, замдаа хамтдаа.',
             ],
         ]);

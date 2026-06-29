@@ -81,7 +81,7 @@ class HomeController extends Controller
                 'events' => Event::where('status', 'published')->count(),
             ],
             'seo' => [
-                'title' => 'EU Mongolia — Европ дахь монголчуудын платформ',
+                'title' => 'Yazguur — Европ дахь монголчуудын платформ',
                 'description' => 'Зар, мэдээ, эвент — бүгд нэг дороос. Худалдаа, ажил, орон сууц, үйлчилгээ.',
             ],
         ]);

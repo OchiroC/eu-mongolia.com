@@ -1,4 +1,5 @@
 <script setup>
+import Logo from '@/Components/Logo.vue';
 import NotificationBell from '@/Components/NotificationBell.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -62,12 +63,8 @@ function initials(name) {
         >
             <div class="flex h-full flex-col">
                 <!-- Лого -->
-                <div class="flex items-center gap-2.5 border-b border-gray-100 px-5 py-4">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-bold text-white">EU</span>
-                    <div>
-                        <p class="text-sm font-bold leading-none text-gray-900">Mongolia</p>
-                        <p class="mt-0.5 text-[11px] text-gray-400">Удирдлага</p>
-                    </div>
+                <div class="border-b border-gray-100 px-5 py-4">
+                    <Logo size="md" badge="gradient" tone="dark" subtitle="Удирдлага" href="/admin" />
                 </div>
 
                 <!-- Цэс -->

@@ -1,6 +1,7 @@
 <script setup>
 import BannerDisplay from '@/Components/BannerDisplay.vue';
 import ListingCard from '@/Components/ListingCard.vue';
+import Logo from '@/Components/Logo.vue';
 import ProfessionalCard from '@/Components/ProfessionalCard.vue';
 import Select from '@/Components/ui/Select.vue';
 import SelectContent from '@/Components/ui/SelectContent.vue';
@@ -110,10 +111,7 @@ function eventMonth(value) {
         <!-- Толгой -->
         <header class="sticky top-0 z-30 border-b border-gray-100/80 bg-white/75 backdrop-blur-xl">
             <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
-                <Link href="/" class="group flex shrink-0 items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>
-                    <span class="text-lg font-bold tracking-tight">Mongolia</span>
-                </Link>
+                <Logo size="md" badge="gradient" tone="dark" class="shrink-0" />
 
                 <nav class="hidden items-center gap-1 text-sm md:flex">
                     <Link href="/zar" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Зар</Link>
@@ -291,7 +289,7 @@ function eventMonth(value) {
                                     <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75"></span>
                                     <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
                                 </span>
-                                EU Mongolia
+                                Yazguur
                             </span>
                             <h2 class="mt-5 max-w-3xl animate-fade-up text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl" style="animation-delay: 60ms">
                                 Европ дахь монголчуудын
@@ -465,10 +463,7 @@ function eventMonth(value) {
         <footer class="border-t border-gray-100 bg-white">
             <div class="mx-auto max-w-7xl px-5 py-10">
                 <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                    <div class="flex items-center gap-2">
-                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">EU</span>
-                        <span class="font-semibold">Mongolia</span>
-                    </div>
+                    <Logo size="sm" badge="solid" tone="dark" />
                     <div class="flex gap-6 text-sm text-gray-500">
                         <Link href="/zar" class="hover:text-gray-900">Зар</Link>
                         <Link href="/news" class="hover:text-gray-900">Мэдээ</Link>
@@ -476,7 +471,7 @@ function eventMonth(value) {
                     </div>
                 </div>
                 <p class="mt-8 text-center text-xs leading-relaxed text-gray-400">
-                    EU Mongolia — хараат бус олон нийтийн платформ.<br class="sm:hidden" />
+                    Yazguur — хараат бус олон нийтийн платформ.<br class="sm:hidden" />
                     Европын Холбоо (EU)-той албан ёсны хамааралгүй. © 2026
                 </p>
             </div>

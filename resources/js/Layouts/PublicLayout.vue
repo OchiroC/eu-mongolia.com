@@ -1,4 +1,5 @@
 <script setup>
+import Logo from '@/Components/Logo.vue';
 import NotificationBell from '@/Components/NotificationBell.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
@@ -48,10 +49,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
         <!-- Толгой -->
         <header class="sticky top-0 z-30 border-b border-gray-100/80 bg-white/75 backdrop-blur-xl">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-                <Link href="/" class="group flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-bold text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow">EU</span>
-                    <span class="text-lg font-bold tracking-tight">Mongolia</span>
-                </Link>
+                <Logo size="md" badge="gradient" tone="dark" />
 
                 <div class="flex items-center gap-2 text-sm">
                     <Link href="/search" class="rounded-lg p-2 text-gray-500 transition hover:bg-gray-50 hover:text-brand-600" aria-label="Хайх">
@@ -211,11 +209,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
         <!-- Хөл -->
         <footer class="border-t border-gray-100 bg-white">
             <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row">
-                <div class="flex items-center gap-2">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">EU</span>
-                    <span class="font-bold">Mongolia</span>
-                </div>
-                <p class="text-sm text-gray-400">© 2026 EU Mongolia — Европ дахь монголчуудын платформ</p>
+                <Logo size="sm" badge="solid" tone="dark" />
+                <p class="text-sm text-gray-400">© 2026 Yazguur — Европ дахь монголчуудын платформ</p>
                 <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-gray-500">
                     <Link href="/about" class="hover:text-brand-700">Бидний тухай</Link>
                     <Link href="/embassy" class="hover:text-brand-700">Элчин / Тусламж</Link>

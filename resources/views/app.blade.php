@@ -7,7 +7,7 @@
 
         @php
             $seo = $page['props']['seo'] ?? [];
-            $seoTitle = $seo['title'] ?? config('app.name', 'EU Mongolia');
+            $seoTitle = $seo['title'] ?? config('app.name', 'Yazguur');
             $seoDesc = $seo['description'] ?? 'Европ дахь монголчуудын зар, мэдээ, эвентийн нэгдсэн платформ.';
             $seoImage = $seo['image'] ?? null;
             $seoUrl = $seo['url'] ?? url()->current();
@@ -26,7 +26,7 @@
 
         {{-- Open Graph / Twitter (нийгмийн сүлжээнд хуваалцахад) --}}
         <meta property="og:type" content="website">
-        <meta property="og:site_name" content="EU Mongolia">
+        <meta property="og:site_name" content="Yazguur">
         <meta property="og:title" content="{{ $seoTitle }}">
         <meta property="og:description" content="{{ $seoDesc }}">
         <meta property="og:url" content="{{ $seoUrl }}">

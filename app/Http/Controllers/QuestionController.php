@@ -39,7 +39,7 @@ class QuestionController extends Controller
             ])->values(),
             'filters' => array_merge(['sort' => $sort], $request->only(['category', 'search'])),
             'seo' => [
-                'title' => 'Асуулт хариулт — EU Mongolia',
+                'title' => 'Асуулт хариулт — Yazguur',
                 'description' => 'Европ дахь монголчуудын асуулт хариултын булан. Виз, ажил, орон сууц, өдөр тутмын асуудлаар туслалцаа аваарай.',
             ],
         ]);

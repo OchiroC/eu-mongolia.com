@@ -40,7 +40,7 @@ class KidsController extends Controller
             ])->values(),
             'filters' => $request->only(['category']),
             'seo' => [
-                'title' => 'Хүүхдийн булан — монгол хэл, соёл — EU Mongolia',
+                'title' => 'Хүүхдийн булан — монгол хэл, соёл — Yazguur',
                 'description' => 'Гадаадад өссөн монгол хүүхдүүдэд зориулсан монгол хэл сурах, соёл уламжлал, сургууль бүлгэмийн нөөц.',
             ],
         ]);

@@ -53,7 +53,7 @@ class ProfessionalController extends Controller
             'languages' => ['Монгол', 'Герман', 'Англи', 'Франц', 'Орос', 'Чех', 'Польш'],
             'filters' => $request->only(['category', 'city', 'lang', 'search']),
             'seo' => [
-                'title' => 'Мэргэжилтэн — EU Mongolia',
+                'title' => 'Мэргэжилтэн — Yazguur',
                 'description' => 'Европ дахь монгол мэргэжилтнүүд: хуульч, эмч, орчуулагч, үсчин болон бусад. Баталгаажсан, шууд холбогдоно.',
             ],
         ]);

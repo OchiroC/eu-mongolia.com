@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import Logo from '@/Components/Logo.vue';
 
 defineProps({
     title: { type: String, default: '' },
@@ -20,10 +20,7 @@ const highlights = [
             <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-2xl"></div>
             <div class="pointer-events-none absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-brand-400/20 blur-3xl"></div>
 
-            <Link href="/" class="relative flex items-center gap-2 text-white">
-                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-lg font-bold backdrop-blur">EU</span>
-                <span class="text-xl font-bold">Mongolia</span>
-            </Link>
+            <Logo size="lg" badge="glass" tone="white" class="relative" />
 
             <div class="relative">
                 <h2 class="text-3xl font-bold leading-tight text-white">
@@ -41,16 +38,13 @@ const highlights = [
                 </ul>
             </div>
 
-            <p class="relative text-sm text-brand-200">© 2026 EU Mongolia</p>
+            <p class="relative text-sm text-brand-200">© 2026 Yazguur</p>
         </div>
 
         <!-- Баруун тал — форм -->
         <div class="flex w-full flex-col items-center justify-center px-6 py-10 lg:w-1/2">
             <div class="w-full max-w-md">
-                <Link href="/" class="mb-8 flex items-center justify-center gap-2 lg:hidden">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-700 text-lg font-bold text-white">EU</span>
-                    <span class="text-xl font-bold text-brand-800">Mongolia</span>
-                </Link>
+                <Logo size="lg" badge="solid" tone="brand" class="mb-8 justify-center lg:hidden" />
 
                 <div v-if="title || subtitle" class="mb-8">
                     <h1 v-if="title" class="text-2xl font-bold text-gray-900">{{ title }}</h1>

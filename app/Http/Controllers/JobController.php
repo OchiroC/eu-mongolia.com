@@ -38,7 +38,7 @@ class JobController extends Controller
             'countries' => JobPost::active()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country'),
             'filters' => $request->only(['category', 'type', 'country', 'search']),
             'seo' => [
-                'title' => 'Ажлын байр — EU Mongolia',
+                'title' => 'Ажлын байр — Yazguur',
                 'description' => 'Европ дахь монголчуудад зориулсан ажлын зар: бүтэн/цагийн ажил, дадлага, түр ажил.',
             ],
         ]);

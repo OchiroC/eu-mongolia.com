@@ -130,7 +130,7 @@ class DemoSeeder extends Seeder
     private function author(): User
     {
         return User::first() ?? User::create([
-            'name' => 'EU Mongolia',
+            'name' => 'Yazguur',
             'email' => 'demo@eu-mongolia.test',
             'password' => bcrypt(Str::random(32)),
             'email_verified_at' => now(),

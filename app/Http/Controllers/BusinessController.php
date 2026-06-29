@@ -52,7 +52,7 @@ class BusinessController extends Controller
             'cities' => Business::active()->distinct()->orderBy('city')->pluck('city'),
             'filters' => $request->only(['category', 'city', 'search']),
             'seo' => [
-                'title' => 'Монгол бизнес лавлах — EU Mongolia',
+                'title' => 'Монгол бизнес лавлах — Yazguur',
                 'description' => 'Европ дахь монгол ресторан, дэлгүүр, бизнесүүдийн лавлах. Хаана юу байгааг олоорой.',
             ],
         ]);

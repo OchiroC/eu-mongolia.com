@@ -37,7 +37,7 @@ class HousingController extends Controller
             ])->values(),
             'filters' => $request->only(['type', 'city', 'min_price', 'max_price', 'furnished']),
             'seo' => [
-                'title' => 'Орон сууц / Өрөө хуваалцах — EU Mongolia',
+                'title' => 'Орон сууц / Өрөө хуваалцах — Yazguur',
                 'description' => 'Европ дахь монголчуудад зориулсан орон сууц, өрөө түрээс, WG хуваалцах зар.',
             ],
         ]);
