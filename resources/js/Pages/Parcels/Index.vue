@@ -31,7 +31,7 @@ const chip = (on) => (on ? 'border-brand-600 bg-brand-600 text-white' : 'border-
         <PageHeader
             kicker="Ачаа"
             title="Ачаа, илгээмж"
-            subtitle="Монгол, Германы хооронд нисэх хүмүүс ачааныхаа сул зайг санал болгож, илгээмж явуулах хүн авч явах хүнээ олно."
+            subtitle="Монгол, Германы хооронд нисэх хүмүүс ачааныхаа сул зайг санал болгож, илгээмж явуулах хүмүүс түүнийг авч явах хүнээ олно."
         >
             <template #actions>
                 <Link :href="user ? '/achaa/new' : '/login'" class="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-500">

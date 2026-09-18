@@ -155,7 +155,7 @@ function monthShort(v) {
                             <FlapText text="тавтай морил" wrap :delay="250" :replay="flip.headline || 0" />
                         </h1>
                         <p class="mt-8 max-w-xl text-[17px] leading-relaxed text-white/60">
-                            Франкфурт болон ойр орчмын хотуудад амьдарч буй монголчуудын мэдээллийн сайт. Байр, ажил, бичиг баримтын заавар, хамт аялах хүнээ эндээс олно.
+                            Франкфурт орчимд амьдардаг, Монголоос шинээр ирж буй, Франкфуртаар дамжин Европын бусад хот руу явах монголчуудын мэдээллийн сайт. Байр, ажил хайх, бичиг баримтаа бүрдүүлэх, хамт аялах хүн олоход тань тусална.
                         </p>
                         <div class="mt-8 flex flex-wrap gap-3">
                             <a href="#zam" class="inline-flex h-12 items-center gap-2 rounded-md bg-signal-400 px-5 text-[15px] font-semibold text-brand-600 transition-colors hover:bg-signal-300">

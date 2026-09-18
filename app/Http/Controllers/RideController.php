@@ -54,7 +54,7 @@ class RideController extends Controller
 
     public function create(Request $request): Response
     {
-        // Нислэгийн хуудаснаас орсон бол нисэх буудлаас хөдлөх аяллыг урьдчилан бөглөнө.
+        // Нислэгийн хуудаснаас орсон бол нисэх буудлаас явах аяллыг урьдчилан бөглөнө.
         $flight = $request->flight ? Flight::firstWhere('slug', $request->flight) : null;
         $preset = null;
         if ($flight) {

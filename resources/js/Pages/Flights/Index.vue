@@ -11,8 +11,8 @@ defineProps({
 });
 
 const boards = [
-    { key: 'arrivals', title: 'Ирэх', de: 'Ankunft', icon: PlaneLanding, note: 'Улаанбаатараас Франкфуртад' },
-    { key: 'departures', title: 'Хөдлөх', de: 'Abflug', icon: PlaneTakeoff, note: 'Франкфуртаас Улаанбаатар руу' },
+    { key: 'arrivals', title: 'Ирэх', de: 'Ankunft', icon: PlaneLanding, note: 'Улаанбаатараас Франкфурт руу' },
+    { key: 'departures', title: 'Явах', de: 'Abflug', icon: PlaneTakeoff, note: 'Франкфуртаас Улаанбаатар руу' },
 ];
 
 function dayMonth(date) {

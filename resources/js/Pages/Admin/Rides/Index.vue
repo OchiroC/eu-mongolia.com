@@ -27,7 +27,7 @@ function destroy(id) {
                 <thead class="bg-gray-50 text-left text-xs uppercase text-gray-500">
                     <tr>
                         <th class="px-4 py-3">Чиглэл</th>
-                        <th class="px-4 py-3">Хөдлөх</th>
+                        <th class="px-4 py-3">Явах</th>
                         <th class="px-4 py-3">Суудал</th>
                         <th class="px-4 py-3">Жолооч</th>
                         <th class="px-4 py-3">Төлөв</th>

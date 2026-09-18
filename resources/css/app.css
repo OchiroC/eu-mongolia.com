@@ -98,10 +98,13 @@
     border-radius: 2.5px;
     background: linear-gradient(to bottom, #2a2b2e 0 50%, #1b1b19 50% 100%);
     color: #ffb81c;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 .logo-tile--dark {
     background: linear-gradient(to bottom, #34363a 0 50%, #28292d 50% 100%);
 }
+.logo-tile--digit { color: #fff; }
 
 /* ── Split-flap самбар ─────────────────────────────────────────
  * Хавтангийн хэмжээ em-ээр — font-size-аар л томруулж/жижигрүүлнэ.

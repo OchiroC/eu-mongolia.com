@@ -12,7 +12,7 @@ class PageController extends Controller
         return Inertia::render('Static/About', [
             'seo' => [
                 'title' => 'Бидний тухай | '.config('app.name'),
-                'description' => config('app.name').' бол Франкфурт болон ойр орчмын монголчуудын мэдээллийн сайт.',
+                'description' => config('app.name').' бол Франкфурт орчмын болон Франкфуртаар дамжин ирж буй монголчуудын мэдээллийн сайт.',
             ],
         ]);
     }

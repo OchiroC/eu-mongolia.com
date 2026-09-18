@@ -41,7 +41,7 @@ function toggleBoard() {
                 <div class="flex items-center justify-between gap-4 border-b border-board-line py-4 font-mono text-[11px] uppercase tracking-[0.14em]">
                     <span class="flex items-center gap-2.5 text-white/70">
                         <component :is="arrival ? PlaneLanding : PlaneTakeoff" class="h-4 w-4 text-signal-400" />
-                        {{ arrival ? 'Ирэх' : 'Хөдлөх' }} <span class="text-white/30">/ {{ arrival ? 'Ankunft' : 'Abflug' }}</span>
+                        {{ arrival ? 'Ирэх' : 'Явах' }} <span class="text-white/30">/ {{ arrival ? 'Ankunft' : 'Abflug' }}</span>
                     </span>
                     <Link href="/flights" class="inline-flex items-center gap-1.5 text-white/50 transition-colors hover:text-white">
                         <ArrowLeft class="h-3.5 w-3.5" /> Нислэгийн самбар

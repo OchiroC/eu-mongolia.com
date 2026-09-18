@@ -120,7 +120,7 @@ function submit() {
                             <SelectItem value="fixed">Тогтмол үнэ</SelectItem>
                             <SelectItem value="negotiable">Тохиролцоно (VB)</SelectItem>
                             <SelectItem value="free">Үнэгүй</SelectItem>
-                            <SelectItem value="giveaway">Дайна</SelectItem>
+                            <SelectItem value="giveaway">Үнэгүй өгнө</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

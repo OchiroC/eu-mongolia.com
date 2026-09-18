@@ -20,7 +20,8 @@
         header.board .kicker { color: rgba(255,255,255,.5); }
         .logo { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; }
         .logo .t { display: inline-flex; width: 18px; height: 26px; align-items: center; justify-content: center; border-radius: 2.5px; background: linear-gradient(#34363a 0 50%, #28292d 50% 100%); color: var(--signal); font: 600 16px/1 "IBM Plex Mono", ui-monospace, monospace; }
-        .logo .n { font: 600 18px/1 "IBM Plex Mono", ui-monospace, monospace; }
+        .logo .t.n { color: #fff; }
+        .logo .tiles { display: inline-flex; gap: 2px; }
         h1 { font-size: 34px; line-height: 1.1; letter-spacing: -.02em; margin: 26px 0 12px; }
         h2 { font-size: 21px; letter-spacing: -.01em; margin: 0 0 14px; }
         header p { color: rgba(255,255,255,.65); margin: 0; }
@@ -62,7 +63,7 @@
 <body>
     <header class="board">
         <div class="wrap">
-            <a class="logo" href="/" aria-label="{{ config('app.name') }}"><span class="t">O</span><span class="t">M</span><span class="n">137</span></a>
+            <a class="logo" href="/" aria-label="{{ config('app.name') }}"><span class="tiles"><span class="t">O</span><span class="t">M</span><span class="t n">1</span><span class="t n">3</span><span class="t n">7</span></span></a>
             <h1>Ирэх өдрийн багц</h1>
             <p>Франкфуртын нисэх буудалд буусны дараа хэрэг болох мэдээлэл. Энэ хуудас нэг удаа нээгдсэний дараа утсанд хадгалагдаж, интернэтгүй үед ч нээгдэнэ.</p>
             <div class="actions">

@@ -96,7 +96,7 @@ class HomeController extends Controller
                 'listings' => Listing::active()->count(),
                 'events' => Event::published()->where('starts_at', '>=', now())->count(),
             ],
-            // Хөдлөх самбар — удахгүй болох аяллууд.
+            // Явах самбар: удахгүй болох аяллууд.
             'upcomingRides' => Ride::active()
                 ->upcoming()
                 ->orderBy('depart_at')
@@ -106,7 +106,7 @@ class HomeController extends Controller
             'journey' => $this->journey(),
             // Нэвтэрсэн хэрэглэгчийн хийсэн гэж тэмдэглэсэн алхмууд (зочинд localStorage ашиглана).
             'journeyDone' => $request->user()?->journeyGuides()->pluck('slug') ?? [],
-            // Нислэгийн самбар: ойрын ирэх, хөдлөх нислэгүүд.
+            // Нислэгийн самбар: ойрын ирэх, явах нислэгүүд.
             'upcomingFlights' => Flight::upcoming()
                 ->withCount(['passengers', 'rides' => fn ($q) => $q->where('status', 'active'), 'parcels' => fn ($q) => $q->where('status', 'active')])
                 ->orderBy('scheduled_at')
@@ -127,7 +127,7 @@ class HomeController extends Controller
                 ]),
             'seo' => [
                 'title' => config('app.name').' | Франкфурт дахь монголчуудын мэдээллийн сайт',
-                'description' => 'Франкфурт болон ойр орчмын монголчуудад зориулсан байр, ажил, зар, арга хэмжээ, бичиг баримтын заавар.',
+                'description' => 'Франкфурт орчимд амьдардаг болон Франкфуртаар дамжин ирж буй монголчуудад зориулсан байр, ажил, зар, арга хэмжээ, бичиг баримтын заавар.',
             ],
         ]);
     }

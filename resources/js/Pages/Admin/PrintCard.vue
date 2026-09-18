@@ -44,8 +44,10 @@ const domain = () => url.value.replace(/^https?:\/\//, '').split(/[/?#]/)[0];
             <div v-for="n in 4" :key="n" class="print-card flex flex-col justify-between border border-brand-200 bg-white p-6">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="inline-flex gap-0.5"><span class="logo-tile h-[26px] w-[18px] font-mono text-base font-semibold">O</span><span class="logo-tile h-[26px] w-[18px] font-mono text-base font-semibold">M</span></span>
-                        <span class="font-mono text-lg font-semibold">137</span>
+                        <span class="inline-flex gap-0.5">
+                            <span v-for="c in ['O', 'M']" :key="c" class="logo-tile h-[26px] w-[18px] font-mono text-base font-semibold">{{ c }}</span>
+                            <span v-for="d in ['1', '3', '7']" :key="d" class="logo-tile logo-tile--digit h-[26px] w-[18px] font-mono text-base font-semibold">{{ d }}</span>
+                        </span>
                     </div>
                     <p class="mt-5 text-xl font-semibold leading-snug tracking-tight">Франкфурт руу нисэх гэж байна уу?</p>
                     <ul class="mt-3 space-y-1 text-sm text-gray-600">

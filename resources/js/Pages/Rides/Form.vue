@@ -110,7 +110,7 @@ function submit() {
 
                 <div class="grid gap-4 sm:grid-cols-3">
                     <div class="space-y-1.5">
-                        <Label>Хөдлөх огноо, цаг</Label>
+                        <Label>Явах огноо, цаг</Label>
                         <Input v-model="form.depart_at" type="datetime-local" />
                         <p v-if="form.errors.depart_at" class="text-sm text-destructive">{{ form.errors.depart_at }}</p>
                     </div>

@@ -290,7 +290,7 @@ const accountLinks = computed(() => [
                 <div class="md:col-span-4">
                     <Logo size="md" />
                     <p class="mt-4 max-w-xs text-sm leading-relaxed text-brand-500">
-                        Франкфурт болон ойр орчмын монголчуудын мэдээллийн сайт.
+                        Франкфурт орчмын болон Франкфуртаар дамжин ирж буй монголчуудын мэдээллийн сайт.
                     </p>
                     <p class="mt-3 max-w-xs text-xs leading-relaxed text-brand-400">
                         {{ appName }} нь хувийн санаачилгаар ажилладаг хараат бус сайт бөгөөд МИАТ болон бусад агаарын тээврийн компанитай холбоогүй.

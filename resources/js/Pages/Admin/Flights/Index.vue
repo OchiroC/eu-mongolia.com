@@ -100,7 +100,7 @@ const dayNames = (days) => days.map((d) => props.weekdays[d]).join(', ');
                             <Label>Чиглэл</Label>
                             <select v-model="form.direction" class="h-10 w-full rounded-md border-brand-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600">
                                 <option value="arrival">Франкфуртад ирэх</option>
-                                <option value="departure">Франкфуртаас хөдлөх</option>
+                                <option value="departure">Франкфуртаас явах</option>
                             </select>
                         </div>
                         <div class="space-y-1.5"><Label>Хаанаас</Label><Input v-model="form.origin" maxlength="3" /></div>

@@ -40,7 +40,7 @@ class MapController extends Controller
             'places' => $businesses->concat($professionals)->values(),
             'seo' => [
                 'title' => 'Газрын зураг | '.config('app.name'),
-                'description' => 'Франкфурт болон ойр орчмын монгол бизнес, монголоор үйлчилдэг мэргэжилтнүүдийн байршил.',
+                'description' => 'Франкфурт болон ойролцоох хотуудын монгол бизнес, монголоор үйлчилдэг мэргэжилтнүүдийн байршил.',
             ],
         ]);
     }

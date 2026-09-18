@@ -18,7 +18,7 @@ const props = defineProps({
 
 function priceLabel(l) {
     if (l.price_type === 'free') return 'Үнэгүй';
-    if (l.price_type === 'giveaway') return 'Дайна';
+    if (l.price_type === 'giveaway') return 'Үнэгүй өгнө';
     if (l.price === null || l.price === undefined) return 'Тохиролцоно';
     return Number(l.price).toLocaleString('mn-MN') + ' €';
 }

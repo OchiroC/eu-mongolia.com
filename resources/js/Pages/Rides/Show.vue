@@ -28,7 +28,7 @@ const user = computed(() => usePage().props.auth?.user);
 
                 <div class="mt-5 grid grid-cols-2 gap-4 border-t border-gray-100 pt-5 text-sm sm:grid-cols-3">
                     <div>
-                        <p class="text-gray-400">Хөдлөх</p>
+                        <p class="text-gray-400">Явах</p>
                         <p class="mt-0.5 font-medium text-gray-900">{{ formatDateTime(ride.depart_at) }}</p>
                         <Link v-if="ride.flight" :href="`/flights/${ride.flight.slug}`" class="mt-1 inline-block font-mono text-xs text-brand-600 underline underline-offset-2">{{ ride.flight.code }} нислэгтэй холбоотой</Link>
                     </div>
