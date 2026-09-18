@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\FlightController;
+use App\Http\Controllers\JourneyController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\ParcelController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\BusinessController as AdminBusinessController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CheckInController;
+use App\Http\Controllers\Admin\FlightController as AdminFlightController;
+use App\Http\Controllers\Admin\ParcelController as AdminParcelController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\EmbassyController as AdminEmbassyController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
@@ -100,6 +106,13 @@ Route::get('/embassy', [EmbassyController::class, 'index'])->name('embassy.index
 // Хамтдаа аялах (нийтэд)
 Route::get('/rides', [RideController::class, 'index'])->name('rides.index');
 
+// Нислэг, ачаа, ирэх өдрийн багц, газрын зураг
+Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
+Route::get('/flights/{flight}', [FlightController::class, 'show'])->name('flights.show');
+Route::get('/achaa', [ParcelController::class, 'index'])->name('parcels.index');
+Route::view('/ireh', 'arrival-kit')->name('arrival-kit');
+Route::get('/map', [MapController::class, 'index'])->name('map');
+
 // Баннер — клик/харагдсан тоолуур
 Route::get('/banners/{banner}/click', [BannerController::class, 'click'])->name('banners.click');
 Route::post('/banners/{banner}/impression', [BannerController::class, 'impression'])->name('banners.impression');
@@ -158,6 +171,19 @@ Route::middleware('auth')->group(function () {
     Route::put('/rides/{ride}', [RideController::class, 'update'])->name('rides.update');
     Route::post('/rides/{ride}/close', [RideController::class, 'close'])->name('rides.close');
     Route::delete('/rides/{ride}', [RideController::class, 'destroy'])->name('rides.destroy');
+
+    // Нислэгийн зорчигчийн тэмдэглэгээ, бэлтгэлийн жагсаалт
+    Route::post('/flights/{flight}/board', [FlightController::class, 'board'])->name('flights.board');
+    Route::post('/journey/{guide:slug}', [JourneyController::class, 'toggle'])->name('journey.toggle');
+
+    // Ачаа, илгээмж
+    Route::get('/achaa/new', [ParcelController::class, 'create'])->name('parcels.create');
+    Route::post('/achaa', [ParcelController::class, 'store'])->name('parcels.store');
+    Route::get('/my/achaa', [ParcelController::class, 'my'])->name('parcels.my');
+    Route::get('/achaa/{parcel}/edit', [ParcelController::class, 'edit'])->name('parcels.edit');
+    Route::put('/achaa/{parcel}', [ParcelController::class, 'update'])->name('parcels.update');
+    Route::post('/achaa/{parcel}/close', [ParcelController::class, 'close'])->name('parcels.close');
+    Route::delete('/achaa/{parcel}', [ParcelController::class, 'destroy'])->name('parcels.destroy');
 
     // Асуулт хариулт (нийтэд харагдах show-аас дээгүүр)
     Route::get('/questions/ask', [QuestionController::class, 'create'])->name('questions.create');
@@ -225,6 +251,7 @@ Route::get('/questions/{question:slug}', [QuestionController::class, 'show'])->n
 
 // Аяллын дэлгэрэнгүй (динамик параметр тул доор)
 Route::get('/rides/{ride}', [RideController::class, 'show'])->name('rides.show');
+Route::get('/achaa/{parcel}', [ParcelController::class, 'show'])->name('parcels.show');
 
 // Админ хэсэг — admin + ажилтны дүрүүд (editor/moderator/organizer/advertiser)
 Route::middleware(['auth', 'role:admin|editor|moderator|organizer|advertiser'])
@@ -314,6 +341,16 @@ Route::middleware(['auth', 'role:admin|editor|moderator|organizer|advertiser'])
             Route::delete('kids/{kid}', [AdminKidsController::class, 'destroy'])->name('kids.destroy');
 
             // Хамтдаа аялах
+            Route::get('flights', [AdminFlightController::class, 'index'])->name('flights.index');
+            Route::post('flights/schedules', [AdminFlightController::class, 'storeSchedule'])->name('flights.schedules.store');
+            Route::put('flights/schedules/{schedule}', [AdminFlightController::class, 'updateSchedule'])->name('flights.schedules.update');
+            Route::delete('flights/schedules/{schedule}', [AdminFlightController::class, 'destroySchedule'])->name('flights.schedules.destroy');
+            Route::put('flights/{flight}', [AdminFlightController::class, 'updateFlight'])->name('flights.update');
+            Route::post('flights/generate', [AdminFlightController::class, 'generate'])->name('flights.generate');
+            Route::get('parcels', [AdminParcelController::class, 'index'])->name('parcels.index');
+            Route::post('parcels/{parcel}/close', [AdminParcelController::class, 'close'])->name('parcels.close');
+            Route::delete('parcels/{parcel}', [AdminParcelController::class, 'destroy'])->name('parcels.destroy');
+            Route::inertia('print-card', 'Admin/PrintCard')->name('print-card');
             Route::get('rides', [AdminRideController::class, 'index'])->name('rides.index');
             Route::post('rides/{ride}/close', [AdminRideController::class, 'close'])->name('rides.close');
             Route::delete('rides/{ride}', [AdminRideController::class, 'destroy'])->name('rides.destroy');

@@ -1,4 +1,5 @@
 <script setup>
+import { X } from 'lucide-vue-next';
 import Sortable from 'sortablejs';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
@@ -68,7 +69,7 @@ function src(it) {
                         type="button"
                         class="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs text-white opacity-0 transition group-hover:opacity-100"
                         @click.stop="remove(i)"
-                    >✕</button>
+                    ><X class="h-3.5 w-3.5" /></button>
                 </div>
             </div>
 
@@ -83,7 +84,7 @@ function src(it) {
                 <span class="text-[11px] font-medium">Зураг</span>
             </button>
         </div>
-        <p class="mt-2 text-xs text-gray-400">{{ items.length }}/{{ max }} — чирж дараалал солино (утсанд удаан дарж чирнэ). Эхний зураг нүүр.</p>
+        <p class="mt-2 text-xs text-gray-400">{{ items.length }}/{{ max }} зураг. Чирж дарааллыг өөрчилнө, утсан дээр удаан дарж чирнэ. Эхний зураг нүүр зураг болно.</p>
         <input ref="input" type="file" accept="image/jpeg,image/png,image/webp" multiple class="hidden" @change="onFiles" />
     </div>
 </template>

@@ -77,7 +77,7 @@ class NewsController extends Controller
                     'datePublished' => $post->published_at?->toAtomString(),
                     'dateModified' => $post->updated_at?->toAtomString(),
                     'author' => $post->author ? ['@type' => 'Person', 'name' => $post->author->name] : null,
-                    'publisher' => ['@type' => 'Organization', 'name' => 'Yazguur'],
+                    'publisher' => ['@type' => 'Organization', 'name' => config('app.name')],
                     'mainEntityOfPage' => url("/news/{$post->slug}"),
                 ]),
             ],

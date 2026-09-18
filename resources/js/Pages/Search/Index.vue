@@ -20,7 +20,7 @@ function doSearch() {
 
     <PublicLayout>
         <div class="mx-auto max-w-3xl">
-            <h1 class="text-2xl font-bold text-gray-900">Хайлт</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Хайлт</h1>
 
             <div class="mt-4 flex gap-2 rounded-2xl bg-white p-1.5 shadow-soft ring-1 ring-gray-100">
                 <input
@@ -34,7 +34,7 @@ function doSearch() {
                 <button class="shrink-0 rounded-xl bg-brand-600 px-5 py-2.5 font-semibold text-white hover:bg-brand-700" @click="doSearch">Хайх</button>
             </div>
 
-            <p v-if="q" class="mt-3 text-sm text-gray-400">"{{ q }}" — {{ total }} илэрц</p>
+            <p v-if="q" class="mt-3 text-sm text-gray-400">"{{ q }}" хайлтаар {{ total }} илэрц олдлоо</p>
 
             <div v-if="groups.length" class="mt-6 space-y-6">
                 <div v-for="g in groups" :key="g.label" class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft">

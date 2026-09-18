@@ -63,7 +63,7 @@ const catLabel = (key, categories) => categories.find((c) => c.key === key)?.lab
                 <div v-for="r in resources" :key="r.id" class="flex items-center justify-between px-5 py-3">
                     <div class="min-w-0">
                         <p class="font-medium text-gray-800">{{ r.title }} <span v-if="!r.is_active" class="text-xs text-gray-400">(идэвхгүй)</span></p>
-                        <p class="text-xs text-gray-400">{{ catLabel(r.category, categories) }}<span v-if="r.city"> · {{ r.city }}</span><span v-if="r.is_featured"> · ★</span></p>
+                        <p class="text-xs text-gray-400">{{ catLabel(r.category, categories) }}<span v-if="r.city"> · {{ r.city }}</span><span v-if="r.is_featured"> · Онцлох</span></p>
                     </div>
                     <div class="flex shrink-0 gap-1">
                         <Button variant="ghost" size="icon" title="Засах" @click="openEdit(r)">
@@ -104,7 +104,7 @@ const catLabel = (key, categories) => categories.find((c) => c.key === key)?.lab
                         <Textarea v-model="form.description" rows="2" />
                     </div>
                     <div class="space-y-1.5">
-                        <Label>Холбоос (видео/апп/ном — заавал биш)</Label>
+                        <Label>Холбоос (видео, апп, ном; заавал биш)</Label>
                         <Input v-model="form.url" type="text" placeholder="https://" />
                     </div>
                     <div class="grid gap-3 sm:grid-cols-2">
@@ -116,8 +116,8 @@ const catLabel = (key, categories) => categories.find((c) => c.key === key)?.lab
                         <div class="space-y-1.5"><Label>Эрэмбэ</Label><Input v-model.number="form.sort_order" type="number" min="0" /></div>
                     </div>
                     <div class="flex flex-wrap gap-6">
-                        <label class="flex items-center gap-2 text-sm text-gray-700"><input v-model="form.is_featured" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" /> Онцлох</label>
-                        <label class="flex items-center gap-2 text-sm text-gray-700"><input v-model="form.is_active" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" /> Идэвхтэй</label>
+                        <label class="flex items-center gap-2 text-sm text-gray-700"><input v-model="form.is_featured" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" /> Онцлох</label>
+                        <label class="flex items-center gap-2 text-sm text-gray-700"><input v-model="form.is_active" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" /> Идэвхтэй</label>
                     </div>
                 </div>
                 <DialogFooter>

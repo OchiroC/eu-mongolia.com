@@ -48,7 +48,7 @@ function submit() {
                 class="mt-6 rounded-lg p-6 text-center"
                 :class="result.ok ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
             >
-                <p class="text-2xl font-bold">{{ result.message }}</p>
+                <p class="text-2xl font-semibold">{{ result.message }}</p>
                 <p v-if="result.detail" class="mt-2">{{ result.detail }}</p>
             </div>
 

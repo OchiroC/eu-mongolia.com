@@ -38,3 +38,11 @@ export function timeAgo(value) {
     if (diff < 604800) return Math.floor(diff / 86400) + ' өдрийн өмнө';
     return formatDate(value);
 }
+
+/** "5-р сар" хэлбэр. Браузерт монгол сарын нэрийн өгөгдөл дутуу байдаг тул өөрсдөө бичнэ. */
+export function monthLabel(value) {
+    if (!value) return '';
+    const d = new Date(value);
+    if (isNaN(d)) return '';
+    return `${d.getMonth() + 1}-р сар`;
+}

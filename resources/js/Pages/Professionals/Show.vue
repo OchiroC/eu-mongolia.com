@@ -36,13 +36,13 @@ function reveal() {
             <article class="min-w-0">
                 <!-- Толгой -->
                 <div class="flex flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-soft sm:flex-row sm:text-left">
-                    <span class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-3xl font-bold text-brand-700">
+                    <span class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-3xl font-semibold text-brand-700">
                         <img v-if="professional.photo" :src="professional.photo" :alt="professional.name" class="h-full w-full object-cover" />
                         <template v-else>{{ initial(professional.name) }}</template>
                     </span>
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center justify-center gap-1.5 sm:justify-start">
-                            <h1 class="text-2xl font-bold text-gray-900">{{ professional.name }}</h1>
+                            <h1 class="text-2xl font-semibold text-gray-900">{{ professional.name }}</h1>
                             <svg v-if="professional.is_verified" class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2l2.39 1.74 2.95-.02 1.06 2.76 2.43 1.7-.92 2.81.92 2.81-2.43 1.7-1.06 2.76-2.95-.02L12 22l-2.39-1.76-2.95.02-1.06-2.76-2.43-1.7.92-2.81-.92-2.81 2.43-1.7L6.66 3.7l2.95.02L12 2zm-1.1 13.2l5.2-5.2-1.4-1.4-3.8 3.8-1.8-1.8-1.4 1.4 3.2 3.2z" clip-rule="evenodd" /></svg>
                         </div>
                         <p v-if="professional.profession" class="mt-0.5 font-medium text-brand-700">{{ professional.profession }}</p>
@@ -54,7 +54,7 @@ function reveal() {
                             </span>
                         </div>
                         <div v-if="professional.languages.length" class="mt-2 flex flex-wrap justify-center gap-1.5 sm:justify-start">
-                            <span v-for="l in professional.languages" :key="l" class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">{{ l }}</span>
+                            <span v-for="l in professional.languages" :key="l" class="rounded-md bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">{{ l }}</span>
                         </div>
                     </div>
                 </div>

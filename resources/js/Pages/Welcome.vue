@@ -1,16 +1,13 @@
 <script setup>
 import BannerDisplay from '@/Components/BannerDisplay.vue';
+import FlapText from '@/Components/Board/FlapText.vue';
 import ListingCard from '@/Components/ListingCard.vue';
-import Logo from '@/Components/Logo.vue';
 import ProfessionalCard from '@/Components/ProfessionalCard.vue';
-import Select from '@/Components/ui/Select.vue';
-import SelectContent from '@/Components/ui/SelectContent.vue';
-import SelectItem from '@/Components/ui/SelectItem.vue';
-import SelectTrigger from '@/Components/ui/SelectTrigger.vue';
-import SelectValue from '@/Components/ui/SelectValue.vue';
-import { formatDateTime, timeAgo } from '@/lib/date';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
+import { monthLabel } from '@/lib/date';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { ArrowRight, ArrowUpRight, Car, Check, House, ImageOff, Package, PlaneLanding, PlaneTakeoff, Plus, Users } from 'lucide-vue-next';
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
 const props = defineProps({
     canLogin: Boolean,
@@ -22,458 +19,477 @@ const props = defineProps({
     featuredEvents: { type: Array, default: () => [] },
     upcomingEvents: { type: Array, default: () => [] },
     featuredProfessionals: { type: Array, default: () => [] },
-    stats: { type: Object, default: () => ({ listings: 0, news: 0 }) },
+    stats: { type: Object, default: () => ({}) },
+    counts: { type: Object, default: () => ({}) },
+    upcomingRides: { type: Array, default: () => [] },
+    guides: { type: Array, default: () => [] },
+    journey: { type: Array, default: () => [] },
+    journeyDone: { type: Array, default: () => [] },
+    upcomingFlights: { type: Array, default: () => [] },
 });
 
-const page = usePage();
-const user = computed(() => page.props.auth?.user);
+const user = computed(() => usePage().props.auth?.user);
 
-const heroEvent = computed(() => props.featuredEvents[0] ?? null);
-const restEvents = computed(() => props.featuredEvents.slice(1));
+/*
+ * Ирэх самбар — Франкфуртын нисэх буудлын ирэх заалны самбар шиг.
+ * Мөр бүр бодит тоон дээр суурилсан навигаци тул хэзээ ч хоосон харагдахгүй.
+ */
+const directions = computed(() => [
+    { gate: 'A1', label: 'Виз, гааль, Anmeldung', dest: 'Гарын авлага', href: '/guides', count: props.counts.guides, unit: 'заавар' },
+    { gate: 'A2', label: 'Нислэг, угтах хүн, ачаа', dest: 'Нислэг', href: '/flights', count: props.counts.flights, unit: 'нислэг' },
+    { gate: 'A3', label: 'Байр хайх', dest: 'Орон сууц', href: '/housing', count: props.counts.housing, unit: 'зар' },
+    { gate: 'A4', label: 'Ажил хайх', dest: 'Ажил', href: '/jobs', count: props.counts.jobs, unit: 'зар' },
+    { gate: 'A5', label: 'Бараа худалдах, авах', dest: 'Зар', href: '/zar', count: props.counts.listings, unit: 'зар' },
+    { gate: 'A6', label: 'Арга хэмжээ, уулзалт', dest: 'Эвент', href: '/events', count: props.counts.events, unit: 'эвент' },
+].map((d) => ({ ...d, status: `${d.count || 0} ${d.unit}` })));
 
-const search = ref('');
-const category = ref('');
-const location = ref('');
+// Самбарын hover: мөр бүрийн хавтанг дахин эргүүлэх тоолуур.
+const flip = reactive({});
+const bump = (key) => { flip[key] = (flip[key] || 0) + 1; };
 
-// shadcn Select-д зориулсан проксик ('all' = бүх ангилал).
-const catModel = computed({
-    get: () => category.value || 'all',
-    set: (v) => { category.value = v === 'all' ? '' : v; },
+// Франкфурт, Улаанбаатарын цаг — секунд тутамд хавтан эргэнэ.
+const now = ref(new Date());
+let clockTimer;
+onMounted(() => { clockTimer = setInterval(() => (now.value = new Date()), 1000); });
+onUnmounted(() => clearInterval(clockTimer));
+function clock(timeZone, seconds = false) {
+    return new Intl.DateTimeFormat('en-GB', {
+        timeZone, hour: '2-digit', minute: '2-digit', ...(seconds ? { second: '2-digit' } : {}), hour12: false,
+    }).format(now.value);
+}
+const today = computed(() => new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric' })
+    .format(now.value)
+    .replaceAll('/', '.'));
+
+function priceShort(l) {
+    if (l.price_type === 'free') return 'үнэгүй';
+    if (l.price === null || l.price === undefined) return 'тохиролцоно';
+    return Number(l.price).toLocaleString('mn-MN') + ' €';
+}
+
+// Мэдэгдлийн мөр — шинэ гарын авлага, зар, эвент.
+const notices = computed(() => [
+    ...props.guides.slice(0, 4).map((g) => ({ tag: 'Гарын авлага', text: g.title, href: `/guides/${g.slug}` })),
+    ...[...props.featuredListings, ...props.latestListings].slice(0, 5).map((l) => ({ tag: 'Зар', text: `${l.title}, ${priceShort(l)}`, href: `/zar/${l.slug}` })),
+    ...[...props.featuredEvents, ...props.upcomingEvents].slice(0, 3).map((e) => ({ tag: 'Эвент', text: e.title, href: `/events/${e.slug}` })),
+]);
+
+// Аяллын зам — зөвхөн гарын авлагатай үе шатыг харуулна.
+const journeyStages = computed(() => props.journey.filter((s) => s.guides.length));
+const stageIcon = { before: PlaneTakeoff, arrival: PlaneLanding, first_weeks: House };
+
+/*
+ * Бэлтгэлийн жагсаалт: нэвтэрсэн хэрэглэгчийнх серверт, зочныхыг хөтчид хадгална.
+ */
+const JOURNEY_KEY = 'om137.journey';
+const done = ref(new Set(props.journeyDone));
+watch(() => props.journeyDone, (v) => { if (user.value) done.value = new Set(v); });
+onMounted(() => {
+    if (user.value) return;
+    try { done.value = new Set(JSON.parse(localStorage.getItem(JOURNEY_KEY) || '[]')); } catch { /* хадгалах боломжгүй */ }
+});
+function toggleStep(slug) {
+    const next = new Set(done.value);
+    next.has(slug) ? next.delete(slug) : next.add(slug);
+    done.value = next;
+    if (user.value) {
+        router.post(`/journey/${slug}`, {}, { preserveScroll: true, preserveState: true, only: ['journeyDone'] });
+    } else {
+        try { localStorage.setItem(JOURNEY_KEY, JSON.stringify([...next])); } catch { /* хадгалах боломжгүй */ }
+    }
+}
+const totalSteps = computed(() => journeyStages.value.reduce((n, s) => n + s.guides.length, 0));
+const doneSteps = computed(() => journeyStages.value.reduce((n, s) => n + s.guides.filter((g) => done.value.has(g.slug)).length, 0));
+
+const listings = computed(() => [...props.featuredListings, ...props.latestListings].slice(0, 8));
+const events = computed(() => [...props.featuredEvents, ...props.upcomingEvents].slice(0, 4));
+
+// Хэсгийн дугаар — хоосон хэсэг нуугдахад дугаар үсрэхгүйн тулд харагдаж буйгаас тооцно.
+const sectionNo = computed(() => {
+    const visible = [
+        ['journey', journeyStages.value.length > 0],
+        ['flights', true],
+        ['listings', listings.value.length > 0],
+        ['events', events.value.length > 0],
+        ['news', props.featuredNews.length > 0],
+    ].filter(([, shown]) => shown);
+    return Object.fromEntries(visible.map(([key], i) => [key, String(i + 1).padStart(2, '0')]));
 });
 
-function doSearch() {
-    const params = new URLSearchParams();
-    if (search.value.trim()) params.set('search', search.value.trim());
-    if (category.value) params.set('category', category.value);
-    if (location.value.trim()) params.set('location', location.value.trim());
-    window.location.href = '/zar' + (params.toString() ? `?${params}` : '');
+function pad(n) { return String(n).padStart(2, '0'); }
+function dayMonth(v) {
+    const d = new Date(v);
+    return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}`;
 }
-
-const popularSearches = ['Машин', 'iPhone', 'Орон сууц', 'Ажил', 'Тавилга'];
-function chipSearch(term) {
-    window.location.href = `/zar?search=${encodeURIComponent(term)}`;
+function hm(v) {
+    const d = new Date(v);
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-
-const catIcon = {
-    car: 'M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4a1 1 0 001 1h1a1 1 0 001-1v-1h8v1a1 1 0 001 1h1a1 1 0 001-1v-4M7 16h.01M17 16h.01',
-    home: 'M3 12l9-9 9 9M5 10v10a1 1 0 001 1h12a1 1 0 001-1V10',
-    briefcase: 'M21 13.255A23.9 23.9 0 0112 15c-3.18 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-    device: 'M9 17.25v1.007a3 3 0 01-.879 2.122L7 21.5h10l-1.121-1.121A3 3 0 0115 18.257V17.25m6-12V15a2 2 0 01-2 2H5a2 2 0 01-2-2V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2 2 0 01-2 2H5a2 2 0 01-2-2V5.25',
-    sofa: 'M3 10V7a2 2 0 012-2h14a2 2 0 012 2v3M3 10a2 2 0 012 2v3h14v-3a2 2 0 012-2M3 10h18M5 18v2m14-2v2',
-    shirt: 'M16 4l4 4-3 2v10H7V10L4 8l4-4 4 2 4-2z',
-    wrench: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63',
-    tag: 'M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z',
-};
-
-function fmt(n) {
-    return Number(n || 0).toLocaleString('mn-MN');
-}
-
-function priceLabel(l) {
-    if (l.price_type === 'free') return 'Үнэгүй';
-    if (l.price_type === 'giveaway') return 'Дайна';
-    if (l.price === null || l.price === undefined) return 'Тохиролцоно';
-    const p = Number(l.price).toLocaleString('mn-MN') + ' €';
-    return l.price_type === 'negotiable' ? p + ' (VB)' : p;
-}
-
-function eventDay(value) {
-    return value ? new Date(value).getDate() : '';
-}
-function eventMonth(value) {
-    return value ? new Date(value).toLocaleDateString('mn-MN', { month: 'short' }) : '';
+function monthShort(v) {
+    return monthLabel(v);
 }
 </script>
 
 <template>
     <Head title="Нүүр" />
 
-    <div class="min-h-screen bg-gray-50 text-gray-900">
-        <!-- Дээд туслах мөр -->
-        <div class="bg-gray-900 text-gray-300">
-            <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-2 text-xs">
-                <span>
-                    <span class="font-semibold text-white">{{ fmt(stats.listings) }}+</span> зар нийтлэгдсэн
-                </span>
-                <div class="flex items-center gap-4">
-                    <template v-if="user">
-                        <Link href="/my/favorites" class="hover:text-white">Хадгалсан</Link>
-                        <Link href="/dashboard" class="font-medium text-white hover:text-brand-300">Самбар</Link>
-                    </template>
-                    <template v-else>
-                        <Link href="/login" class="hover:text-white">Нэвтрэх</Link>
-                        <Link href="/register" class="font-medium text-white hover:text-brand-300">Бүртгүүлэх</Link>
-                    </template>
+    <PublicLayout bleed>
+        <!-- ─── HERO: ирэх заалны самбар ─────────────────────────── -->
+        <section class="bg-board text-white">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <!-- Самбарын дээд мөр -->
+                <div class="flex items-center justify-between gap-4 border-b border-board-line py-4 font-mono text-[11px] uppercase tracking-[0.14em]">
+                    <span class="flex items-center gap-2.5 text-white/70">
+                        <PlaneLanding class="h-4 w-4 text-signal-400" />
+                        Ирэх <span class="text-white/30">/ Ankunft</span>
+                    </span>
+                    <span class="tabular text-white/40"><span class="hidden sm:inline">FRA · Frankfurt am Main · </span>{{ today }}</span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Толгой -->
-        <header class="sticky top-0 z-30 border-b border-gray-100/80 bg-white/75 backdrop-blur-xl">
-            <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
-                <Logo size="md" badge="gradient" tone="dark" class="shrink-0" />
-
-                <nav class="hidden items-center gap-1 text-sm md:flex">
-                    <Link href="/zar" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Зар</Link>
-                    <Link href="/housing" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Орон сууц</Link>
-                    <Link href="/jobs" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Ажил</Link>
-                    <Link href="/rides" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Аялал</Link>
-                    <Link href="/questions" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Асуулт</Link>
-                    <Link href="/guides" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Guide</Link>
-                    <Link href="/news" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Мэдээ</Link>
-                    <Link href="/events" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Эвент</Link>
-                    <Link href="/professionals" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Туслах</Link>
-                    <Link href="/businesses" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Бизнес</Link>
-                    <Link href="/kids" class="rounded-lg px-3 py-2 font-medium text-gray-600 hover:text-gray-900">Хүүхэд</Link>
-                </nav>
-
-                <Link :href="user ? '/zar/new' : '/register'" class="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
-                    Зар нэмэх
-                </Link>
-            </div>
-        </header>
-
-        <!-- Хайлтын мөр -->
-        <section class="border-b border-gray-100 bg-white">
-            <div class="mx-auto max-w-7xl px-5 py-4">
-                <div class="flex flex-col items-stretch gap-1.5 rounded-2xl border border-gray-200/80 bg-white p-2 shadow-card-md ring-1 ring-transparent transition focus-within:border-brand-300 focus-within:shadow-card-lg focus-within:ring-brand-100 sm:flex-row sm:items-center">
-                    <Select v-model="catModel">
-                        <SelectTrigger class="h-12 border-0 text-gray-600 focus:ring-0 focus:ring-offset-0 sm:w-48 sm:border-r sm:border-gray-100">
-                            <SelectValue placeholder="Бүх ангилал" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Бүх ангилал</SelectItem>
-                            <SelectItem v-for="cat in categories" :key="cat.id" :value="cat.slug">{{ cat.name }}</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <div class="flex min-w-0 flex-1 items-center gap-2 px-3">
-                        <svg class="h-5 w-5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        <input
-                            v-model="search"
-                            type="search"
-                            placeholder="Юу хайж байна?"
-                            class="min-w-0 flex-1 border-0 bg-transparent py-3 text-gray-900 placeholder-gray-400 focus:ring-0"
-                            @keydown.enter="doSearch"
-                        />
+                <!-- Гарчиг + цаг -->
+                <div class="grid gap-10 pb-10 pt-10 md:pt-14 lg:grid-cols-12 lg:items-end">
+                    <div class="lg:col-span-8">
+                        <h1 class="space-y-[0.14em] text-[clamp(26px,8.2vw,72px)] leading-none" @mouseenter="bump('headline')">
+                            <span class="sr-only">Франкфуртад буусан монгол хүний эхний зогсоол.</span>
+                            <FlapText text="Франкфуртад" wrap :replay="flip.headline || 0" />
+                            <FlapText text="тавтай морил" wrap :delay="250" :replay="flip.headline || 0" />
+                        </h1>
+                        <p class="mt-8 max-w-xl text-[17px] leading-relaxed text-white/60">
+                            Франкфурт болон ойр орчмын хотуудад амьдарч буй монголчуудын мэдээллийн сайт. Байр, ажил, бичиг баримтын заавар, хамт аялах хүнээ эндээс олно.
+                        </p>
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            <a href="#zam" class="inline-flex h-12 items-center gap-2 rounded-md bg-signal-400 px-5 text-[15px] font-semibold text-brand-600 transition-colors hover:bg-signal-300">
+                                Ирэхэд бэлтгэх <ArrowRight class="h-4 w-4" />
+                            </a>
+                            <Link href="/rides" class="inline-flex h-12 items-center rounded-md border border-white/20 px-5 text-[15px] font-medium text-white transition-colors hover:border-white">
+                                Хамт аялах хүн олох
+                            </Link>
+                        </div>
                     </div>
-                    <input
-                        v-model="location"
-                        type="text"
-                        placeholder="Хот"
-                        class="hidden w-36 border-0 border-l border-gray-100 bg-transparent px-3 py-3 text-gray-900 placeholder-gray-400 focus:ring-0 lg:block"
-                        @keydown.enter="doSearch"
-                    />
-                    <button class="shrink-0 rounded-xl bg-brand-600 px-7 py-3 font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0" @click="doSearch">
-                        Хайх
-                    </button>
+
+                    <!-- Цаг -->
+                    <div class="flex gap-8 lg:col-span-4 lg:justify-end">
+                        <div>
+                            <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">Франкфурт</p>
+                            <div class="mt-2 text-[26px]"><FlapText :text="clock('Europe/Berlin', true)" /></div>
+                        </div>
+                        <div>
+                            <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">Улаанбаатар</p>
+                            <div class="mt-2 text-[26px]"><FlapText :text="clock('Asia/Ulaanbaatar')" /></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                    <span class="text-gray-400">Түгээмэл:</span>
-                    <button
-                        v-for="term in popularSearches"
-                        :key="term"
-                        class="rounded-full border border-gray-200 px-3 py-1 text-gray-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
-                        @click="chipSearch(term)"
-                    >
-                        {{ term }}
-                    </button>
+
+                <!-- Самбарын баганууд — монгол / герман (FRA-ийн самбар шиг). -->
+                <div class="hidden grid-cols-[5rem_24rem_minmax(0,1fr)_10rem_1.5rem] items-center gap-6 border-y border-board-line py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 md:grid">
+                    <span class="whitespace-nowrap">Хаалга <span class="text-white/25">/ Gate</span></span>
+                    <span>Чиглэл <span class="text-white/25">/ Ziel</span></span>
+                    <span>Хэсэг</span>
+                    <span>Төлөв <span class="text-white/25">/ Bemerkung</span></span>
+                    <span />
+                </div>
+                <ul class="border-t border-board-line md:border-t-0">
+                    <li v-for="(d, i) in directions" :key="d.href" class="border-b border-board-line">
+                        <Link
+                            :href="d.href"
+                            @mouseenter="bump(d.href)"
+                            @focus="bump(d.href)"
+                            class="group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-4 py-4 transition-colors hover:bg-board-soft md:grid-cols-[5rem_24rem_minmax(0,1fr)_10rem_1.5rem] md:gap-6 md:py-3"
+                        >
+                            <!-- Хаалга -->
+                            <span class="text-[15px] md:text-[18px]"><FlapText :text="d.gate" :delay="500 + i * 90" :cycles="6" :replay="flip[d.href] || 0" /></span>
+                            <!-- Чиглэл: том дэлгэцэнд хавтан, утсанд энгийн текст -->
+                            <span class="hidden overflow-hidden text-[18px] md:block"><FlapText :text="d.label" :pad="24" :delay="500 + i * 90" :replay="flip[d.href] || 0" /></span>
+                            <span class="truncate font-mono text-[14px] uppercase text-signal-400 md:hidden">{{ d.label }}</span>
+                            <span class="hidden font-mono text-[11px] uppercase tracking-[0.1em] text-white/40 md:block">{{ d.dest }}</span>
+                            <!-- Төлөв -->
+                            <span class="hidden text-[18px] md:block" :class="d.count ? '' : 'opacity-40'"><FlapText :text="d.status" :pad="10" :delay="700 + i * 90" :replay="flip[d.href] || 0" /></span>
+                            <span class="tabular font-mono text-[12px] uppercase md:hidden" :class="d.count ? 'text-white' : 'text-white/30'">{{ d.status }}</span>
+                            <ArrowRight class="hidden h-4 w-4 text-white/30 transition-all group-hover:translate-x-0.5 group-hover:text-signal-400 md:block" />
+                        </Link>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Мэдэгдлийн гүйдэг мөр -->
+            <div v-if="notices.length" class="flex items-stretch border-t border-board-line">
+                <span class="flex shrink-0 items-center bg-signal-400 px-4 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">Мэдэгдэл</span>
+                <div class="relative min-w-0 flex-1 overflow-hidden">
+                    <div class="flex w-max animate-marquee hover:[animation-play-state:paused]">
+                        <template v-for="copy in 2" :key="copy">
+                            <Link
+                                v-for="(n, i) in notices"
+                                :key="`${copy}-${i}`"
+                                :href="n.href"
+                                :tabindex="copy === 2 ? -1 : 0"
+                                :aria-hidden="copy === 2"
+                                class="flex items-center gap-3 whitespace-nowrap px-6 py-3.5 text-sm text-white/70 transition-colors hover:text-white"
+                            >
+                                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-signal-400">{{ n.tag }}</span>
+                                {{ n.text }}
+                                <span class="text-white/20">•</span>
+                            </Link>
+                        </template>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Их бие: хоёр багана -->
-        <div class="mx-auto grid max-w-7xl gap-6 px-5 py-6 lg:grid-cols-[290px_1fr]">
-            <!-- Зүүн sidebar -->
-            <aside class="order-last space-y-5 lg:order-first lg:sticky lg:top-20 lg:self-start">
-                <!-- Ангилал -->
-                <div class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft">
-                    <h3 class="border-b border-gray-100 px-4 py-3 text-sm font-semibold text-gray-900">Ангилал</h3>
-                    <Link
-                        v-for="cat in categories"
-                        :key="cat.id"
-                        :href="`/zar?category=${cat.slug}`"
-                        class="group flex items-center gap-3 border-b border-gray-50 px-4 py-3 transition last:border-0 hover:bg-brand-50/40"
-                    >
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white">
-                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" :d="catIcon[cat.icon] || catIcon.tag" /></svg>
-                        </span>
-                        <span class="flex-1 truncate text-sm font-medium text-gray-700 group-hover:text-brand-700">{{ cat.name }}</span>
-                        <span class="shrink-0 rounded-md bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-500">{{ fmt(cat.listings_count) }}</span>
+        <!-- ─── АЯЛЛЫН ЗАМ: нисэхээс өмнө, буух өдөр, эхний 14 хоног ─ -->
+        <section v-if="journeyStages.length" id="zam" class="scroll-mt-20 border-t border-brand-100">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="max-w-2xl">
+                        <p class="kicker">{{ sectionNo.journey }} · Аяллын зам</p>
+                        <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Монголоос Франкфурт хүртэл</h2>
+                        <p class="mt-4 text-[15px] leading-relaxed text-brand-500">
+                            Нислэгийн өмнө бэлдэх зүйлээс эхлээд ирснийхээ дараах эхний 14 хоногт хийх ажил хүртэл, дарааллаар нь.
+                        </p>
+                    </div>
+                    <div class="w-full shrink-0 sm:w-64">
+                        <div class="flex items-baseline justify-between text-sm">
+                            <span class="text-brand-500">Таны бэлтгэл</span>
+                            <span class="tabular font-mono text-brand-600">{{ doneSteps }} / {{ totalSteps }}</span>
+                        </div>
+                        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-brand-100">
+                            <div class="h-full rounded-full bg-signal-400 transition-[width] duration-500" :style="{ width: `${totalSteps ? (doneSteps / totalSteps) * 100 : 0}%` }" />
+                        </div>
+                        <p class="mt-2 text-xs text-brand-400">Хийсэн алхмаа чагтлаад явцаа хянаарай.</p>
+                        <Link href="/guides" class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">Бүх гарын авлага <ArrowRight class="h-4 w-4" /></Link>
+                    </div>
+                </div>
+
+                <ol class="mt-12 grid gap-12 md:grid-cols-3 md:gap-8">
+                    <li v-for="(stage, si) in journeyStages" :key="stage.key">
+                        <!-- Цаг хугацааны шугам: цэг ба дараагийн үе шат руу үргэлжлэх зураас -->
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-board text-signal-400">
+                                <component :is="stageIcon[stage.key]" class="h-4 w-4" />
+                            </span>
+                            <span class="h-px flex-1 bg-brand-200" :class="si === journeyStages.length - 1 ? 'md:bg-transparent' : ''" />
+                        </div>
+                        <p class="kicker mt-5">Үе шат {{ si + 1 }}</p>
+                        <h3 class="mt-2 text-xl font-semibold tracking-tight text-brand-600">{{ stage.label }}</h3>
+
+                        <ul class="mt-5 border-t border-brand-100">
+                            <li v-for="(g, gi) in stage.guides" :key="g.slug" class="flex gap-3 border-b border-brand-100">
+                                <button
+                                    type="button"
+                                    class="mt-4 flex h-5 w-5 shrink-0 items-center justify-center rounded-[3px] border transition-colors"
+                                    :class="done.has(g.slug) ? 'border-brand-600 bg-brand-600 text-signal-400' : 'border-brand-300 hover:border-brand-600'"
+                                    :aria-pressed="done.has(g.slug)"
+                                    :aria-label="done.has(g.slug) ? 'Хийгээгүй болгох' : 'Хийсэн гэж тэмдэглэх'"
+                                    @click="toggleStep(g.slug)"
+                                >
+                                    <Check v-if="done.has(g.slug)" class="h-3.5 w-3.5" stroke-width="3" />
+                                </button>
+                                <Link :href="`/guides/${g.slug}`" class="group flex min-w-0 flex-1 gap-4 py-4">
+                                    <span class="tabular pt-0.5 font-mono text-xs text-brand-300">{{ si + 1 }}.{{ gi + 1 }}</span>
+                                    <span class="min-w-0 flex-1">
+                                        <span class="flex items-start justify-between gap-3">
+                                            <span class="text-[15px] font-medium leading-snug group-hover:underline group-hover:underline-offset-4" :class="done.has(g.slug) ? 'text-brand-400' : 'text-brand-600'">{{ g.title }}</span>
+                                            <ArrowUpRight class="mt-0.5 h-4 w-4 shrink-0 text-brand-300 transition-colors group-hover:text-brand-600" />
+                                        </span>
+                                        <span v-if="g.excerpt" class="mt-1.5 line-clamp-2 block text-sm leading-relaxed text-brand-400">{{ g.excerpt }}</span>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ─── НИСЛЭГИЙН САМБАР ─────────────────────────────────── -->
+        <section class="border-t border-brand-100">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+                <div class="flex items-end justify-between gap-6">
+                    <div>
+                        <p class="kicker">{{ sectionNo.flights }} · Нислэг / Flüge</p>
+                        <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Ойрын нислэгүүд</h2>
+                    </div>
+                    <Link href="/flights" class="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">
+                        Нислэгийн самбар <ArrowRight class="h-4 w-4" />
                     </Link>
                 </div>
 
-                <!-- Сурталчилгаа (admin-аас удирддаг: home_sidebar) -->
-                <BannerDisplay placement="home_sidebar" variant="box" :placeholder="true" />
-            </aside>
+                <div class="mt-8 overflow-hidden rounded-md bg-board text-white">
+                    <div class="hidden grid-cols-[7rem_5rem_minmax(0,1fr)_minmax(0,1fr)_1rem] gap-4 border-b border-board-line px-5 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 sm:grid">
+                        <span>Огноо <span class="text-white/25">/ Datum</span></span>
+                        <span>Нислэг</span>
+                        <span>Чиглэл <span class="text-white/25">/ Route</span></span>
+                        <span>Хүн · машин · ачаа</span>
+                        <span />
+                    </div>
 
-            <!-- Баруун үндсэн контент -->
-            <main class="space-y-12">
-                <!-- Онцлох эвент — том зурагтай hero -->
-                <section v-if="heroEvent" class="space-y-4">
-                    <!-- Гол том эвент -->
-                    <Link :href="`/events/${heroEvent.slug}`" class="group relative block overflow-hidden rounded-[2rem] bg-gray-900 shadow-card-lg ring-1 ring-black/5">
-                        <img
-                            v-if="heroEvent.cover_image"
-                            :src="heroEvent.cover_image"
-                            :alt="heroEvent.title"
-                            class="h-80 w-full object-cover opacity-95 transition duration-700 group-hover:scale-105 sm:h-[440px]"
-                        />
-                        <div v-else class="h-80 w-full bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 sm:h-[440px]"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent"></div>
-
-                        <!-- Огнооны тэмдэг -->
-                        <div class="absolute right-5 top-5 flex h-16 w-16 flex-col items-center justify-center rounded-2xl bg-white/95 text-gray-900 shadow-lg backdrop-blur">
-                            <span class="text-2xl font-bold leading-none">{{ eventDay(heroEvent.starts_at) }}</span>
-                            <span class="mt-0.5 text-[10px] uppercase text-gray-500">{{ eventMonth(heroEvent.starts_at) }}</span>
-                        </div>
-
-                        <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold text-amber-900">
-                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                                Онцлох эвент
-                            </span>
-                            <h2 class="mt-3 line-clamp-2 max-w-2xl text-2xl font-bold text-white sm:text-3xl">{{ heroEvent.title }}</h2>
-                            <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-gray-200">
-                                <span class="inline-flex items-center gap-1.5">
-                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    {{ formatDateTime(heroEvent.starts_at) }}
-                                </span>
-                                <span v-if="heroEvent.venue || heroEvent.city" class="inline-flex items-center gap-1.5">
-                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                    {{ heroEvent.venue }}<span v-if="heroEvent.city">, {{ heroEvent.city }}</span>
-                                </span>
-                            </div>
-                            <span class="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 transition group-hover:bg-brand-600 group-hover:text-white">
-                                Дэлгэрэнгүй
-                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                            </span>
-                        </div>
-                    </Link>
-
-                    <!-- Бусад онцлох эвент -->
-                    <div v-if="restEvents.length" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <template v-if="upcomingFlights.length">
                         <Link
-                            v-for="event in restEvents"
-                            :key="event.id"
-                            :href="`/events/${event.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
+                            v-for="f in upcomingFlights"
+                            :key="f.slug"
+                            :href="`/flights/${f.slug}`"
+                            class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 border-b border-board-line px-5 py-4 transition-colors last:border-b-0 hover:bg-board-soft sm:grid-cols-[7rem_5rem_minmax(0,1fr)_minmax(0,1fr)_1rem]"
                         >
-                            <div class="relative aspect-video overflow-hidden bg-gray-100">
-                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />
-                                <div v-else class="h-full w-full bg-gradient-to-br from-brand-500 to-brand-700"></div>
-                                <div class="absolute left-3 top-3 flex h-12 w-12 flex-col items-center justify-center rounded-xl bg-white/95 text-gray-900 shadow-sm backdrop-blur">
-                                    <span class="text-base font-bold leading-none">{{ eventDay(event.starts_at) }}</span>
-                                    <span class="text-[9px] uppercase text-gray-500">{{ eventMonth(event.starts_at) }}</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <h3 class="line-clamp-2 font-semibold text-gray-900 group-hover:text-brand-700">{{ event.title }}</h3>
-                                <p class="mt-1 truncate text-sm text-gray-400">{{ event.venue }}<span v-if="event.city">, {{ event.city }}</span></p>
-                            </div>
-                        </Link>
-                    </div>
-                </section>
-
-                <!-- Онцлох эвент байхгүй бол: сайтын өөрийн hero -->
-                <section v-else>
-                    <div class="hero-aurora relative overflow-hidden rounded-[2rem] shadow-card-lg ring-1 ring-white/10">
-                        <!-- Grid texture + хөвөх гэрлүүд -->
-                        <div class="pointer-events-none absolute inset-0 bg-grid-light [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"></div>
-                        <div class="pointer-events-none absolute -right-20 -top-24 h-72 w-72 animate-float rounded-full bg-white/20 blur-3xl"></div>
-                        <div class="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 animate-float-slow rounded-full bg-brand-300/30 blur-3xl"></div>
-
-                        <div class="relative flex min-h-[22rem] flex-col justify-center px-6 py-12 sm:min-h-[28rem] sm:px-14">
-                            <span class="inline-flex w-fit animate-fade-up items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 backdrop-blur">
-                                <span class="relative flex h-2 w-2">
-                                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75"></span>
-                                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
-                                </span>
-                                Yazguur
+                            <span class="tabular font-mono text-[13px] text-white/60">
+                                {{ f.weekday }} {{ f.date.slice(8, 10) }}.{{ f.date.slice(5, 7) }}
+                                <span class="text-signal-400" :class="f.status === 'cancelled' ? 'line-through opacity-50' : ''">{{ f.time }}</span>
                             </span>
-                            <h2 class="mt-5 max-w-3xl animate-fade-up text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl" style="animation-delay: 60ms">
-                                Европ дахь монголчуудын
-                                <span class="text-gradient-light">нэгдсэн платформ</span>
-                            </h2>
-                            <p class="mt-4 max-w-xl animate-fade-up text-base leading-relaxed text-brand-100 sm:text-lg" style="animation-delay: 120ms">
-                                Худалдаа, ажил, орон сууц, арга хэмжээ, мэдээлэл, зөвлөгөө — хэрэгтэй бүхнээ нэг дороос.
-                            </p>
-                            <div class="mt-7 flex animate-fade-up flex-wrap gap-3" style="animation-delay: 180ms">
-                                <Link href="/zar" class="group inline-flex items-center gap-1.5 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
-                                    Зар үзэх
-                                    <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                                </Link>
-                                <Link :href="user ? '/zar/new' : '/register'" class="glass-dark inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 active:translate-y-0">
-                                    {{ user ? 'Зар нэмэх' : 'Нэгдэх' }}
-                                </Link>
-                            </div>
-
-                            <!-- Итгэлийн дохио -->
-                            <div class="mt-8 flex animate-fade-up flex-wrap items-center gap-x-7 gap-y-2 text-sm text-brand-100/90" style="animation-delay: 240ms">
-                                <span class="inline-flex items-center gap-2">
-                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    Үнэгүй зар нийтлэх
-                                </span>
-                                <span class="inline-flex items-center gap-2">
-                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                                    Европ даяар
-                                </span>
-                                <span class="inline-flex items-center gap-2">
-                                    <svg class="h-4 w-4 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                    Хотоор хайх
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Сурталчилгаа (admin-аас удирддаг: home_top) -->
-                <BannerDisplay placement="home_top" variant="leaderboard" :placeholder="true" />
-
-                <!-- Шинэ зар -->
-                <section>
-                    <div class="mb-5 flex items-center justify-between">
-                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
-                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
-                            Шинэ зар
-                        </h2>
-                        <Link href="/zar" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
-                            Бүгд
-                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                            <span class="font-mono text-[15px] font-medium sm:order-none">{{ f.code }}</span>
+                            <span class="col-span-2 flex min-w-0 items-center gap-2 text-[15px] sm:col-span-1">
+                                <component :is="f.direction === 'arrival' ? PlaneLanding : PlaneTakeoff" class="h-4 w-4 shrink-0 text-signal-400" />
+                                <span class="truncate">{{ f.origin }} → {{ f.destination }}</span>
+                                <span v-if="f.status !== 'scheduled'" class="font-mono text-[11px] uppercase tracking-wider" :class="f.status === 'cancelled' ? 'text-red-400' : 'text-signal-300'">{{ f.status_label }}</span>
+                            </span>
+                            <span class="tabular col-span-2 flex items-center gap-4 font-mono text-[12px] text-white/45 sm:col-span-1">
+                                <span class="inline-flex items-center gap-1" :class="f.passengers_count ? 'text-white' : ''"><Users class="h-3.5 w-3.5" />{{ f.passengers_count }}</span>
+                                <span class="inline-flex items-center gap-1" :class="f.rides_count ? 'text-white' : ''"><Car class="h-3.5 w-3.5" />{{ f.rides_count }}</span>
+                                <span class="inline-flex items-center gap-1" :class="f.parcels_count ? 'text-white' : ''"><Package class="h-3.5 w-3.5" />{{ f.parcels_count }}</span>
+                            </span>
+                            <ArrowRight class="hidden h-4 w-4 text-white/25 transition-colors group-hover:text-signal-400 sm:block" />
                         </Link>
-                    </div>
-                    <div v-if="latestListings.length" class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        <ListingCard v-for="l in latestListings" :key="l.id" :listing="l" />
-                    </div>
-                    <div v-else class="rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center">
-                        <p class="text-gray-500">Одоогоор зар алга байна.</p>
-                        <Link href="/zar/new" class="mt-3 inline-block font-medium text-brand-700 hover:underline">Анхны зараа нэмэх →</Link>
-                    </div>
-                </section>
-
-                <!-- Мэдээ -->
-                <section v-if="featuredNews.length">
-                    <div class="mb-5 flex items-center justify-between">
-                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
-                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
-                            Мэдээ
-                        </h2>
-                        <Link href="/news" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
-                            Бүгд
-                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                        </Link>
-                    </div>
-                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <Link
-                            v-for="post in featuredNews"
-                            :key="post.id"
-                            :href="`/news/${post.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
-                        >
-                            <div class="relative aspect-video overflow-hidden bg-gray-100">
-                                <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover" />
-                                <div v-else class="flex h-full w-full items-center justify-center text-gray-300">
-                                    <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m-6 8h6m-6-4h6m-6 8h6m4-12v12a2 2 0 01-2 2" /></svg>
-                                </div>
-                                <span v-if="post.is_featured" class="absolute left-3 top-3 rounded-md bg-amber-400 px-2 py-0.5 text-[11px] font-bold text-amber-900">ОНЦЛОХ</span>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <p class="text-xs text-gray-400">{{ timeAgo(post.published_at) }}</p>
-                                <h3 class="mt-1 line-clamp-2 font-semibold text-gray-900 group-hover:text-brand-700">{{ post.title }}</h3>
-                                <p v-if="post.excerpt" class="mt-1 line-clamp-2 text-sm text-gray-500">{{ post.excerpt }}</p>
-                            </div>
-                        </Link>
-                    </div>
-                </section>
-
-                <!-- Онцлох мэргэжилтэн -->
-                <section v-if="featuredProfessionals.length">
-                    <div class="mb-5 flex items-center justify-between">
-                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
-                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
-                            Онцлох мэргэжлийн үйлчилгээ
-                        </h2>
-                        <Link href="/professionals" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
-                            Бүгд
-                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                        </Link>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                        <ProfessionalCard v-for="p in featuredProfessionals" :key="p.id" :pro="p" />
-                    </div>
-                </section>
-
-                <!-- Удахгүй болох эвент -->
-                <section v-if="upcomingEvents.length">
-                    <div class="mb-5 flex items-center justify-between">
-                        <h2 class="flex items-center gap-2.5 text-xl font-bold text-gray-900">
-                            <span class="h-5 w-1.5 rounded-full bg-brand-600"></span>
-                            Удахгүй болох эвент
-                        </h2>
-                        <Link href="/events" class="group inline-flex items-center gap-1 text-sm font-medium text-brand-700">
-                            Бүгд
-                            <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                        </Link>
-                    </div>
-                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <Link
-                            v-for="event in upcomingEvents"
-                            :key="event.id"
-                            :href="`/events/${event.slug}`"
-                            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
-                        >
-                            <div class="relative aspect-video overflow-hidden bg-gray-100">
-                                <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />
-                                <div v-else class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-500 to-brand-700 text-white/50">
-                                    <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                </div>
-                                <div class="absolute left-3 top-3 flex h-12 w-12 flex-col items-center justify-center rounded-xl bg-white/95 text-gray-900 shadow-sm backdrop-blur">
-                                    <span class="text-base font-bold leading-none">{{ eventDay(event.starts_at) }}</span>
-                                    <span class="text-[9px] uppercase text-gray-500">{{ eventMonth(event.starts_at) }}</span>
-                                </div>
-                                <span v-if="event.is_featured" class="absolute right-3 top-3 rounded-md bg-amber-400 px-2 py-0.5 text-[11px] font-bold text-amber-900">ОНЦЛОХ</span>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <h3 class="line-clamp-2 font-semibold text-gray-900 group-hover:text-brand-700">{{ event.title }}</h3>
-                                <p class="mt-1 truncate text-sm text-gray-400">{{ event.venue }}<span v-if="event.city">, {{ event.city }}</span></p>
-                            </div>
-                        </Link>
-                    </div>
-                </section>
-
-                <!-- Зар нэмэх CTA -->
-                <section>
-                    <div class="hero-aurora relative flex flex-col items-center justify-between gap-5 overflow-hidden rounded-[2rem] px-8 py-12 text-center shadow-card-lg ring-1 ring-white/10 sm:flex-row sm:text-left">
-                        <div class="pointer-events-none absolute inset-0 bg-grid-light [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"></div>
-                        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 animate-float rounded-full bg-white/15 blur-3xl"></div>
-                        <div class="pointer-events-none absolute -bottom-16 left-1/4 h-48 w-48 animate-float-slow rounded-full bg-brand-300/20 blur-3xl"></div>
-                        <div class="relative">
-                            <h2 class="text-2xl font-bold text-white sm:text-3xl">Зараа үнэгүй нийтэлээрэй</h2>
-                            <p class="mt-1.5 text-brand-100">Хэдхэн минутын дотор олон мянган монголчуудад хүргэ.</p>
-                        </div>
-                        <Link :href="user ? '/zar/new' : '/register'" class="relative shrink-0 rounded-full bg-white px-7 py-3 font-semibold text-gray-900 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-brand-50 hover:text-brand-700 active:translate-y-0">
-                            + Зар нэмэх
-                        </Link>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-        <!-- Хөл -->
-        <footer class="border-t border-gray-100 bg-white">
-            <div class="mx-auto max-w-7xl px-5 py-10">
-                <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                    <Logo size="sm" badge="solid" tone="dark" />
-                    <div class="flex gap-6 text-sm text-gray-500">
-                        <Link href="/zar" class="hover:text-gray-900">Зар</Link>
-                        <Link href="/news" class="hover:text-gray-900">Мэдээ</Link>
-                        <Link href="/events" class="hover:text-gray-900">Эвент</Link>
-                    </div>
+                    </template>
+                    <p v-else class="px-5 py-12 text-sm text-white/55">Нислэгийн хуваарь оруулаагүй байна.</p>
                 </div>
-                <p class="mt-8 text-center text-xs leading-relaxed text-gray-400">
-                    © 2026 Yazguur — Европ дахь монголчуудын платформ
+
+                <p class="mt-5 text-sm text-brand-500">
+                    Нислэгээ олоод "Би энэ нислэгээр ирнэ" гэж тэмдэглэвэл тантай нэг нислэгээр ирэх хүмүүс, угтах машин, ачаа авч явах хүн нэг дор харагдана.
                 </p>
             </div>
-        </footer>
-    </div>
+        </section>
+
+        <!-- Сурталчилгааны байршил -->
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <BannerDisplay placement="home_top" variant="leaderboard" :placeholder="true" />
+        </div>
+
+        <!-- ─── 03 · ШИНЭ ЗАР ────────────────────────────────────── -->
+        <section v-if="listings.length" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <p class="kicker">{{ sectionNo.listings }} · Зар</p>
+                    <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Шинэ зар</h2>
+                </div>
+                <Link href="/zar" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">
+                    Бүгдийг харах <ArrowRight class="h-4 w-4" />
+                </Link>
+            </div>
+            <div class="mt-8 grid gap-10 lg:grid-cols-12">
+                <div class="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:col-span-9 lg:grid-cols-4">
+                    <ListingCard v-for="l in listings" :key="l.id" :listing="l" />
+                </div>
+                <aside class="lg:col-span-3">
+                    <BannerDisplay placement="home_sidebar" variant="box" :placeholder="true" />
+                </aside>
+            </div>
+        </section>
+
+        <!-- ─── 04 · ЭВЕНТ ───────────────────────────────────────── -->
+        <section v-if="events.length" class="border-t border-brand-100">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+                <div class="flex items-end justify-between gap-6">
+                    <div>
+                        <p class="kicker">{{ sectionNo.events }} · Эвент</p>
+                        <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Удахгүй болох арга хэмжээ</h2>
+                    </div>
+                    <Link href="/events" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">
+                        Бүгдийг харах <ArrowRight class="h-4 w-4" />
+                    </Link>
+                </div>
+                <ul class="mt-8 border-t border-brand-100">
+                    <li v-for="e in events" :key="e.id" class="border-b border-brand-100">
+                        <Link :href="`/events/${e.slug}`" class="group grid grid-cols-12 items-center gap-4 py-5">
+                            <span class="col-span-3 sm:col-span-2">
+                                <span class="tabular block font-mono text-3xl font-medium leading-none text-brand-600">{{ String(new Date(e.starts_at).getDate()).padStart(2, '0') }}</span>
+                                <span class="kicker mt-1.5 block">{{ monthShort(e.starts_at) }} · {{ hm(e.starts_at) }}</span>
+                            </span>
+                            <span class="col-span-9 min-w-0 sm:col-span-7">
+                                <span class="block truncate text-[16px] font-medium text-brand-600 group-hover:underline group-hover:underline-offset-4">{{ e.title }}</span>
+                                <span class="mt-1 block truncate text-sm text-brand-400">{{ [e.venue, e.city].filter(Boolean).join(' · ') }}</span>
+                            </span>
+                            <span class="col-span-3 hidden justify-end sm:flex">
+                                <ArrowUpRight class="h-5 w-5 text-brand-300 transition-colors group-hover:text-brand-600" />
+                            </span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ─── 05 · МЭДЭЭ ───────────────────────────────────────── -->
+        <section v-if="featuredNews.length" class="border-t border-brand-100">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+                <div class="flex items-end justify-between gap-6">
+                    <div>
+                        <p class="kicker">{{ sectionNo.news }} · Мэдээ</p>
+                        <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Сүүлийн мэдээ</h2>
+                    </div>
+                    <Link href="/news" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">
+                        Бүгдийг харах <ArrowRight class="h-4 w-4" />
+                    </Link>
+                </div>
+                <div class="mt-8 grid gap-10 md:grid-cols-3">
+                    <Link v-for="n in featuredNews" :key="n.id" :href="`/news/${n.slug}`" class="group block">
+                        <div class="aspect-[16/10] overflow-hidden rounded-[3px] bg-brand-50">
+                            <img v-if="n.cover_image" :src="n.cover_image" :alt="n.title" class="h-full w-full object-cover transition-opacity group-hover:opacity-90" />
+                            <div v-else class="flex h-full w-full items-center justify-center text-brand-300">
+                                <ImageOff class="h-8 w-8" stroke-width="1.25" />
+                            </div>
+                        </div>
+                        <p class="kicker mt-4">{{ dayMonth(n.published_at) }}.{{ new Date(n.published_at).getFullYear() }}</p>
+                        <h3 class="mt-2 text-[17px] font-medium leading-snug text-brand-600 group-hover:underline group-hover:underline-offset-4">{{ n.title }}</h3>
+                        <p v-if="n.excerpt" class="mt-2 line-clamp-2 text-sm leading-relaxed text-brand-400">{{ n.excerpt }}</p>
+                    </Link>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── МЭРГЭЖЛИЙН ТУСЛАХ ────────────────────────────────── -->
+        <section v-if="featuredProfessionals.length" class="border-t border-brand-100">
+            <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+                <div class="flex items-end justify-between gap-6">
+                    <div>
+                        <p class="kicker">Мэргэжлийн туслах</p>
+                        <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Монголоор ярьдаг мэргэжилтэн</h2>
+                    </div>
+                    <Link href="/professionals" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-500 transition-colors hover:text-brand-600">
+                        Бүгдийг харах <ArrowRight class="h-4 w-4" />
+                    </Link>
+                </div>
+                <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <ProfessionalCard v-for="p in featuredProfessionals" :key="p.id" :pro="p" />
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── НЭГДЭХ ──────────────────────────────────────────── -->
+        <section class="bg-board text-white">
+            <div class="mx-auto flex max-w-7xl flex-col items-start gap-8 px-4 py-16 sm:px-6 md:flex-row md:items-center md:justify-between md:py-20 lg:px-8">
+                <div>
+                    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-signal-400">
+                        {{ user ? 'Нийтлэх' : 'Бүртгэл' }}
+                    </p>
+                    <h2 class="mt-3 max-w-xl text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
+                        {{ user ? 'Зар, аяллаа нийтэлж бусадтай хуваалцаарай.' : 'Бүртгүүлээд зар тавьж, аялал нэмж, бусадтай шууд бичилцээрэй.' }}
+                    </h2>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <template v-if="user">
+                        <Link href="/rides/new" class="inline-flex h-12 items-center gap-1.5 rounded-md bg-signal-400 px-5 text-[15px] font-semibold text-brand-600 transition-colors hover:bg-signal-300">
+                            <Plus class="h-4 w-4" /> Аялал нэмэх
+                        </Link>
+                        <Link href="/zar/new" class="inline-flex h-12 items-center rounded-md border border-white/20 px-5 text-[15px] font-medium text-white transition-colors hover:border-white">
+                            Зар нэмэх
+                        </Link>
+                    </template>
+                    <template v-else>
+                        <Link href="/register" class="inline-flex h-12 items-center gap-2 rounded-md bg-signal-400 px-5 text-[15px] font-semibold text-brand-600 transition-colors hover:bg-signal-300">
+                            Бүртгүүлэх <ArrowRight class="h-4 w-4" />
+                        </Link>
+                        <Link href="/login" class="inline-flex h-12 items-center rounded-md border border-white/20 px-5 text-[15px] font-medium text-white transition-colors hover:border-white">
+                            Нэвтрэх
+                        </Link>
+                    </template>
+                </div>
+            </div>
+        </section>
+    </PublicLayout>
 </template>

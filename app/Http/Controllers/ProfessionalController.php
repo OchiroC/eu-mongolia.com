@@ -53,7 +53,7 @@ class ProfessionalController extends Controller
             'languages' => ['Монгол', 'Герман', 'Англи', 'Франц', 'Орос', 'Чех', 'Польш'],
             'filters' => $request->only(['category', 'city', 'lang', 'search']),
             'seo' => [
-                'title' => 'Мэргэжилтэн — Yazguur',
+                'title' => 'Мэргэжилтэн | '.config('app.name'),
                 'description' => 'Европ дахь монгол мэргэжилтнүүд: хуульч, эмч, орчуулагч, үсчин болон бусад. Баталгаажсан, шууд холбогдоно.',
             ],
         ]);
@@ -93,7 +93,7 @@ class ProfessionalController extends Controller
             ],
             'related' => $related->map(fn ($p) => $this->card($p)),
             'seo' => [
-                'title' => $professional->name.($professional->profession ? ' — '.$professional->profession : ''),
+                'title' => $professional->name.($professional->profession ? ', '.$professional->profession : ''),
                 'description' => Str::limit(strip_tags((string) $professional->bio) ?: $professional->profession, 150),
                 'image' => $professional->photo,
                 'url' => url("/professionals/{$professional->slug}"),
@@ -262,6 +262,8 @@ class ProfessionalController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:4096'],
             'remove_photo' => ['boolean'],
             'city' => ['nullable', 'string', 'max:80'],
+            'lat' => ['nullable', 'numeric', 'between:-90,90'],
+            'lng' => ['nullable', 'numeric', 'between:-180,180'],
             'country' => ['nullable', 'string', 'max:64'],
             'languages' => ['nullable', 'array', 'max:8'],
             'languages.*' => ['string', 'max:40'],

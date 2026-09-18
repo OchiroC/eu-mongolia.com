@@ -1,5 +1,6 @@
 <script setup>
 import BannerDisplay from '@/Components/BannerDisplay.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { formatDateTime } from '@/lib/date';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -31,17 +32,18 @@ watch(search, (value) => {
     <PublicLayout>
         <BannerDisplay placement="home_top" class="mb-6" />
 
-        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h1 class="text-2xl font-bold">Эвент, арга хэмжээ</h1>
-            <input v-model="search" type="search" placeholder="Хайх..." class="w-full rounded-md border-gray-300 sm:w-64" />
-        </div>
+        <PageHeader kicker="Эвент" title="Эвент, арга хэмжээ" subtitle="Франкфурт болон Европ дахь монголчуудын арга хэмжээ, тасалбар.">
+            <template #actions>
+                <input v-model="search" type="search" placeholder="Хайх…" class="h-10 w-full rounded-md border-brand-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 sm:w-64" />
+            </template>
+        </PageHeader>
 
         <div v-if="events.data.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Link
                 v-for="event in events.data"
                 :key="event.id"
                 :href="`/events/${event.slug}`"
-                class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
+                class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:shadow-card-lg"
             >
                 <div class="aspect-video overflow-hidden bg-gray-100">
                     <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="h-full w-full object-cover" />

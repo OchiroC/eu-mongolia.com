@@ -64,6 +64,18 @@ class User extends Authenticatable
     /**
      * Хадгалсан (favorite) зарууд.
      */
+    /** Бэлтгэлийн жагсаалтад хийсэн гэж тэмдэглэсэн гарын авлагууд. */
+    public function journeyGuides(): BelongsToMany
+    {
+        return $this->belongsToMany(Guide::class, 'journey_checks')->withTimestamps();
+    }
+
+    /** "Энэ нислэгээр явна" гэж тэмдэглэсэн нислэгүүд. */
+    public function flights(): BelongsToMany
+    {
+        return $this->belongsToMany(Flight::class, 'flight_passengers')->withTimestamps();
+    }
+
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Listing::class)->withTimestamps();

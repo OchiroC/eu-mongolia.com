@@ -1,54 +1,55 @@
 <script setup>
 import Logo from '@/Components/Logo.vue';
+import { ArrowRight } from 'lucide-vue-next';
 
 defineProps({
     title: { type: String, default: '' },
     subtitle: { type: String, default: '' },
 });
 
-const highlights = [
-    { icon: '📰', text: 'Европ дахь монголчуудын мэдээ мэдээлэл' },
-    { icon: '🎟️', text: 'Эвент, арга хэмжээний тасалбар' },
-    { icon: '📢', text: 'Зар сурталчилгаа, бизнес лавлах' },
+const appName = import.meta.env.VITE_APP_NAME || 'OM137';
+
+// Нүүрний чиглүүлэх самбартай ижил хэлбэр — бүртгэлтэй болсноор нээгдэх замууд.
+const directions = [
+    { label: 'Хамт аялах хүн олох', dest: 'Хамт аялах' },
+    { label: 'Байр, ажлын зар тавих', dest: 'Зар' },
+    { label: 'Эвентийн тасалбар авах', dest: 'Эвент' },
+    { label: 'Монголчуудтай шууд бичилцэх', dest: 'Зурвас' },
 ];
 </script>
 
 <template>
-    <div class="flex min-h-screen bg-gray-50">
-        <!-- Зүүн тал — брэнд талбар (зөвхөн дэлгэц томд) -->
-        <div class="relative hidden w-1/2 overflow-hidden bg-gradient-to-br from-brand-800 via-brand-700 to-brand-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
-            <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-2xl"></div>
-            <div class="pointer-events-none absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-brand-400/20 blur-3xl"></div>
+    <div class="flex min-h-screen bg-white">
+        <!-- Зүүн тал — хар самбар (зөвхөн том дэлгэцэнд). -->
+        <div class="hidden w-1/2 flex-col justify-between bg-board p-12 text-white lg:flex">
+            <Logo size="lg" badge="glass" tone="white" />
 
-            <Logo size="lg" badge="glass" tone="white" class="relative" />
-
-            <div class="relative">
-                <h2 class="text-3xl font-bold leading-tight text-white">
-                    Европ дахь монголчуудын<br />нэгдсэн платформ
+            <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-signal-400">FRA · Frankfurt am Main</p>
+                <h2 class="mt-4 max-w-md text-3xl font-semibold leading-tight tracking-tight">
+                    Франкфуртад буусан монгол хүний эхний зогсоол.
                 </h2>
-                <p class="mt-3 max-w-md text-brand-100">
-                    Мэдээ, эвент, зар — бүгд нэг дор.
-                </p>
 
-                <ul class="mt-8 space-y-3">
-                    <li v-for="h in highlights" :key="h.text" class="flex items-center gap-3 text-brand-50">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 text-lg backdrop-blur">{{ h.icon }}</span>
-                        <span class="text-sm">{{ h.text }}</span>
+                <ul class="mt-10 max-w-md border-t border-board-line">
+                    <li v-for="d in directions" :key="d.label" class="flex items-center gap-4 border-b border-board-line py-3.5">
+                        <ArrowRight class="h-4 w-4 shrink-0 text-signal-400" />
+                        <span class="flex-1 text-[15px]">{{ d.label }}</span>
+                        <span class="font-mono text-[11px] uppercase tracking-[0.1em] text-white/40">{{ d.dest }}</span>
                     </li>
                 </ul>
             </div>
 
-            <p class="relative text-sm text-brand-200">© 2026 Yazguur</p>
+            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-white/40">© 2026 {{ appName }}</p>
         </div>
 
-        <!-- Баруун тал — форм -->
-        <div class="flex w-full flex-col items-center justify-center px-6 py-10 lg:w-1/2">
-            <div class="w-full max-w-md">
-                <Logo size="lg" badge="solid" tone="brand" class="mb-8 justify-center lg:hidden" />
+        <!-- Баруун тал — форм. -->
+        <div class="flex w-full flex-col items-center justify-center px-6 py-12 lg:w-1/2">
+            <div class="w-full max-w-sm">
+                <Logo size="lg" class="mb-10 lg:hidden" />
 
                 <div v-if="title || subtitle" class="mb-8">
-                    <h1 v-if="title" class="text-2xl font-bold text-gray-900">{{ title }}</h1>
-                    <p v-if="subtitle" class="mt-1 text-sm text-gray-500">{{ subtitle }}</p>
+                    <h1 v-if="title" class="text-2xl font-semibold tracking-tight text-brand-600">{{ title }}</h1>
+                    <p v-if="subtitle" class="mt-2 text-sm text-brand-500">{{ subtitle }}</p>
                 </div>
 
                 <slot />

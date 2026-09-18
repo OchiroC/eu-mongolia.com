@@ -1,5 +1,7 @@
 <script setup>
+import PageHeader from '@/Components/PageHeader.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
+import { Check, Plus } from 'lucide-vue-next';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 
@@ -37,26 +39,23 @@ const sorts = [
     <Head title="Асуулт хариулт" />
 
     <PublicLayout>
-        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Асуулт хариулт</h1>
-                <p class="mt-1 text-sm text-gray-500">Асуугаад олон нийтээс хариу аваарай. Туршлагаа хуваалцъя.</p>
-            </div>
-            <Link :href="user ? '/questions/ask' : '/login'" class="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
-                Асуулт асуух
-            </Link>
-        </div>
+        <PageHeader kicker="Нийгэмлэг" title="Асуулт хариулт" subtitle="Асуултаа тавьж, туршлагатай хүмүүсээс хариулт аваарай.">
+            <template #actions>
+                <Link :href="user ? '/questions/ask' : '/login'" class="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-500">
+                    <Plus class="h-4 w-4" /> Асуулт асуух
+                </Link>
+            </template>
+        </PageHeader>
 
-        <input v-model="search" type="search" placeholder="Асуулт хайх..." class="mb-4 w-full rounded-lg border-gray-300" />
+        <input v-model="search" type="search" placeholder="Асуулт хайх..." class="mb-4 w-full rounded-md border-brand-200 focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
 
         <div class="mb-4 flex flex-wrap gap-2">
-            <button class="rounded-full px-3 py-1 text-sm transition" :class="!filters.category ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'" @click="filterCategory(null)">Бүгд</button>
+            <button class="rounded-md px-3 py-1 text-sm transition" :class="!filters.category ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'" @click="filterCategory(null)">Бүгд</button>
             <button
                 v-for="c in categories"
                 :key="c.key"
-                class="rounded-full px-3 py-1 text-sm transition"
-                :class="filters.category === c.key ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-sm transition"
+                :class="filters.category === c.key ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCategory(c.key)"
             >{{ c.label }} <span class="text-xs opacity-70">{{ c.count }}</span></button>
         </div>
@@ -76,7 +75,7 @@ const sorts = [
                 v-for="q in questions.data"
                 :key="q.id"
                 :href="`/questions/${q.slug}`"
-                class="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-4 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
+                class="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-4 shadow-card transition duration-300 hover:shadow-card-lg"
             >
                 <div class="flex w-14 shrink-0 flex-col items-center justify-center rounded-xl text-center" :class="q.solved ? 'bg-emerald-50 text-emerald-600' : 'bg-gray-50 text-gray-500'">
                     <span class="text-lg font-bold">{{ q.answers }}</span>
@@ -84,8 +83,8 @@ const sorts = [
                 </div>
                 <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-1.5">
-                        <span class="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-medium text-brand-700">{{ q.category_label }}</span>
-                        <span v-if="q.solved" class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">✓ Шийдсэн</span>
+                        <span class="rounded-md bg-brand-50 px-2 py-0.5 text-[11px] font-medium text-brand-700">{{ q.category_label }}</span>
+                        <span v-if="q.solved" class="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700"><Check class="h-3 w-3" />Шийдсэн</span>
                     </div>
                     <h2 class="mt-1 font-semibold text-gray-900 group-hover:text-brand-700">{{ q.title }}</h2>
                     <p class="mt-0.5 line-clamp-1 text-sm text-gray-500">{{ q.excerpt }}</p>
@@ -106,7 +105,7 @@ const sorts = [
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </PublicLayout>

@@ -18,6 +18,7 @@ const props = defineProps({
     guide: { type: Object, default: null },
     topics: { type: Array, default: () => [] },
     countries: { type: Array, default: () => [] },
+    stages: { type: Array, default: () => [] },
     submitUrl: String,
     method: { type: String, default: 'post' },
 });
@@ -31,6 +32,8 @@ const form = useForm({
     remove_cover: false,
     topic: props.guide?.topic ?? 'visa',
     country: props.guide?.country ?? '',
+    stage: props.guide?.stage ?? '',
+    stage_order: props.guide?.stage_order ?? 0,
     is_featured: props.guide?.is_featured ?? false,
     status: props.guide?.status ?? 'draft',
 });
@@ -38,6 +41,11 @@ const form = useForm({
 const countryModel = computed({
     get: () => form.country || 'none',
     set: (v) => { form.country = v === 'none' ? '' : v; },
+});
+
+const stageModel = computed({
+    get: () => form.stage || 'none',
+    set: (v) => { form.stage = v === 'none' ? '' : v; },
 });
 
 const submitting = ref(false);
@@ -86,6 +94,26 @@ async function submit() {
             </div>
         </div>
 
+        <!-- Нүүрний "Аяллын зам" хэсэгт харагдах үе шат, дараалал. -->
+        <div class="grid gap-4 sm:grid-cols-2">
+            <div class="space-y-1.5">
+                <Label>Аяллын үе шат</Label>
+                <Select v-model="stageModel">
+                    <SelectTrigger><SelectValue placeholder="Хамаарахгүй" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="none">Хамаарахгүй</SelectItem>
+                        <SelectItem v-for="s in stages" :key="s.key" :value="s.key">{{ s.label }}</SelectItem>
+                    </SelectContent>
+                </Select>
+                <p class="text-xs text-gray-400">Сонговол нүүр хуудасны "Аяллын зам" хэсэгт гарна.</p>
+            </div>
+            <div class="space-y-1.5">
+                <Label>Үе шат доторх дараалал</Label>
+                <Input v-model.number="form.stage_order" type="number" min="0" max="99" />
+                <p v-if="form.errors.stage_order" class="text-sm text-destructive">{{ form.errors.stage_order }}</p>
+            </div>
+        </div>
+
         <div class="space-y-1.5">
             <Label>Тойм (excerpt)</Label>
             <Textarea v-model="form.excerpt" rows="2" placeholder="Богино тайлбар (жагсаалт, хайлтад харагдана)" />
@@ -104,7 +132,7 @@ async function submit() {
 
         <div class="flex flex-wrap items-center gap-6">
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input v-model="form.is_featured" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" />
+                <input v-model="form.is_featured" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                 Онцлох
             </label>
             <div class="flex items-center gap-2">

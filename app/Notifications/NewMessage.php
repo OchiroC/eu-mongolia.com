@@ -24,7 +24,7 @@ class NewMessage extends Notification
         $sender = $this->message->sender?->name ?? 'Хэрэглэгч';
 
         return (new MailMessage)
-            ->subject('Шинэ зурвас — '.$sender)
+            ->subject('Шинэ зурвас: '.$sender)
             ->line($sender.' танд зурвас илгээлээ:')
             ->line('"'.Str::limit($this->message->body, 120).'"')
             ->action('Хариулах', url('/messages/'.$this->message->conversation_id));

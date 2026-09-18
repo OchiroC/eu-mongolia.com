@@ -19,17 +19,26 @@ class Guide extends Model
         'health' => 'Эрүүл мэнд',
         'driving' => 'Жолооны үнэмлэх',
         'bank' => 'Банк / Карт',
+        'travel' => 'Нислэг, ачаа',
         'housing' => 'Орон сууц',
         'other' => 'Бусад',
     ];
 
+    /** Аяллын үе шат (нүүрний "Аяллын зам" хэсэг). Дараалал нь харагдах дараалал. */
+    public const STAGES = [
+        'before' => 'Нисэхээс өмнө',
+        'arrival' => 'Буух өдөр',
+        'first_weeks' => 'Эхний 14 хоног',
+    ];
+
     protected $fillable = [
         'user_id', 'title', 'slug', 'excerpt', 'body', 'cover_image',
-        'topic', 'country', 'is_featured', 'status', 'published_at',
+        'topic', 'country', 'stage', 'stage_order', 'is_featured', 'status', 'published_at',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'stage_order' => 'integer',
         'published_at' => 'datetime',
     ];
 

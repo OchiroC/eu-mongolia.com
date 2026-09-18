@@ -4,6 +4,7 @@ import Separator from '@/Components/ui/Separator.vue';
 import { cn } from '@/lib/utils';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
+import { TableKit } from '@tiptap/extension-table';
 import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
@@ -30,6 +31,8 @@ const editor = useEditor({
         Image.configure({ inline: false, HTMLAttributes: { class: 'rounded-lg' } }),
         Youtube.configure({ controls: true, nocookie: true, width: 640, height: 360, HTMLAttributes: { class: 'rounded-lg overflow-hidden' } }),
         Placeholder.configure({ placeholder: props.placeholder }),
+        // Хүснэгт: гарын авлагын хэллэг, маягтын тайлбарт хэрэглэгддэг. Засахад алга болохгүй байх ёстой.
+        TableKit.configure({ table: { resizable: false } }),
     ],
     onUpdate: ({ editor }) => {
         const html = editor.getHTML();
@@ -117,6 +120,14 @@ function onImageFile(e) {
             <Button type="button" size="icon" :variant="editor.isActive('blockquote') ? 'secondary' : 'ghost'" class="h-8 w-8" title="Эшлэл" @click="editor.chain().focus().toggleBlockquote().run()">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h6v6H5a2 2 0 01-2-2V5zm0 0v8a4 4 0 004 4M15 5h6v6h-4a2 2 0 01-2-2V5zm0 0v8a4 4 0 004 4" /></svg>
             </Button>
+            <Button type="button" size="icon" :variant="editor.isActive('table') ? 'secondary' : 'ghost'" class="h-8 w-8" title="Хүснэгт оруулах" @click="editor.chain().focus().insertTable({ rows: 3, cols: 2, withHeaderRow: true }).run()">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3zM3 10h18M3 15h18M12 5v14" /></svg>
+            </Button>
+            <template v-if="editor.isActive('table')">
+                <Button type="button" variant="ghost" class="h-8 px-2 text-xs" title="Мөр нэмэх" @click="editor.chain().focus().addRowAfter().run()">+ Мөр</Button>
+                <Button type="button" variant="ghost" class="h-8 px-2 text-xs" title="Мөр устгах" @click="editor.chain().focus().deleteRow().run()">Мөр устгах</Button>
+                <Button type="button" variant="ghost" class="h-8 px-2 text-xs" title="Хүснэгт устгах" @click="editor.chain().focus().deleteTable().run()">Хүснэгт устгах</Button>
+            </template>
             <Button type="button" size="icon" :variant="editor.isActive('link') ? 'secondary' : 'ghost'" class="h-8 w-8" title="Холбоос" @click="setLink">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
             </Button>

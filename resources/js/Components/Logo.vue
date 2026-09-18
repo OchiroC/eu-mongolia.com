@@ -1,37 +1,49 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
     size: { type: String, default: 'md' },        // sm | md | lg
-    badge: { type: String, default: 'gradient' },  // gradient | glass | solid
-    tone: { type: String, default: 'dark' },       // dark | white | brand (wordmark өнгө)
+    badge: { type: String, default: 'solid' },    // solid | gradient | glass (glass = бараан дэвсгэр дээр)
+    tone: { type: String, default: 'dark' },       // dark | white | brand — дугаарын өнгө
     subtitle: { type: String, default: '' },
     href: { type: String, default: '/' },
 });
 
-const badgeSize = {
-    sm: 'h-8 w-8 rounded-lg text-base',
-    md: 'h-9 w-9 rounded-xl text-lg',
-    lg: 'h-10 w-10 rounded-xl text-xl',
+// Нэр .env-ийн APP_NAME-ээс ирнэ — нэр солиход зөвхөн .env-ийг засна.
+const name = (import.meta.env.VITE_APP_NAME || 'OM137').trim();
+
+// Нислэгийн код хэлбэртэй нэр (OM137): код нь самбарын хавтан, дугаар нь mono бичиг.
+const code = name.match(/^([A-Za-z]{2})(\d+)$/);
+const letters = computed(() => (code ? code[1].toUpperCase() : name.charAt(0).toUpperCase()).split(''));
+const word = code ? code[2] : name;
+
+const tile = {
+    sm: 'h-[23px] w-4 text-[14px]',
+    md: 'h-[26px] w-[18px] text-base',
+    lg: 'h-8 w-[22px] text-[19px]',
 };
-const wordSize = { sm: 'text-base', md: 'text-lg', lg: 'text-xl' };
-const badgeTone = {
-    gradient: 'bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-sm transition duration-300 group-hover:shadow-brand-glow',
-    glass: 'bg-white/15 text-white ring-1 ring-white/20 backdrop-blur',
-    solid: 'bg-brand-600 text-white',
-};
-const textTone = { dark: 'text-gray-900', white: 'text-white', brand: 'text-brand-800' };
+const wordSize = { sm: 'text-[16px]', md: 'text-[18px]', lg: 'text-[22px]' };
+const textTone = { dark: 'text-brand-600', white: 'text-white', brand: 'text-brand-600' };
+const dark = computed(() => props.badge === 'glass');
 </script>
 
 <template>
-    <Link :href="href" class="group inline-flex items-center gap-2.5">
-        <span
-            class="flex shrink-0 items-center justify-center font-extrabold tracking-tight"
-            :class="[badgeSize[size], badgeTone[badge]]"
-        >Я</span>
+    <Link :href="href" class="group inline-flex items-center gap-2" :aria-label="name">
+        <span class="inline-flex gap-0.5" aria-hidden="true">
+            <span
+                v-for="(l, i) in letters"
+                :key="i"
+                class="logo-tile font-mono font-semibold leading-none"
+                :class="[tile[size], dark ? 'logo-tile--dark' : '']"
+            >{{ l }}</span>
+        </span>
         <span class="leading-none">
-            <span class="block font-bold tracking-tight" :class="[wordSize[size], textTone[tone]]">Yazguur</span>
-            <span v-if="subtitle" class="mt-0.5 block text-[11px] font-medium text-gray-400">{{ subtitle }}</span>
+            <span
+                class="block font-semibold"
+                :class="[wordSize[size], textTone[tone], code ? 'tabular font-mono tracking-[0.01em]' : 'tracking-tight']"
+            >{{ word }}</span>
+            <span v-if="subtitle" class="kicker mt-1 block">{{ subtitle }}</span>
         </span>
     </Link>
 </template>

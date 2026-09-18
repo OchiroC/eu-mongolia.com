@@ -1,4 +1,5 @@
 <script setup>
+import { Phone } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -34,7 +35,7 @@ function price(v) {
                     </button>
                 </div>
 
-                <h1 class="mt-5 text-2xl font-bold text-gray-900">{{ post.title }}</h1>
+                <h1 class="mt-5 text-2xl font-semibold text-gray-900">{{ post.title }}</h1>
                 <p class="mt-1 text-sm text-gray-500">{{ post.type_label }} · {{ post.district ? post.district + ', ' : '' }}{{ post.city }}<span v-if="post.country">, {{ post.country }}</span></p>
 
                 <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -57,9 +58,9 @@ function price(v) {
                 </div>
 
                 <div class="mt-4 flex flex-wrap gap-2 text-sm">
-                    <span v-if="post.available_from" class="rounded-full bg-brand-50 px-3 py-1 text-brand-700">Орох: {{ post.available_from }}</span>
-                    <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-600">{{ post.furnished ? 'Тавилгатай' : 'Тавилгагүй' }}</span>
-                    <span v-if="post.gender_pref" class="rounded-full bg-gray-100 px-3 py-1 text-gray-600">Хүйс: {{ post.gender_pref }}</span>
+                    <span v-if="post.available_from" class="rounded-md bg-brand-50 px-3 py-1 text-brand-700">Орох: {{ post.available_from }}</span>
+                    <span class="rounded-md bg-gray-100 px-3 py-1 text-gray-600">{{ post.furnished ? 'Тавилгатай' : 'Тавилгагүй' }}</span>
+                    <span v-if="post.gender_pref" class="rounded-md bg-gray-100 px-3 py-1 text-gray-600">Хүйс: {{ post.gender_pref }}</span>
                 </div>
 
                 <div v-if="post.description" class="mt-6">
@@ -86,12 +87,12 @@ function price(v) {
             <!-- Холбоо барих -->
             <aside class="space-y-6 lg:sticky lg:top-20 lg:self-start">
                 <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-soft">
-                    <p class="text-2xl font-bold text-gray-900">{{ price(post.price) }}<span v-if="post.price" class="text-sm font-normal text-gray-400">/сар</span></p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ price(post.price) }}<span v-if="post.price" class="text-sm font-normal text-gray-400">/сар</span></p>
                     <p class="mt-1 text-sm text-gray-400">Эзэмшигч: {{ post.user }}</p>
 
                     <div class="mt-4 border-t border-gray-100 pt-4">
                         <template v-if="user">
-                            <a v-if="post.contact_phone" :href="`tel:${post.contact_phone}`" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">📞 {{ post.contact_phone }}</a>
+                            <a v-if="post.contact_phone" :href="`tel:${post.contact_phone}`" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700"><Phone class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ post.contact_phone }}</a>
                             <p v-else class="text-sm text-gray-400">Утас оруулаагүй байна.</p>
                         </template>
                         <Link v-else href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">Холбоо барихын тулд нэвтрэх</Link>

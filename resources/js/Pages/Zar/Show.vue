@@ -1,4 +1,6 @@
 <script setup>
+import { formatDate } from '@/lib/date';
+import { Clock, Eye, Mail, MapPin, Phone } from 'lucide-vue-next';
 import ListingCard from '@/Components/ListingCard.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import Button from '@/Components/ui/Button.vue';
@@ -80,7 +82,7 @@ function priceLabel(l) {
 }
 function fullDate(value) {
     if (!value) return '';
-    return new Date(value).toLocaleDateString('mn-MN', { year: 'numeric', month: 'long', day: 'numeric' });
+    return formatDate(value);
 }
 </script>
 
@@ -125,17 +127,17 @@ function fullDate(value) {
             <div class="space-y-6">
                 <div class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-gray-100">
                     <div class="flex flex-wrap items-center gap-2">
-                        <Link v-if="listing.category" :href="`/zar?category=${listing.category.slug}`" class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">{{ listing.category.name }}</Link>
-                        <span v-if="listing.condition" class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">{{ listing.condition === 'new' ? 'Шинэ' : 'Хуучин' }}</span>
+                        <Link v-if="listing.category" :href="`/zar?category=${listing.category.slug}`" class="rounded-md bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">{{ listing.category.name }}</Link>
+                        <span v-if="listing.condition" class="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">{{ listing.condition === 'new' ? 'Шинэ' : 'Хуучин' }}</span>
                     </div>
 
-                    <h1 class="mt-3 text-xl font-bold leading-tight text-gray-900">{{ listing.title }}</h1>
-                    <p class="mt-2 text-2xl font-extrabold text-gray-900">{{ priceLabel(listing) }}</p>
+                    <h1 class="mt-3 text-xl font-semibold leading-tight text-gray-900">{{ listing.title }}</h1>
+                    <p class="mt-2 text-2xl font-semibold text-gray-900">{{ priceLabel(listing) }}</p>
 
                     <div class="mt-4 space-y-1.5 text-sm text-gray-500">
-                        <p v-if="listing.city">📍 {{ listing.postal_code }} {{ listing.city }}<span v-if="listing.country">, {{ listing.country }}</span></p>
-                        <p>🕓 {{ fullDate(listing.created_at) }}</p>
-                        <p>👁 {{ listing.views }} үзсэн</p>
+                        <p v-if="listing.city"><MapPin class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ listing.postal_code }} {{ listing.city }}<span v-if="listing.country">, {{ listing.country }}</span></p>
+                        <p><Clock class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ fullDate(listing.created_at) }}</p>
+                        <p><Eye class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ listing.views }} удаа үзсэн</p>
                     </div>
 
                     <!-- Эзэмшигчийн товч (өөрийн зар бол) -->
@@ -161,8 +163,8 @@ function fullDate(value) {
 
                     <div v-else class="mt-5 space-y-2 border-t border-gray-100 pt-4 text-sm">
                         <p v-if="listing.contact_name"><span class="text-gray-400">Нэр:</span> <span class="font-medium text-gray-900">{{ listing.contact_name }}</span></p>
-                        <a v-if="listing.contact_phone" :href="`tel:${listing.contact_phone}`" class="block rounded-lg bg-brand-50 px-4 py-2.5 text-center font-semibold text-brand-700 hover:bg-brand-100">📞 {{ listing.contact_phone }}</a>
-                        <a v-if="listing.contact_email" :href="`mailto:${listing.contact_email}`" class="block rounded-lg bg-gray-100 px-4 py-2.5 text-center font-semibold text-gray-700 hover:bg-gray-200">✉️ {{ listing.contact_email }}</a>
+                        <a v-if="listing.contact_phone" :href="`tel:${listing.contact_phone}`" class="block rounded-lg bg-brand-50 px-4 py-2.5 text-center font-semibold text-brand-700 hover:bg-brand-100"><Phone class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ listing.contact_phone }}</a>
+                        <a v-if="listing.contact_email" :href="`mailto:${listing.contact_email}`" class="block rounded-lg bg-gray-100 px-4 py-2.5 text-center font-semibold text-gray-700 hover:bg-gray-200"><Mail class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ listing.contact_email }}</a>
                         <p v-if="!listing.contact_phone && !listing.contact_email" class="text-gray-400">Холбоо барих мэдээлэл оруулаагүй.</p>
                     </div>
 

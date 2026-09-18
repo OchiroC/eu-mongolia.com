@@ -1,5 +1,7 @@
 <script setup>
+import PageHeader from '@/Components/PageHeader.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
+import { Plus } from 'lucide-vue-next';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
@@ -35,29 +37,31 @@ function price(p) {
     <Head title="Орон сууц / Өрөө хуваалцах" />
 
     <PublicLayout>
-        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Орон сууц / Өрөө хуваалцах</h1>
-                <p class="mt-1 text-sm text-gray-500">Европ дахь монголчуудад зориулсан түрээс, өрөө, WG зар.</p>
-            </div>
-            <Link :href="user ? '/housing/new' : '/login'" class="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
-                Зар нэмэх
-            </Link>
-        </div>
+        <PageHeader kicker="Орон сууц" title="Орон сууц / Өрөө хуваалцах" subtitle="Европ дахь монголчуудад зориулсан түрээс, өрөө, WG зар.">
+            <template #actions>
+                <Link :href="user ? '/housing/new' : '/login'" class="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-500">
+                    <Plus class="h-4 w-4" /> Зар нэмэх
+                </Link>
+            </template>
+        </PageHeader>
+
+        <p class="mb-6 flex flex-wrap items-center gap-x-2 border border-l-[3px] border-amber-200 border-l-amber-500 bg-amber-50/60 px-4 py-3 text-sm text-amber-950">
+            Байрыг биеэр үзэж, гэрээ байгуулахаас өмнө урьдчилгаа, барьцаа мөнгө бүү шилжүүлээрэй.
+            <Link href="/guides/germand-tugeemel-zalilan" class="font-medium underline underline-offset-2">Түгээмэл залилан</Link>
+        </p>
 
         <div class="mb-4 flex flex-col gap-2 sm:flex-row">
-            <input v-model="city" type="text" placeholder="Хот" class="w-full rounded-lg border-gray-300 text-sm sm:flex-1" />
-            <input v-model.number="maxPrice" type="number" min="0" placeholder="Дээд үнэ (€/сар)" class="w-full rounded-lg border-gray-300 text-sm sm:w-48" />
+            <input v-model="city" type="text" placeholder="Хот" class="w-full rounded-md border-brand-200 text-sm sm:flex-1 focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
+            <input v-model.number="maxPrice" type="number" min="0" placeholder="Дээд үнэ (€/сар)" class="w-full rounded-md border-brand-200 text-sm sm:w-48 focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
         </div>
 
         <div class="mb-6 flex flex-wrap gap-2">
-            <button class="rounded-full px-3 py-1 text-sm transition" :class="!filters.type ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'" @click="filterType(null)">Бүгд</button>
+            <button class="rounded-md px-3 py-1 text-sm transition" :class="!filters.type ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'" @click="filterType(null)">Бүгд</button>
             <button
                 v-for="t in types"
                 :key="t.key"
-                class="rounded-full px-3 py-1 text-sm transition"
-                :class="filters.type === t.key ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-sm transition"
+                :class="filters.type === t.key ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterType(t.key)"
             >{{ t.label }} <span class="text-xs opacity-70">{{ t.count }}</span></button>
         </div>
@@ -67,14 +71,14 @@ function price(p) {
                 v-for="p in posts.data"
                 :key="p.id"
                 :href="`/housing/${p.slug}`"
-                class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
+                class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition duration-300 hover:shadow-card-lg"
             >
                 <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
                     <img v-if="p.cover" :src="p.cover" :alt="p.title" class="h-full w-full object-cover" />
                     <div v-else class="flex h-full w-full items-center justify-center text-gray-300">
                         <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                     </div>
-                    <span class="absolute left-2 top-2 rounded-md bg-white/90 px-2 py-0.5 text-[11px] font-medium text-gray-700 backdrop-blur">{{ p.type_label }}</span>
+                    <span class="absolute left-2 top-2 rounded-md bg-white/90 px-2 py-0.5 text-[11px] font-medium text-gray-700">{{ p.type_label }}</span>
                 </div>
                 <div class="flex flex-1 flex-col p-3.5">
                     <p class="text-base font-bold text-gray-900">{{ price(p) }}</p>
@@ -102,7 +106,7 @@ function price(p) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </PublicLayout>

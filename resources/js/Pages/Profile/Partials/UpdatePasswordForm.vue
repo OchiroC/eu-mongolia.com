@@ -63,7 +63,7 @@ const updatePassword = () => {
             <div class="flex items-center gap-4">
                 <Button type="submit" :disabled="form.processing">Шинэчлэх</Button>
                 <transition enter-active-class="transition" enter-from-class="opacity-0" leave-active-class="transition" leave-to-class="opacity-0">
-                    <p v-if="form.recentlySuccessful" class="text-sm text-emerald-600">Хадгалагдлаа ✓</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-emerald-600">Хадгалагдлаа.</p>
                 </transition>
             </div>
         </form>

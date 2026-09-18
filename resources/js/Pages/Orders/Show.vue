@@ -1,4 +1,6 @@
 <script setup>
+import { formatDateTime } from '@/lib/date';
+import { CalendarDays, MapPin } from 'lucide-vue-next';
 import TicketQr from '@/Components/TicketQr.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import Button from '@/Components/ui/Button.vue';
@@ -14,7 +16,7 @@ function pay() {
 
 function formatDate(value) {
     if (!value) return '';
-    return new Date(value).toLocaleString('mn-MN', { dateStyle: 'long', timeStyle: 'short' });
+    return formatDateTime(value);
 }
 </script>
 
@@ -25,9 +27,9 @@ function formatDate(value) {
         <div class="mx-auto max-w-2xl">
             <div class="rounded-lg bg-white p-6 shadow-sm ring-1 ring-gray-100">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-bold">Захиалга #{{ order.reference }}</h1>
+                    <h1 class="text-xl font-semibold">Захиалга #{{ order.reference }}</h1>
                     <span
-                        class="rounded-full px-3 py-1 text-sm"
+                        class="rounded-md px-3 py-1 text-sm"
                         :class="order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'"
                     >
                         {{ order.status === 'paid' ? 'Төлөгдсөн' : 'Төлбөр хүлээгдэж буй' }}
@@ -36,8 +38,8 @@ function formatDate(value) {
 
                 <div class="mt-4 space-y-1 text-gray-600">
                     <p class="font-medium text-gray-900">{{ order.event?.title }}</p>
-                    <p>📅 {{ formatDate(order.event?.starts_at) }}</p>
-                    <p v-if="order.event?.venue">📍 {{ order.event.venue }}<span v-if="order.event.city">, {{ order.event.city }}</span></p>
+                    <p><CalendarDays class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ formatDate(order.event?.starts_at) }}</p>
+                    <p v-if="order.event?.venue"><MapPin class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ order.event.venue }}<span v-if="order.event.city">, {{ order.event.city }}</span></p>
                 </div>
 
                 <div class="mt-4 flex items-center justify-between border-t pt-4 text-lg font-semibold">
@@ -49,7 +51,7 @@ function formatDate(value) {
                 <div v-if="order.status !== 'paid'" class="mt-6">
                     <Button size="lg" class="w-full" @click="pay">Төлбөр төлөх (mock)</Button>
                     <p class="mt-2 text-center text-xs text-gray-400">
-                        * Туршилтын төлбөр — карт холбоогүй. Дарвал захиалга баталгаажна.
+                        Туршилтын горим: карт холбогдоогүй тул товч дарахад захиалга шууд баталгаажна.
                     </p>
                 </div>
             </div>
@@ -67,7 +69,7 @@ function formatDate(value) {
                         <p class="font-semibold">{{ ticket.type ?? 'Тасалбар' }}</p>
                         <p class="mt-1 font-mono text-xs text-gray-400">{{ ticket.code }}</p>
                         <span
-                            class="mt-2 inline-block rounded-full px-2 py-0.5 text-xs"
+                            class="mt-2 inline-block rounded-md px-2 py-0.5 text-xs"
                             :class="ticket.status === 'used' ? 'bg-gray-200 text-gray-600' : 'bg-green-100 text-green-700'"
                         >
                             {{ ticket.status === 'used' ? 'Ашигласан' : 'Хүчинтэй' }}

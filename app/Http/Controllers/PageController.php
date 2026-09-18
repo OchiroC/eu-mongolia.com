@@ -11,8 +11,8 @@ class PageController extends Controller
     {
         return Inertia::render('Static/About', [
             'seo' => [
-                'title' => 'Бидний тухай — Yazguur',
-                'description' => 'Yazguur — Европ дахь монголчуудын зар, мэдээ, эвентийн нэгдсэн платформ.',
+                'title' => 'Бидний тухай | '.config('app.name'),
+                'description' => config('app.name').' бол Франкфурт болон ойр орчмын монголчуудын мэдээллийн сайт.',
             ],
         ]);
     }
@@ -21,8 +21,8 @@ class PageController extends Controller
     {
         return Inertia::render('Static/Contact', [
             'seo' => [
-                'title' => 'Холбоо барих — Yazguur',
-                'description' => 'Yazguur-тэй холбогдох. Санал, гомдол, хамтын ажиллагаа, реклам байршуулах.',
+                'title' => 'Холбоо барих | '.config('app.name'),
+                'description' => 'Бидэнтэй холбогдох. Санал, гомдол, хамтын ажиллагаа, реклам байршуулах.',
             ],
         ]);
     }
@@ -30,14 +30,14 @@ class PageController extends Controller
     public function terms(): Response
     {
         return Inertia::render('Static/Terms', [
-            'seo' => ['title' => 'Үйлчилгээний нөхцөл — Yazguur'],
+            'seo' => ['title' => 'Үйлчилгээний нөхцөл | '.config('app.name')],
         ]);
     }
 
     public function privacy(): Response
     {
         return Inertia::render('Static/Privacy', [
-            'seo' => ['title' => 'Нууцлалын бодлого — Yazguur'],
+            'seo' => ['title' => 'Нууцлалын бодлого | '.config('app.name')],
         ]);
     }
 }

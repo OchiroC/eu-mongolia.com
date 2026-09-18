@@ -7,25 +7,26 @@ defineProps({
     accent: { type: String, default: 'blue' },
 });
 
+// Хавтгай icon хавтан — цайвар дэвсгэр, өнгөт icon (градиентгүй).
 const accents = {
-    blue: 'from-brand-500 to-brand-700',
-    green: 'from-emerald-500 to-emerald-700',
-    amber: 'from-amber-500 to-amber-600',
-    purple: 'from-violet-500 to-violet-700',
-    rose: 'from-rose-500 to-rose-700',
-    slate: 'from-slate-500 to-slate-700',
+    blue: 'bg-brand-50 text-brand-600',
+    green: 'bg-emerald-50 text-emerald-700',
+    amber: 'bg-amber-50 text-amber-700',
+    purple: 'bg-violet-50 text-violet-700',
+    rose: 'bg-rose-50 text-rose-700',
+    slate: 'bg-gray-100 text-gray-700',
 };
 </script>
 
 <template>
-    <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-soft ring-1 ring-gray-100 transition hover:shadow-lg">
+    <div class="relative rounded-md border border-brand-100 bg-white p-5">
         <div class="flex items-start justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-500">{{ label }}</p>
-                <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900">{{ value }}</p>
+                <p class="kicker">{{ label }}</p>
+                <p class="tabular mt-3 font-mono text-3xl font-medium tracking-tight text-brand-600">{{ value }}</p>
             </div>
             <span
-                class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md"
+                class="flex h-10 w-10 items-center justify-center rounded-md"
                 :class="accents[accent]"
             >
                 <svg v-if="icon === 'money'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

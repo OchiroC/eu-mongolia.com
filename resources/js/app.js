@@ -25,3 +25,10 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+// Ирэх өдрийн багцыг (/ireh) урьдчилан хадгалах service worker. Зөвхөн production build-д.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+}

@@ -1,4 +1,5 @@
 <script setup>
+import { Eye } from 'lucide-vue-next';
 import Button from '@/Components/ui/Button.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -24,7 +25,7 @@ function price(p) {
 
     <PublicLayout>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">Миний орон сууцны зар</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Миний орон сууцны зар</h1>
             <Button :as="Link" href="/housing/new">+ Зар нэмэх</Button>
         </div>
 
@@ -35,8 +36,8 @@ function price(p) {
                 </Link>
                 <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusClass[p.status]">{{ statusLabel[p.status] }}</span>
-                        <span class="text-xs text-gray-400">👁 {{ p.views }}</span>
+                        <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass[p.status]">{{ statusLabel[p.status] }}</span>
+                        <span class="text-xs text-gray-400"><Eye class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ p.views }}</span>
                     </div>
                     <Link :href="`/housing/${p.slug}`" class="mt-1 block truncate font-semibold text-gray-900 hover:text-brand-700">{{ p.title }}</Link>
                     <p class="text-sm text-gray-500">{{ price(p) }} · {{ p.type_label }} · {{ p.city }}</p>

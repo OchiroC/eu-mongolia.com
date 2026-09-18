@@ -52,7 +52,7 @@ function submit() {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="text-2xl font-bold text-gray-900">{{ isEdit ? 'Ажлын зар засах' : 'Ажлын зар нэмэх' }}</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">{{ isEdit ? 'Ажлын зар засах' : 'Ажлын зар нэмэх' }}</h1>
 
             <form class="mt-6 space-y-5" @submit.prevent="submit">
                 <div class="space-y-1.5">
@@ -101,9 +101,9 @@ function submit() {
                     <div class="space-y-1.5">
                         <Label>Улс</Label>
                         <Select v-model="countryModel">
-                            <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="none">— Сонгох —</SelectItem>
+                                <SelectItem value="none">Сонгоогүй</SelectItem>
                                 <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                             </SelectContent>
                         </Select>

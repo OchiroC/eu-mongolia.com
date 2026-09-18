@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/vue3';
 
     <PublicLayout>
         <div class="mx-auto max-w-3xl">
-            <h1 class="text-3xl font-bold text-gray-900">Нууцлалын бодлого</h1>
+            <h1 class="text-3xl font-semibold text-gray-900">Нууцлалын бодлого</h1>
             <p class="mt-2 text-sm text-gray-400">Сүүлд шинэчилсэн: 2026 он</p>
 
             <div class="rich-content mt-8">

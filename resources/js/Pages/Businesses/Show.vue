@@ -1,4 +1,5 @@
 <script setup>
+import { Clock } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -27,13 +28,13 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
         <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <article class="min-w-0">
                 <div class="flex flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-soft sm:flex-row sm:text-left">
-                    <span class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-brand-100 text-3xl font-bold text-brand-700">
+                    <span class="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-brand-100 text-3xl font-semibold text-brand-700">
                         <img v-if="business.photo" :src="business.photo" :alt="business.name" class="h-full w-full object-cover" /><template v-else>{{ initial(business.name) }}</template>
                     </span>
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center justify-center gap-1.5 sm:justify-start">
-                            <h1 class="text-2xl font-bold text-gray-900">{{ business.name }}</h1>
-                            <span v-if="business.is_featured" class="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Онцлох</span>
+                            <h1 class="text-2xl font-semibold text-gray-900">{{ business.name }}</h1>
+                            <span v-if="business.is_featured" class="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Онцлох</span>
                         </div>
                         <p class="mt-0.5 font-medium text-brand-700">{{ business.category_label }}</p>
                         <p class="mt-1 text-sm text-gray-500">{{ business.address ? business.address + ', ' : '' }}{{ business.city }}<span v-if="business.country">, {{ business.country }}</span></p>
@@ -89,7 +90,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
                             <svg class="h-4 w-4 text-brand-600" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z" /></svg>
                             Facebook
                         </a>
-                        <p v-if="business.hours" class="flex items-center gap-2.5 text-gray-500">🕒 {{ business.hours }}</p>
+                        <p v-if="business.hours" class="flex items-center gap-2.5 text-gray-500"><Clock class="h-4 w-4 shrink-0" /> {{ business.hours }}</p>
                         <p v-if="!business.phone && !business.email && !business.website && !business.facebook" class="text-gray-400">Холбоо барих мэдээлэл оруулаагүй.</p>
                     </div>
                     <Link v-if="business.owned" href="/my/businesses" class="block border-t border-gray-100 py-2.5 text-center text-xs text-brand-700 hover:underline">Миний бизнес засах</Link>

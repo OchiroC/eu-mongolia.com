@@ -21,7 +21,7 @@ class ProfessionalStatus extends Notification
     private function text(): string
     {
         return $this->action === 'verified'
-            ? 'Таны "'.$this->name.'" мэргэжилтний профайл баталгаажлаа ✓'
+            ? 'Таны "'.$this->name.'" мэргэжилтний профайл баталгаажлаа.'
             : 'Таны "'.$this->name.'" мэргэжилтний профайл зөвшөөрөгдөж нийтлэгдлээ.';
     }
 

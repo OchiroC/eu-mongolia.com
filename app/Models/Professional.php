@@ -13,6 +13,7 @@ class Professional extends Model
         'bio', 'photo', 'city', 'country', 'languages', 'services',
         'phone', 'email', 'website', 'facebook',
         'status', 'is_verified', 'is_featured', 'featured_until',
+        'lat', 'lng',
     ];
 
     protected $casts = [

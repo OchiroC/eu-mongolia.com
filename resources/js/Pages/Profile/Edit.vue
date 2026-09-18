@@ -39,12 +39,12 @@ const active = ref('info');
             <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:text-left">
                 <div class="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-4 ring-white shadow-sm">
                     <img v-if="user.avatar_url" :src="user.avatar_url" alt="" class="h-full w-full object-cover" />
-                    <div v-else class="flex h-full w-full items-center justify-center text-2xl font-bold text-brand-700">{{ initials }}</div>
+                    <div v-else class="flex h-full w-full items-center justify-center text-2xl font-semibold text-brand-700">{{ initials }}</div>
                 </div>
                 <div class="min-w-0">
                     <div class="flex items-center justify-center gap-2 sm:justify-start">
-                        <h1 class="truncate text-2xl font-bold text-gray-900">{{ user.name }}</h1>
-                        <span v-if="isAdmin" class="shrink-0 rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Админ</span>
+                        <h1 class="truncate text-2xl font-semibold text-gray-900">{{ user.name }}</h1>
+                        <span v-if="isAdmin" class="shrink-0 rounded-md bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">Админ</span>
                     </div>
                     <p class="truncate text-gray-500">{{ user.email }}</p>
                 </div>

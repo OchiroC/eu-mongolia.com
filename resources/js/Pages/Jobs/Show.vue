@@ -1,4 +1,5 @@
 <script setup>
+import { Mail, Phone } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, usePage } from '@inertiajs/vue3';
@@ -21,11 +22,11 @@ const user = computed(() => usePage().props.auth?.user);
         <div class="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <article class="min-w-0">
                 <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">{{ job.type_label }}</span>
-                    <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">{{ job.category_label }}</span>
-                    <span v-if="job.status === 'closed'" class="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700">Хаагдсан</span>
+                    <span class="rounded-md bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">{{ job.type_label }}</span>
+                    <span class="rounded-md bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">{{ job.category_label }}</span>
+                    <span v-if="job.status === 'closed'" class="rounded-md bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700">Хаагдсан</span>
                 </div>
-                <h1 class="mt-2 text-3xl font-bold leading-tight text-gray-900">{{ job.title }}</h1>
+                <h1 class="mt-2 text-3xl font-semibold leading-tight text-gray-900">{{ job.title }}</h1>
                 <p class="mt-1 text-gray-600">
                     <span v-if="job.company" class="font-medium">{{ job.company }}</span>
                     <span v-if="job.company && (job.city || job.country)"> · </span>
@@ -46,15 +47,15 @@ const user = computed(() => usePage().props.auth?.user);
 
                         <template v-if="job.contact">
                             <div class="space-y-2">
-                                <a v-if="job.contact.apply_url" :href="job.contact.apply_url" target="_blank" rel="noopener" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">Өргөдөл гаргах →</a>
-                                <a v-if="job.contact.email" :href="`mailto:${job.contact.email}`" class="block rounded-lg bg-brand-50 px-4 py-2.5 text-center text-sm font-semibold text-brand-700 hover:bg-brand-100">✉️ {{ job.contact.email }}</a>
-                                <a v-if="job.contact.phone" :href="`tel:${job.contact.phone}`" class="block rounded-lg bg-gray-100 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-200">📞 {{ job.contact.phone }}</a>
+                                <a v-if="job.contact.apply_url" :href="job.contact.apply_url" target="_blank" rel="noopener" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-brand-700">Өргөдөл гаргах →</a>
+                                <a v-if="job.contact.email" :href="`mailto:${job.contact.email}`" class="block rounded-lg bg-brand-50 px-4 py-2.5 text-center text-sm font-semibold text-brand-700 hover:bg-brand-100"><Mail class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ job.contact.email }}</a>
+                                <a v-if="job.contact.phone" :href="`tel:${job.contact.phone}`" class="block rounded-lg bg-gray-100 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-200"><Phone class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ job.contact.phone }}</a>
                                 <p v-if="!job.contact.apply_url && !job.contact.email && !job.contact.phone" class="text-sm text-gray-400">Холбоо барих мэдээлэл оруулаагүй.</p>
                             </div>
                         </template>
                         <template v-else>
                             <p class="mb-3 text-sm text-gray-500">Холбоо барих мэдээллийг харахын тулд нэвтэрнэ үү.</p>
-                            <Link href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">Нэвтрэх</Link>
+                            <Link href="/login" class="block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-brand-700">Нэвтрэх</Link>
                         </template>
                     </div>
 

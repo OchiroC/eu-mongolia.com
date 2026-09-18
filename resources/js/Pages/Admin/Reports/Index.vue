@@ -39,14 +39,14 @@ function destroyListing(id) {
     <Head title="Модерац" />
 
     <AdminLayout>
-        <template #title>Модерац — Гомдол</template>
+        <template #title>Гомдол</template>
 
         <div v-if="reports.data.length" class="space-y-3">
             <div v-for="r in reports.data" :key="r.id" class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div class="min-w-0 flex-1">
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="rounded-full px-2.5 py-0.5 text-xs font-medium" :class="reasonClass[r.reason] || 'bg-gray-100 text-gray-600'">
+                            <span class="rounded-md px-2.5 py-0.5 text-xs font-medium" :class="reasonClass[r.reason] || 'bg-gray-100 text-gray-600'">
                                 {{ reasonLabels[r.reason] || r.reason }}
                             </span>
                             <span class="text-xs text-gray-400">{{ r.reporter ?? 'Зочин' }} · {{ r.created_at }}</span>
@@ -57,7 +57,7 @@ function destroyListing(id) {
                                 {{ r.listing.title }}
                             </Link>
                             <p class="text-xs text-gray-400">
-                                {{ r.listing.city || '—' }} ·
+                                {{ r.listing.city || '-' }} ·
                                 <span :class="r.listing.status === 'active' ? 'text-emerald-600' : 'text-gray-500'">
                                     {{ r.listing.status === 'active' ? 'Идэвхтэй' : r.listing.status === 'sold' ? 'Зарагдсан' : 'Нуусан' }}
                                 </span>
@@ -82,7 +82,7 @@ function destroyListing(id) {
         <div v-else class="rounded-2xl bg-white py-16 text-center shadow-sm ring-1 ring-gray-100">
             <svg class="mx-auto h-10 w-10 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             <p class="mt-3 font-medium text-gray-700">Шийдвэрлэх гомдол алга</p>
-            <p class="text-sm text-gray-400">Бүх гомдол шийдэгдсэн байна 🎉</p>
+            <p class="text-sm text-gray-400">Шийдвэрлэх гомдол алга.</p>
         </div>
 
         <div v-if="reports.links && reports.links.length > 3" class="mt-6 flex flex-wrap gap-1">
@@ -93,7 +93,7 @@ function destroyListing(id) {
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
                 :class="[
-                    link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200',
+                    link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600',
                     !link.url ? 'pointer-events-none opacity-50' : '',
                 ]"
             />

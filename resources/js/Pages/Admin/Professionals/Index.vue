@@ -40,8 +40,8 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
             <button
                 v-for="t in tabs"
                 :key="t.key"
-                class="rounded-full px-4 py-1.5 text-sm font-medium transition"
-                :class="filter === t.key ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-4 py-1.5 text-sm font-medium transition"
+                :class="filter === t.key ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="go(t.key)"
             >{{ t.label }} <span class="ml-1 text-xs opacity-80">{{ counts[t.key] }}</span></button>
         </div>
@@ -57,11 +57,11 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
                         <div class="min-w-0">
                             <div class="flex flex-wrap items-center gap-1.5">
                                 <span class="font-semibold text-gray-900">{{ p.name }}</span>
-                                <span v-if="p.is_verified" class="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-medium text-brand-700">Баталгаажсан</span>
-                                <span v-if="p.is_featured" class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">Онцлох</span>
+                                <span v-if="p.is_verified" class="rounded-md bg-brand-50 px-2 py-0.5 text-[10px] font-medium text-brand-700">Баталгаажсан</span>
+                                <span v-if="p.is_featured" class="rounded-md bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">Онцлох</span>
                             </div>
                             <p class="truncate text-xs text-gray-400">
-                                {{ p.profession || '—' }} · {{ p.category || 'Ангилалгүй' }} · {{ p.city || '—' }}
+                                {{ p.profession || '-' }} · {{ p.category || 'Ангилалгүй' }} · {{ p.city || '-' }}
                                 <span v-if="p.owner"> · {{ p.owner }}</span>
                             </p>
                         </div>
@@ -90,7 +90,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </AdminLayout>

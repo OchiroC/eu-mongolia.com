@@ -13,11 +13,13 @@ const isAdmin = computed(() => userRoles.value.includes('admin'));
 const allNav = [
     { name: 'Хяналтын самбар', href: '/admin', icon: 'grid', roles: [] },
     { name: 'Мэдээ', href: '/admin/posts', icon: 'news', roles: ['editor'] },
-    { name: 'Guide', href: '/admin/guides', icon: 'book', roles: ['editor'] },
+    { name: 'Гарын авлага', href: '/admin/guides', icon: 'book', roles: ['editor'] },
     { name: 'Орон сууц', href: '/admin/housing', icon: 'home', roles: [] },
     { name: 'Ажил', href: '/admin/jobs', icon: 'briefcase', roles: [] },
     { name: 'Асуулт хариулт', href: '/admin/questions', icon: 'question', roles: ['moderator'] },
-    { name: 'Аялал (carpool)', href: '/admin/rides', icon: 'car', roles: [] },
+    { name: 'Нислэгийн хуваарь', href: '/admin/flights', icon: 'plane', roles: [] },
+    { name: 'Ачаа, илгээмж', href: '/admin/parcels', icon: 'package', roles: [] },
+    { name: 'Хамт аялах', href: '/admin/rides', icon: 'car', roles: [] },
     { name: 'Элчин / Тусламж', href: '/admin/embassies', icon: 'shield', roles: [] },
     { name: 'Зар / Баннер', href: '/admin/banners', icon: 'ad', roles: ['advertiser'] },
     { name: 'Эвент', href: '/admin/events', icon: 'calendar', roles: ['organizer'] },
@@ -29,6 +31,7 @@ const allNav = [
     { name: 'Хэрэглэгч', href: '/admin/users', icon: 'users', roles: [] },
     { name: 'Ангилал', href: '/admin/categories', icon: 'folder', roles: [] },
     { name: 'Тасалбар шалгах', href: '/admin/check-in', icon: 'ticket', roles: ['organizer'] },
+    { name: 'Сурталчилгааны карт', href: '/admin/print-card', icon: 'printer', roles: [] },
     { name: 'Тохиргоо', href: '/admin/settings', icon: 'settings', roles: [] },
 ];
 
@@ -87,6 +90,9 @@ function initials(name) {
                             <template v-else-if="item.icon === 'folder'"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" /></template>
                             <template v-else-if="item.icon === 'comment'"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4-.8L3 20l1.3-3.5C3.5 15.3 3 13.7 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></template>
                             <template v-else-if="item.icon === 'badge'"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></template>
+                            <template v-else-if="item.icon === 'plane'"><path stroke-linecap="round" stroke-linejoin="round" d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" /></template>
+                            <template v-else-if="item.icon === 'package'"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 9.4 7.55 4.24M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.27 6.96 12 12.01l8.73-5.05M12 22.08V12" /></template>
+                            <template v-else-if="item.icon === 'printer'"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" /></template>
                             <template v-else-if="item.icon === 'book'"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></template>
                             <template v-else-if="item.icon === 'briefcase'"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></template>
                             <template v-else-if="item.icon === 'question'"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></template>
@@ -101,22 +107,22 @@ function initials(name) {
                         <span class="flex-1">{{ item.name }}</span>
                         <span
                             v-if="item.icon === 'flag' && pendingReports > 0"
-                            class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                            class="flex h-5 min-w-[20px] items-center justify-center rounded-md px-1.5 text-xs font-bold"
                             :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
                         >{{ pendingReports }}</span>
                         <span
                             v-if="item.icon === 'comment' && pendingComments > 0"
-                            class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                            class="flex h-5 min-w-[20px] items-center justify-center rounded-md px-1.5 text-xs font-bold"
                             :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
                         >{{ pendingComments }}</span>
                         <span
                             v-if="item.icon === 'badge' && pendingProfessionals > 0"
-                            class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                            class="flex h-5 min-w-[20px] items-center justify-center rounded-md px-1.5 text-xs font-bold"
                             :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
                         >{{ pendingProfessionals }}</span>
                         <span
                             v-if="item.icon === 'store' && pendingBusinesses > 0"
-                            class="flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold"
+                            class="flex h-5 min-w-[20px] items-center justify-center rounded-md px-1.5 text-xs font-bold"
                             :class="isActive(item.href) ? 'bg-white/25 text-white' : 'bg-red-500 text-white'"
                         >{{ pendingBusinesses }}</span>
                     </Link>
@@ -156,7 +162,7 @@ function initials(name) {
 
         <!-- Гол хэсэг -->
         <div class="flex min-w-0 flex-1 flex-col">
-            <header class="sticky top-0 z-20 flex items-center justify-between border-b border-gray-200 bg-white/80 px-5 py-3.5 backdrop-blur">
+            <header class="sticky top-0 z-20 flex items-center justify-between border-b border-gray-200 bg-white/80 px-5 py-3.5">
                 <div class="flex items-center gap-3">
                     <button class="rounded-lg p-1.5 text-gray-600 hover:bg-gray-100 md:hidden" @click="mobileOpen = true">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -168,7 +174,7 @@ function initials(name) {
                         href="/"
                         target="_blank"
                         rel="noopener"
-                        class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                        class="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
                     >
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18" /></svg>
                         <span class="hidden sm:inline">Сайт харах</span>

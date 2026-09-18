@@ -9,11 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Ride extends Model
 {
     protected $fillable = [
-        'user_id', 'from_city', 'from_country', 'to_city', 'to_country',
+        'user_id', 'flight_id', 'from_city', 'from_country', 'to_city', 'to_country',
         'depart_at', 'seats', 'price', 'notes', 'contact_phone', 'status',
     ];
 
     protected $casts = ['depart_at' => 'datetime'];
+
+    public function flight(): BelongsTo
+    {
+        return $this->belongsTo(Flight::class);
+    }
 
     public function user(): BelongsTo
     {

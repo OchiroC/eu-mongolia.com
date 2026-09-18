@@ -1,4 +1,5 @@
 <script setup>
+import LocationPicker from '@/Components/LocationPicker.vue';
 import ImageUpload from '@/Components/ImageUpload.vue';
 import Button from '@/Components/ui/Button.vue';
 import Input from '@/Components/ui/Input.vue';
@@ -27,6 +28,8 @@ const form = useForm({
     category: props.business?.category ?? 'restaurant',
     description: props.business?.description ?? '',
     city: props.business?.city ?? '',
+    lat: props.business?.lat ?? null,
+    lng: props.business?.lng ?? null,
     country: props.business?.country ?? '',
     address: props.business?.address ?? '',
     phone: props.business?.phone ?? '',
@@ -54,7 +57,7 @@ function submit() {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="text-2xl font-bold text-gray-900">{{ isEdit ? 'Бизнес засах' : 'Бизнесээ нэмэх' }}</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">{{ isEdit ? 'Бизнес засах' : 'Бизнесээ нэмэх' }}</h1>
             <p class="mt-1 text-sm text-gray-500">Бөглөж илгээсний дараа админ шалгаж нийтэлнэ.</p>
 
             <form class="mt-6 space-y-5" @submit.prevent="submit">
@@ -78,22 +81,22 @@ function submit() {
                 <div class="grid gap-4 sm:grid-cols-3">
                     <div class="space-y-1.5">
                         <Label>Хот</Label>
-                        <Input v-model="form.city" type="text" placeholder="Берлин" />
+                        <Input v-model="form.city" type="text" placeholder="Франкфурт" />
                         <p v-if="form.errors.city" class="text-sm text-destructive">{{ form.errors.city }}</p>
                     </div>
                     <div class="space-y-1.5">
                         <Label>Улс</Label>
                         <Select v-model="countryModel">
-                            <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="none">— Сонгох —</SelectItem>
+                                <SelectItem value="none">Сонгоогүй</SelectItem>
                                 <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                     <div class="space-y-1.5">
                         <Label>Ажиллах цаг</Label>
-                        <Input v-model="form.hours" type="text" placeholder="Да–Ня 10:00–22:00" />
+                        <Input v-model="form.hours" type="text" placeholder="Да-Ня 10:00-22:00" />
                     </div>
                 </div>
 
@@ -101,6 +104,11 @@ function submit() {
                     <Label>Хаяг (газрын зурагт ашиглана)</Label>
                     <Input v-model="form.address" type="text" placeholder="Гудамж, дугаар, шуудангийн код" />
                 </div>
+                <div class="space-y-1.5">
+                    <Label>Газрын зураг дээрх байршил</Label>
+                    <LocationPicker v-model:lat="form.lat" v-model:lng="form.lng" :query="[form.address, form.city, form.country].filter(Boolean).join(', ')" />
+                </div>
+
 
                 <div class="space-y-1.5">
                     <Label>Танилцуулга</Label>

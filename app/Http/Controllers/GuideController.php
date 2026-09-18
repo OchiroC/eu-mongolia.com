@@ -35,7 +35,7 @@ class GuideController extends Controller
             'countries' => Guide::published()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country'),
             'filters' => $request->only(['topic', 'country', 'search']),
             'seo' => [
-                'title' => 'Заавар / Гарын авлага — Yazguur',
+                'title' => 'Гарын авлага | '.config('app.name'),
                 'description' => 'Европ дахь монголчуудад зориулсан виз, бүртгэл, даатгал, татвар, жолооны үнэмлэх зэрэг алхам алхмын заавар.',
             ],
         ]);
@@ -87,7 +87,7 @@ class GuideController extends Controller
                     'datePublished' => $guide->published_at?->toAtomString(),
                     'dateModified' => $guide->updated_at?->toAtomString(),
                     'author' => $guide->author ? ['@type' => 'Person', 'name' => $guide->author->name] : null,
-                    'publisher' => ['@type' => 'Organization', 'name' => 'Yazguur'],
+                    'publisher' => ['@type' => 'Organization', 'name' => config('app.name')],
                 ]),
             ],
         ]);

@@ -61,12 +61,10 @@ const quickActions = [
         <template #title>Хяналтын самбар</template>
 
         <!-- Мэндчилгээ + хурдан үйлдэл -->
-        <div class="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-6 text-white">
-            <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
-            <div class="pointer-events-none absolute -bottom-16 right-32 h-40 w-40 rounded-full bg-brand-400/20 blur-2xl"></div>
+        <div class="relative mb-6 overflow-hidden rounded-2xl bg-board p-6 text-white">
             <div class="relative flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                 <div>
-                    <h2 class="text-2xl font-bold">Сайн байна уу, {{ adminName }} 👋</h2>
+                    <h2 class="text-2xl font-semibold">Сайн байна уу, {{ adminName }}</h2>
                     <p class="mt-1 text-brand-100">Платформын өнөөдрийн ерөнхий байдал.</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
@@ -74,7 +72,7 @@ const quickActions = [
                         v-for="a in quickActions"
                         :key="a.href"
                         :href="a.href"
-                        class="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium backdrop-blur transition hover:bg-white/25"
+                        class="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium transition hover:bg-white/25"
                     >
                         + {{ a.name }}
                     </Link>
@@ -154,7 +152,7 @@ const quickActions = [
                         <div class="flex items-center gap-3">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-sm font-semibold text-brand-700">{{ (o.buyer || '?').charAt(0).toUpperCase() }}</span>
                             <div>
-                                <p class="text-sm font-medium text-gray-900">{{ o.event ?? '—' }}</p>
+                                <p class="text-sm font-medium text-gray-900">{{ o.event ?? '-' }}</p>
                                 <p class="text-xs text-gray-400">{{ o.buyer }} · {{ o.created_at }}</p>
                             </div>
                         </div>
@@ -183,7 +181,7 @@ const quickActions = [
                                 <span class="text-gray-500">{{ e.sold }} ш · {{ money(e.revenue) }}</span>
                             </div>
                             <div class="h-2 overflow-hidden rounded-full bg-gray-100">
-                                <div class="h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-700" :style="{ width: `${(e.sold / maxTopSold) * 100}%` }"></div>
+                                <div class="h-full rounded-full bg-brand-600" :style="{ width: `${(e.sold / maxTopSold) * 100}%` }"></div>
                             </div>
                         </div>
                     </div>
@@ -233,7 +231,7 @@ const quickActions = [
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium text-gray-900">{{ l.title }}</p>
-                            <p class="truncate text-xs text-gray-400">{{ l.category ?? '—' }}<span v-if="l.city"> · {{ l.city }}</span> · {{ timeAgo(l.created_at) }}</p>
+                            <p class="truncate text-xs text-gray-400">{{ l.category ?? '-' }}<span v-if="l.city"> · {{ l.city }}</span> · {{ timeAgo(l.created_at) }}</p>
                         </div>
                         <div class="shrink-0 text-right">
                             <p class="text-sm font-semibold text-gray-900">{{ priceLabel(l) }}</p>
@@ -255,7 +253,7 @@ const quickActions = [
                             <span class="shrink-0 text-gray-500">{{ p.hits.toLocaleString() }}</span>
                         </div>
                         <div class="h-1.5 overflow-hidden rounded-full bg-gray-100">
-                            <div class="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600" :style="{ width: `${(p.hits / maxHits) * 100}%` }"></div>
+                            <div class="h-full rounded-full bg-brand-600" :style="{ width: `${(p.hits / maxHits) * 100}%` }"></div>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ const props = defineProps({ listing: Object, categories: Array });
 
     <PublicLayout>
         <div class="mx-auto max-w-3xl">
-            <h1 class="mb-6 text-2xl font-bold text-gray-900">Зар засах</h1>
+            <h1 class="mb-6 text-2xl font-semibold text-gray-900">Зар засах</h1>
             <ListingForm :listing="listing" :categories="categories" :submit-url="`/zar/${listing.id}`" method="put" />
         </div>
     </PublicLayout>

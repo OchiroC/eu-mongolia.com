@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,78 +10,166 @@
         -webkit-tap-highlight-color: transparent;
     }
     body {
-        @apply bg-sand-50 text-gray-800 antialiased;
+        @apply bg-white text-brand-600 antialiased;
         text-rendering: optimizeLegibility;
-        font-feature-settings: 'cv11', 'ss01';
+        font-feature-settings: 'kern';
     }
 
-    /* Гарчгийн нягт мөр, тэнцвэртэй мөр таслалт */
+    /* Гарчиг: нягт, тэнцвэртэй мөр таслалт. */
     h1, h2, h3, h4 {
         @apply tracking-tight;
         text-wrap: balance;
     }
 
-    /* Нэгдсэн focus тэмдэглэгээ — гар/keyboard навигацид зориулсан */
+    /* Гарын навигацийн focus — бэхэн хүрээ, өндөр ялгарал. */
     :focus-visible {
-        @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-white;
+        @apply outline-none ring-2 ring-brand-600 ring-offset-2 ring-offset-white;
     }
 
-    /* Зургийн өнгөлгөө: drag сонголтыг хаах */
     img {
         @apply select-none;
     }
 
-    /* shadcn-vue загварын токенууд. --primary нь брэндийн цэнхэр. */
+    /* shadcn-vue токенууд. primary = бэх (хар), ring = бэх. */
     :root {
         --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
+        --foreground: 60 4% 10%;
         --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
+        --card-foreground: 60 4% 10%;
         --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-        --primary: 221 83% 53%;
+        --popover-foreground: 60 4% 10%;
+        --primary: 60 4% 10%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 221 83% 53%;
-        --radius: 0.5rem;
+        --secondary: 60 9% 95%;
+        --secondary-foreground: 60 4% 10%;
+        --muted: 60 9% 95%;
+        --muted-foreground: 60 3% 36%;
+        --accent: 60 9% 95%;
+        --accent-foreground: 60 4% 10%;
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 60 8% 90%;
+        --input: 60 8% 90%;
+        --ring: 60 4% 10%;
+        --radius: 0.25rem;
     }
 }
 
-/* ── Орчин үеийн дизайны туслах класс (utility) ───────────── */
 @layer utilities {
-    /* Брэндийн градиент текст (гарчгийн аксентэд) */
+    /* Тоо, цаг, үнэ — баганаар жигдрэх (самбарын мөрүүд). */
+    .tabular {
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum', 'zero';
+    }
+    /* Тэмдэгжүүлэлтийн жижиг гарчиг — "ИРЭХ НИСЛЭГ" гэх мэт. */
+    .kicker {
+        @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-brand-400;
+    }
+
+    /*
+     * Хуучин utility-нууд — одоо ч хэрэглэгдэж буй газруудад эвдрэхгүйн тулд
+     * нэрийг нь хадгалж, хавтгай (градиентгүй, бүдгэрүүлэлтгүй) болгосон.
+     */
     .text-gradient {
-        @apply bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400 bg-clip-text text-transparent;
+        @apply text-brand-600;
     }
     .text-gradient-light {
-        @apply bg-gradient-to-r from-white via-brand-100 to-brand-200 bg-clip-text text-transparent;
+        @apply text-white;
     }
-    /* Шилэн (glass) гадаргуу */
     .glass {
-        @apply bg-white/70 backdrop-blur-xl ring-1 ring-black/5;
+        @apply bg-white ring-1 ring-black/10;
     }
     .glass-dark {
-        @apply bg-white/10 backdrop-blur-md ring-1 ring-white/15;
+        @apply bg-white/10 ring-1 ring-white/15;
     }
-    /* Hero-д зориулсан гүн градиент дэвсгэр (брэнд) */
     .hero-aurora {
-        background-color: #1d4ed8;
-        background-image:
-            radial-gradient(at 18% 18%, rgba(96, 165, 250, 0.55) 0px, transparent 50%),
-            radial-gradient(at 82% 12%, rgba(37, 99, 235, 0.45) 0px, transparent 45%),
-            radial-gradient(at 90% 88%, rgba(29, 78, 216, 0.55) 0px, transparent 45%),
-            radial-gradient(at 8% 92%, rgba(59, 130, 246, 0.45) 0px, transparent 45%);
+        background-color: #0b0c0e;
     }
 }
+
+/* ── Лого: хоёр flap хавтан (шар үсэг) ────────────────────────
+ * Дундах зураас жижиг хэмжээнд үсгийг дарж зурсан мэт харагддаг тул
+ * зөвхөн дээд/доод хагасын өнгөний ялгаагаар flap мэдрэмж өгнө.
+ */
+.logo-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2.5px;
+    background: linear-gradient(to bottom, #2a2b2e 0 50%, #1b1b19 50% 100%);
+    color: #ffb81c;
+}
+.logo-tile--dark {
+    background: linear-gradient(to bottom, #34363a 0 50%, #28292d 50% 100%);
+}
+
+/* ── Split-flap самбар ─────────────────────────────────────────
+ * Хавтангийн хэмжээ em-ээр — font-size-аар л томруулж/жижигрүүлнэ.
+ * Дээд, доод хагас өөр өнгөтэй (хатуу зааг), дунд нь хар зураас.
+ */
+.flap-line { display: inline-flex; gap: 0.08em; }
+.flap-line--wrap { display: flex; flex-wrap: wrap; gap: 0.14em 0.42em; }
+.flap-word { display: inline-flex; gap: 0.08em; }
+.flap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.8em;
+    height: 1.2em;
+    border-radius: 0.07em;
+    background: linear-gradient(to bottom, #202226 0 50%, #18191c 50% 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    color: #ffb81c;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+.flap::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.9);
+}
+.flap--tick { color: rgba(255, 184, 28, 0.5); }
+@media (prefers-reduced-motion: reduce) {
+    .animate-marquee { animation: none !important; }
+}
+
+/* ── Газрын зураг (Leaflet): тэмдэглэгээ, попап ─────────────
+ * Бизнес: хар хавтан, шар цэг. Мэргэжилтэн: цагаан хавтан, хар цэг.
+ */
+.map-pin span {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: #1b1b19;
+    box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+.map-pin span::after {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border-radius: 2px;
+    background: #ffb81c;
+}
+.map-pin--professional span { background: #fff; box-shadow: 0 0 0 2px #1b1b19, 0 2px 6px rgba(0, 0, 0, 0.25); }
+.map-pin--professional span::after { background: #1b1b19; }
+.leaflet-popup-content-wrapper { border-radius: 4px; box-shadow: 0 0 0 1px rgba(15, 17, 21, 0.1), 0 8px 24px -12px rgba(15, 17, 21, 0.3); }
+.leaflet-popup-content { margin: 12px 14px; font-family: 'IBM Plex Sans', sans-serif; }
+.map-popup-kicker { margin: 0; font: 500 10px/1 'IBM Plex Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #8f8e87; }
+.map-popup-title { margin: 6px 0 2px !important; font-weight: 600; font-size: 14px; color: #1b1b19; }
+.map-popup-meta { margin: 0 0 8px !important; font-size: 12px; color: #5f5f59; }
+.map-popup-link { font-size: 13px; font-weight: 500; color: #1b1b19 !important; text-decoration: underline; }
+.leaflet-container { font-family: 'IBM Plex Sans', sans-serif; }
+/* OSM-ийн өнгөт хавтанг саарал болгож, бэх/шар тэмдэглэгээг тодруулна. */
+.leaflet-tile-pane { filter: grayscale(1) contrast(0.92) brightness(1.04); }
 
 /* Tiptap-аас гарсан HTML контентыг харуулах загвар (мэдээ/эвент дэлгэрэнгүй) */
 .rich-content {
@@ -99,6 +187,16 @@
 .rich-content blockquote { @apply my-4 border-l-4 border-gray-200 pl-4 italic text-gray-600; }
 .rich-content a { @apply font-medium text-brand-700 underline underline-offset-2; }
 .rich-content strong { @apply font-semibold; }
+/* Хүснэгт (гарын авлагын хэллэг, маягтын тайлбар) */
+.rich-content table { @apply my-5 w-full border-collapse text-[15px]; }
+.rich-content th { @apply border-b-2 border-brand-600 px-3 py-2 text-left font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-brand-500; }
+.rich-content td { @apply border-b border-brand-100 px-3 py-2.5 align-top; }
+.rich-content td:first-child { @apply font-medium text-brand-600; }
+.rich-content th p, .rich-content td p { @apply my-0; }
+.ProseMirror table { @apply my-3 w-full border-collapse; }
+.ProseMirror th, .ProseMirror td { @apply border border-brand-200 px-2 py-1.5 align-top; }
+.ProseMirror th { @apply bg-brand-50 text-left font-semibold; }
+.ProseMirror .selectedCell { @apply bg-signal-50; }
 .rich-content hr { @apply my-6 border-gray-200; }
 .rich-content img { @apply my-4 max-w-full rounded-lg; }
 /* YouTube embed-ийг responsive болгоно (16:9) */

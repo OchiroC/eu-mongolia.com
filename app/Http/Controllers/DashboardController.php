@@ -136,7 +136,20 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
+        // Бэлтгэлийн жагсаалтын явц ба дараагийн хийх алхам.
+        $steps = \App\Models\Guide::published()->whereNotNull('stage')
+            ->orderByRaw("CASE stage WHEN 'before' THEN 1 WHEN 'arrival' THEN 2 ELSE 3 END")->orderBy('stage_order')
+            ->get(['id', 'title', 'slug']);
+        $doneIds = $user->journeyGuides()->pluck('guides.id')->all();
+        $next = $steps->first(fn ($g) => ! in_array($g->id, $doneIds, true));
+
         return Inertia::render('Dashboard', [
+            'journey' => [
+                'total' => $steps->count(),
+                'done' => $steps->whereIn('id', $doneIds)->count(),
+                'next' => $next ? ['title' => $next->title, 'slug' => $next->slug] : null,
+            ],
+            'myFlights' => $user->flights()->upcoming()->orderBy('scheduled_at')->take(3)->get()->map->card(),
             'stats' => [
                 'listings' => Listing::where('user_id', $user->id)->count(),
                 'listings_active' => Listing::where('user_id', $user->id)->where('status', 'active')->count(),

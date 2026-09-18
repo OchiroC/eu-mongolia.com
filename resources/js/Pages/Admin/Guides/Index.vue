@@ -9,20 +9,20 @@ const statusLabel = { draft: 'Ноорог', published: 'Нийтлэгдсэн'
 const statusClass = { draft: 'bg-gray-100 text-gray-600', published: 'bg-green-100 text-green-700' };
 
 function destroy(id) {
-    if (confirm('Энэ Guide-ийг устгах уу?')) {
+    if (confirm('Энэ гарын авлагыг устгах уу?')) {
         router.delete(`/admin/guides/${id}`, { preserveScroll: true });
     }
 }
 </script>
 
 <template>
-    <Head title="Guide" />
+    <Head title="Гарын авлага" />
 
     <AdminLayout>
-        <template #title>Guide / Гарын авлага</template>
+        <template #title>Гарын авлага</template>
 
         <div class="mb-4 flex justify-end">
-            <Button :as="Link" href="/admin/guides/create" size="sm">+ Шинэ Guide</Button>
+            <Button :as="Link" href="/admin/guides/create" size="sm">+ Шинэ гарын авлага</Button>
         </div>
 
         <div class="overflow-x-auto rounded-lg bg-white shadow-sm ring-1 ring-gray-100">
@@ -42,7 +42,7 @@ function destroy(id) {
                         <td class="px-4 py-3 font-medium text-gray-800">{{ g.title }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ g.topic_label }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ g.country ?? 'Ерөнхий' }}</td>
-                        <td class="px-4 py-3"><span class="rounded-full px-2 py-0.5 text-xs" :class="statusClass[g.status]">{{ statusLabel[g.status] }}</span></td>
+                        <td class="px-4 py-3"><span class="rounded-md px-2 py-0.5 text-xs" :class="statusClass[g.status]">{{ statusLabel[g.status] }}</span></td>
                         <td class="px-4 py-3 text-gray-500">{{ g.views }}</td>
                         <td class="px-4 py-3">
                             <div class="flex justify-end gap-1">
@@ -56,7 +56,7 @@ function destroy(id) {
                         </td>
                     </tr>
                     <tr v-if="!guides.data.length">
-                        <td colspan="6" class="px-4 py-8 text-center text-gray-400">Guide алга байна.</td>
+                        <td colspan="6" class="px-4 py-8 text-center text-gray-400">Гарын авлага алга байна.</td>
                     </tr>
                 </tbody>
             </table>
@@ -69,7 +69,7 @@ function destroy(id) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </AdminLayout>

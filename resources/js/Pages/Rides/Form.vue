@@ -15,17 +15,20 @@ import { computed } from 'vue';
 const props = defineProps({
     ride: { type: Object, default: null },
     countries: { type: Array, default: () => [] },
+    flights: { type: Array, default: () => [] },
+    preset: { type: Object, default: null },
 });
 
 const isEdit = computed(() => !!props.ride);
 
 const form = useForm({
     _method: isEdit.value ? 'put' : 'post',
-    from_city: props.ride?.from_city ?? '',
-    from_country: props.ride?.from_country ?? '',
-    to_city: props.ride?.to_city ?? '',
-    to_country: props.ride?.to_country ?? '',
-    depart_at: props.ride?.depart_at ?? '',
+    flight_id: props.ride?.flight_id ?? props.preset?.flight_id ?? '',
+    from_city: props.ride?.from_city ?? props.preset?.from_city ?? '',
+    from_country: props.ride?.from_country ?? props.preset?.from_country ?? '',
+    to_city: props.ride?.to_city ?? props.preset?.to_city ?? '',
+    to_country: props.ride?.to_country ?? props.preset?.to_country ?? '',
+    depart_at: props.ride?.depart_at ?? props.preset?.depart_at ?? '',
     seats: props.ride?.seats ?? 1,
     price: props.ride?.price ?? '',
     notes: props.ride?.notes ?? '',
@@ -40,6 +43,10 @@ function model(field) {
 }
 const fromCountryModel = model('from_country');
 const toCountryModel = model('to_country');
+const flightModel = computed({
+    get: () => (form.flight_id ? String(form.flight_id) : 'none'),
+    set: (v) => { form.flight_id = v === 'none' ? '' : Number(v); },
+});
 
 function submit() {
     if (isEdit.value) form.post(`/rides/${props.ride.id}`);
@@ -52,9 +59,22 @@ function submit() {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="text-2xl font-bold text-gray-900">{{ isEdit ? 'Аялал засах' : 'Аяллын зар нэмэх' }}</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">{{ isEdit ? 'Аялал засах' : 'Аяллын зар нэмэх' }}</h1>
 
             <form class="mt-6 space-y-5" @submit.prevent="submit">
+                <!-- Нислэгтэй холбох: нислэгийн хуудсан дээр энэ аялал харагдана. -->
+                <div v-if="flights.length" class="space-y-1.5">
+                    <Label>Нислэгтэй холбох (заавал биш)</Label>
+                    <Select v-model="flightModel">
+                        <SelectTrigger><SelectValue placeholder="Нислэгтэй холбогдохгүй" /></SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="none">Нислэгтэй холбогдохгүй</SelectItem>
+                            <SelectItem v-for="f in flights" :key="f.id" :value="String(f.id)">{{ f.label }}</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <p class="text-xs text-gray-400">Нисэх буудлаас хот руу, эсвэл хотоос нисэх буудал руу явах бол сонгоорой.</p>
+                </div>
+
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="space-y-1.5">
                         <Label>Хаанаас (хот)</Label>
@@ -64,9 +84,9 @@ function submit() {
                     <div class="space-y-1.5">
                         <Label>Улс</Label>
                         <Select v-model="fromCountryModel">
-                            <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="none">— Сонгох —</SelectItem>
+                                <SelectItem value="none">Сонгоогүй</SelectItem>
                                 <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                             </SelectContent>
                         </Select>
@@ -79,9 +99,9 @@ function submit() {
                     <div class="space-y-1.5">
                         <Label>Улс</Label>
                         <Select v-model="toCountryModel">
-                            <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="none">— Сонгох —</SelectItem>
+                                <SelectItem value="none">Сонгоогүй</SelectItem>
                                 <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                             </SelectContent>
                         </Select>

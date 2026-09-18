@@ -1,5 +1,6 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
+import { ArrowRight } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
 
 const props = defineProps({
@@ -33,7 +34,7 @@ onMounted(() => {
             :href="`/banners/${banner.id}/click`"
             target="_blank"
             rel="noopener sponsored"
-            class="block overflow-hidden rounded-lg ring-1 ring-gray-200"
+            class="block overflow-hidden rounded-[3px] border border-brand-100"
             :class="variant === 'box' ? 'bg-white' : ''"
         >
             <img
@@ -43,18 +44,22 @@ onMounted(() => {
                 :class="variant === 'box' ? 'aspect-[4/3]' : 'aspect-[8/1] max-h-32'"
             />
         </a>
-        <p class="text-right text-[10px] uppercase tracking-wide text-gray-400">Реклам</p>
+        <p class="kicker text-right">Реклам</p>
     </div>
 
-    <!-- Зар сонгогдоогүй үеийн сул байршил -->
+    <!-- Сул байршил: сурталчилгаа захиалаагүй үед зарах урилга. -->
     <a
         v-else-if="placeholder"
         href="/contact"
-        class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-gray-50/70 text-center text-gray-400 transition hover:border-brand-300 hover:text-brand-500"
-        :class="variant === 'box' ? 'aspect-[4/3] p-4' : 'min-h-[96px] p-5'"
+        class="group flex border border-brand-100 bg-sand-50 transition-colors hover:border-brand-300"
+        :class="variant === 'box' ? 'aspect-[4/3] flex-col justify-between p-5' : 'items-center justify-between gap-6 px-5 py-4'"
     >
-        <svg class="mb-1 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 16l4.5-4.5a2 2 0 012.8 0L15 16m-1-1l1.5-1.5a2 2 0 012.8 0L21 16M14 8h.01" /></svg>
-        <p class="text-sm font-medium text-gray-500">Энд сурталчилгаа байршуулах</p>
-        <p class="text-xs">Реклам байршуулахаар бидэнтэй холбогдоно уу</p>
+        <span>
+            <span class="kicker block">Сурталчилгааны байр</span>
+            <span class="mt-1.5 block text-sm text-brand-500">Франкфурт дахь монголчуудад бизнесээ таниулаарай.</span>
+        </span>
+        <span class="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-brand-600 group-hover:underline group-hover:underline-offset-4">
+            Холбогдох <ArrowRight class="h-4 w-4" />
+        </span>
     </a>
 </template>

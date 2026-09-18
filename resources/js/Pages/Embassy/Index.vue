@@ -1,4 +1,6 @@
 <script setup>
+import { Clock, TriangleAlert } from 'lucide-vue-next';
+import PageHeader from '@/Components/PageHeader.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -27,18 +29,17 @@ function filterCountry(c) {
     <Head title="Элчин сайдын яам / Яаралтай тусламж" />
 
     <PublicLayout>
-        <h1 class="text-2xl font-bold text-gray-900">Элчин сайдын яам / Яаралтай тусламж</h1>
-        <p class="mt-1 text-sm text-gray-500">Европ дахь Монгол улсын төлөөлөгчийн газрууд болон яаралтай тусламжийн дугаар.</p>
+        <PageHeader kicker="Тусламж" title="Элчин сайдын яам / Яаралтай тусламж" subtitle="Европ дахь Монгол улсын төлөөлөгчийн газрууд болон яаралтай тусламжийн дугаар." />
 
         <!-- Яаралтай тусламжийн банер -->
-        <div class="mt-5 overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-red-700 p-6 text-white">
+        <div class="overflow-hidden rounded-md bg-red-700 p-6 text-white">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <p class="text-sm font-medium text-red-100">Европын нэгдсэн яаралтай тусламж</p>
-                    <p class="mt-1 text-4xl font-extrabold tracking-tight">112</p>
-                    <p class="mt-1 text-sm text-red-100">Цагдаа · Түргэн тусламж · Гал команд — ЕХ даяар үнэгүй, 24/7</p>
+                    <p class="mt-1 text-4xl font-semibold tracking-tight">112</p>
+                    <p class="mt-1 text-sm text-red-100">Цагдаа, түргэн тусламж, гал команд. ЕХ-ны бүх оронд үнэгүй, 24 цаг ажиллана.</p>
                 </div>
-                <a href="tel:112" class="inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-red-700 transition hover:bg-red-50">
+                <a href="tel:112" class="inline-flex w-fit items-center gap-2 rounded-md bg-white px-6 py-3 font-bold text-red-700 transition hover:bg-red-50">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11 11 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                     112 залгах
                 </a>
@@ -47,12 +48,12 @@ function filterCountry(c) {
 
         <!-- Улсаар шүүх -->
         <div v-if="countries.length" class="mt-6 flex flex-wrap gap-2">
-            <button class="rounded-full px-3 py-1 text-sm transition" :class="!filters.country ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'" @click="filterCountry(null)">Бүх улс</button>
+            <button class="rounded-md px-3 py-1 text-sm transition" :class="!filters.country ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'" @click="filterCountry(null)">Бүх улс</button>
             <button
                 v-for="c in countries"
                 :key="c"
-                class="rounded-full px-3 py-1 text-sm transition"
-                :class="filters.country === c ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-sm transition"
+                :class="filters.country === c ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCountry(c)"
             >{{ c }}</button>
         </div>
@@ -91,7 +92,7 @@ function filterCountry(c) {
                                 <svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18" /></svg>
                                 Вэбсайт
                             </a>
-                            <p v-if="m.hours" class="text-xs text-gray-400">🕒 {{ m.hours }}</p>
+                            <p v-if="m.hours" class="text-xs text-gray-400"><Clock class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ m.hours }}</p>
                             <p v-if="m.notes" class="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-500">{{ m.notes }}</p>
                         </div>
                     </div>
@@ -105,7 +106,7 @@ function filterCountry(c) {
         </div>
 
         <p class="mt-6 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            ⚠️ Холбоо барих мэдээллийг очихоосоо өмнө албан ёсны вэбсайтаас баталгаажуулна уу.
+            <TriangleAlert class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />Холбоо барих мэдээллийг очихоосоо өмнө албан ёсны вэбсайтаас баталгаажуулна уу.
         </p>
     </PublicLayout>
 </template>

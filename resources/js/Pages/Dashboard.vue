@@ -1,4 +1,6 @@
 <script setup>
+import { formatDate } from '@/lib/date';
+import { Eye } from 'lucide-vue-next';
 import StatCard from '@/Components/StatCard.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import Button from '@/Components/ui/Button.vue';
@@ -9,6 +11,8 @@ defineProps({
     stats: Object,
     myListings: Array,
     upcomingTickets: Array,
+    journey: { type: Object, default: () => ({ total: 0, done: 0, next: null }) },
+    myFlights: { type: Array, default: () => [] },
 });
 
 const page = usePage();
@@ -30,7 +34,7 @@ function priceLabel(l) {
 }
 function ticketDate(value) {
     if (!value) return '';
-    return new Date(value).toLocaleDateString('mn-MN', { month: 'short', day: 'numeric' });
+    return formatDate(value);
 }
 function setSold(l) {
     router.patch(`/zar/${l.id}/status`, { status: l.status === 'sold' ? 'active' : 'sold' }, { preserveScroll: true });
@@ -42,14 +46,13 @@ function setSold(l) {
 
     <PublicLayout>
         <!-- Мэндчилгээ -->
-        <div class="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-6 text-white">
-            <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
+        <div class="relative mb-6 overflow-hidden rounded-2xl bg-board p-6 text-white">
             <div class="relative flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
-                    <h1 class="text-2xl font-bold">Сайн байна уу, {{ user?.name }} 👋</h1>
+                    <h1 class="text-2xl font-semibold">Сайн байна уу, {{ user?.name }}</h1>
                     <p class="mt-1 text-brand-100">Таны зар, тасалбарын хураангуй.</p>
                 </div>
-                <Link href="/zar/new" class="inline-flex shrink-0 items-center rounded-full bg-white px-5 py-2.5 font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50">
+                <Link href="/zar/new" class="inline-flex shrink-0 items-center rounded-md bg-white px-5 py-2.5 font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50">
                     + Зар нэмэх
                 </Link>
             </div>
@@ -83,8 +86,8 @@ function setSold(l) {
                                 <Link :href="`/zar/${l.slug}`" class="block truncate font-medium text-gray-900 hover:text-brand-700">{{ l.title }}</Link>
                                 <p class="text-sm font-bold text-gray-900">{{ priceLabel(l) }}</p>
                                 <div class="mt-0.5 flex items-center gap-2">
-                                    <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusClass[l.status]">{{ statusLabel[l.status] }}</span>
-                                    <span class="text-xs text-gray-400">👁 {{ l.views }}</span>
+                                    <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass[l.status]">{{ statusLabel[l.status] }}</span>
+                                    <span class="text-xs text-gray-400"><Eye class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ l.views }}</span>
                                 </div>
                             </div>
                             <div class="flex shrink-0 gap-1.5">
@@ -131,13 +134,45 @@ function setSold(l) {
                     </p>
                 </div>
 
+                <div class="rounded-md border border-brand-100 bg-white p-5">
+                    <p class="kicker">Миний бэлтгэл</p>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-sm text-brand-500">Аяллын замын алхам</span>
+                        <span class="tabular font-mono text-brand-600">{{ journey.done }} / {{ journey.total }}</span>
+                    </div>
+                    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-brand-100">
+                        <div class="h-full rounded-full bg-signal-400" :style="{ width: `${journey.total ? (journey.done / journey.total) * 100 : 0}%` }" />
+                    </div>
+                    <Link v-if="journey.next" :href="`/guides/${journey.next.slug}`" class="mt-4 block text-sm">
+                        <span class="text-brand-400">Дараагийн алхам:</span>
+                        <span class="mt-0.5 block font-medium text-brand-600 hover:underline">{{ journey.next.title }}</span>
+                    </Link>
+                    <p v-else-if="journey.total" class="mt-4 text-sm text-brand-500">Бүх алхмыг хийж дууслаа.</p>
+                    <Link href="/#zam" class="mt-3 inline-block text-sm font-medium text-brand-600 underline underline-offset-2">Аяллын зам</Link>
+                </div>
+
+                <div class="rounded-md border border-brand-100 bg-white p-5">
+                    <p class="kicker">Миний нислэг</p>
+                    <ul v-if="myFlights.length" class="mt-3 space-y-2">
+                        <li v-for="f in myFlights" :key="f.slug">
+                            <Link :href="`/flights/${f.slug}`" class="flex items-center justify-between gap-3 text-sm hover:underline">
+                                <span class="font-mono font-medium text-brand-600">{{ f.code }} · {{ f.origin }} → {{ f.destination }}</span>
+                                <span class="tabular font-mono text-brand-400">{{ f.date.slice(8, 10) }}.{{ f.date.slice(5, 7) }} {{ f.time }}</span>
+                            </Link>
+                        </li>
+                    </ul>
+                    <p v-else class="mt-3 text-sm text-brand-400">
+                        Та нислэг тэмдэглээгүй байна. <Link href="/flights" class="font-medium text-brand-600 underline underline-offset-2">Нислэгийн самбар</Link>
+                    </p>
+                </div>
+
                 <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-gray-100">
                     <h2 class="mb-3 font-semibold text-gray-900">Хурдан холбоос</h2>
                     <div class="space-y-1.5 text-sm">
-                        <Link href="/zar" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">🛒 Зар үзэх</Link>
-                        <Link href="/events" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">🎫 Эвент үзэх</Link>
-                        <Link href="/news" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">📰 Мэдээ унших</Link>
-                        <Link href="/profile" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">⚙️ Профайл засах</Link>
+                        <Link href="/zar" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">Зар үзэх</Link>
+                        <Link href="/events" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">Эвент үзэх</Link>
+                        <Link href="/news" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">Мэдээ унших</Link>
+                        <Link href="/profile" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">Профайл засах</Link>
                     </div>
                 </div>
             </div>

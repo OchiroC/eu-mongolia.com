@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Flight;
 use App\Models\Ride;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class RideController extends Controller
     {
         $rides = Ride::active()
             ->upcoming()
-            ->with('user:id,name')
+            ->with(['user:id,name', 'flight'])
             ->when($request->from, fn ($q, $v) => $q->where(fn ($w) => $w->where('from_city', 'like', "%{$v}%")->orWhere('from_country', 'like', "%{$v}%")))
             ->when($request->to, fn ($q, $v) => $q->where(fn ($w) => $w->where('to_city', 'like', "%{$v}%")->orWhere('to_country', 'like', "%{$v}%")))
             ->when($request->date, fn ($q, $d) => $q->whereDate('depart_at', $d))
@@ -27,7 +28,7 @@ class RideController extends Controller
             'rides' => $rides,
             'filters' => $request->only(['from', 'to', 'date']),
             'seo' => [
-                'title' => 'Хамтдаа аялах — Yazguur',
+                'title' => 'Хамтдаа аялах | '.config('app.name'),
                 'description' => 'Европын хот, улс хооронд машин хуваалцан аялах зар. Зардлаа хуваая, замдаа хамтдаа.',
             ],
         ]);
@@ -38,7 +39,7 @@ class RideController extends Controller
         abort_unless($ride->status === 'active' || $ride->user_id === $request->user()?->id, 404);
 
         $ride->increment('views');
-        $ride->load('user:id,name');
+        $ride->load(['user:id,name', 'flight']);
 
         return Inertia::render('Rides/Show', [
             'ride' => array_merge($this->card($ride), [
@@ -51,9 +52,23 @@ class RideController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return Inertia::render('Rides/Form', ['countries' => $this->countries()]);
+        // Нислэгийн хуудаснаас орсон бол нисэх буудлаас хөдлөх аяллыг урьдчилан бөглөнө.
+        $flight = $request->flight ? Flight::firstWhere('slug', $request->flight) : null;
+        $preset = null;
+        if ($flight) {
+            $local = $flight->localTime();
+            $preset = $flight->direction === 'arrival'
+                ? ['flight_id' => $flight->id, 'from_city' => 'Франкфурт нисэх буудал', 'from_country' => 'Герман', 'depart_at' => $local->copy()->addHour()->format('Y-m-d\TH:i')]
+                : ['flight_id' => $flight->id, 'to_city' => 'Франкфурт нисэх буудал', 'to_country' => 'Герман', 'depart_at' => $local->copy()->subHours(4)->format('Y-m-d\TH:i')];
+        }
+
+        return Inertia::render('Rides/Form', [
+            'countries' => $this->countries(),
+            'flights' => $this->flightOptions(),
+            'preset' => $preset,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -80,6 +95,7 @@ class RideController extends Controller
         return Inertia::render('Rides/Form', [
             'ride' => array_merge($ride->toArray(), ['depart_at' => $ride->depart_at?->format('Y-m-d\TH:i')]),
             'countries' => $this->countries(),
+            'flights' => $this->flightOptions(),
         ]);
     }
 
@@ -122,7 +138,20 @@ class RideController extends Controller
             'seats' => $r->seats,
             'price' => $r->price,
             'user' => $r->user?->name ?? 'Хэрэглэгч',
+            'flight' => $r->flight ? ['code' => $r->flight->code, 'slug' => $r->flight->slug] : null,
         ];
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection<int, array<string, mixed>>
+     */
+    private function flightOptions()
+    {
+        return Flight::upcoming()->where('status', '!=', 'cancelled')->orderBy('scheduled_at')->take(40)->get()
+            ->map(fn ($f) => [
+                'id' => $f->id,
+                'label' => $f->code.' · '.$f->localTime()->format('Y.m.d H:i').' · '.$f->origin.' → '.$f->destination,
+            ]);
     }
 
     /**
@@ -148,6 +177,7 @@ class RideController extends Controller
             'price' => ['nullable', 'string', 'max:60'],
             'notes' => ['nullable', 'string', 'max:1000'],
             'contact_phone' => ['nullable', 'string', 'max:40'],
+            'flight_id' => ['nullable', 'exists:flights,id'],
         ]);
     }
 

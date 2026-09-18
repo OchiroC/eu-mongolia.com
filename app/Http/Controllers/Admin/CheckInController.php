@@ -50,8 +50,8 @@ class CheckInController extends Controller
 
         return back()->with('checkin', [
             'ok' => true,
-            'message' => 'Зөвшөөрөгдлөө ✓',
-            'detail' => ($ticket->ticketType?->name ?? 'Тасалбар').' — '.$ticket->order->buyer_name,
+            'message' => 'Зөвшөөрөгдлөө',
+            'detail' => ($ticket->ticketType?->name ?? 'Тасалбар').', '.$ticket->order->buyer_name,
         ]);
     }
 }

@@ -36,7 +36,7 @@ function initial(name) {
 </script>
 
 <template>
-    <Head :title="`Зурвас — ${conversation.other}`" />
+    <Head :title="`Зурвас: ${conversation.other}`" />
 
     <PublicLayout>
         <div class="mx-auto flex max-w-2xl flex-col" style="height: calc(100vh - 9rem)">
@@ -75,7 +75,7 @@ function initial(name) {
                     v-model="form.body"
                     rows="1"
                     placeholder="Зурвас бичих…"
-                    class="max-h-32 min-h-[42px] flex-1 resize-none rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+                    class="max-h-32 min-h-[42px] flex-1 resize-none rounded-md border border-brand-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
                     @keydown.enter.exact.prevent="send"
                 ></textarea>
                 <button type="submit" :disabled="form.processing || !form.body.trim()" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white transition hover:bg-brand-700 disabled:opacity-50">

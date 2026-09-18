@@ -19,9 +19,9 @@ const props = defineProps({
 });
 
 const placements = [
-    { value: 'home_top', label: 'Нүүр — дээд (өргөн)' },
-    { value: 'home_sidebar', label: 'Нүүр — хажуу' },
-    { value: 'news_top', label: 'Мэдээ — дээд' },
+    { value: 'home_top', label: 'Нүүр хуудас, дээд хэсэг (өргөн)' },
+    { value: 'home_sidebar', label: 'Нүүр хуудас, хажуу хэсэг' },
+    { value: 'news_top', label: 'Мэдээ, дээд хэсэг' },
     { value: 'footer', label: 'Хөл хэсэг' },
 ];
 
@@ -85,9 +85,9 @@ function submit() {
             <div class="space-y-1.5">
                 <Label>Зар сурталчлагч</Label>
                 <Select v-model="advertiserModel">
-                    <SelectTrigger><SelectValue placeholder="—" /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder="Сонгоогүй" /></SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="none">—</SelectItem>
+                        <SelectItem value="none">Сонгоогүй</SelectItem>
                         <SelectItem v-for="a in advertisers" :key="a.id" :value="a.id">{{ a.name }}</SelectItem>
                     </SelectContent>
                 </Select>

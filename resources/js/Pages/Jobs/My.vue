@@ -1,4 +1,5 @@
 <script setup>
+import { Eye } from 'lucide-vue-next';
 import Button from '@/Components/ui/Button.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -23,7 +24,7 @@ function destroy(j) {
 
     <PublicLayout>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">Миний ажлын зар</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Миний ажлын зар</h1>
             <Button :as="Link" href="/jobs/new">+ Зар нэмэх</Button>
         </div>
 
@@ -31,8 +32,8 @@ function destroy(j) {
             <div v-for="j in jobs" :key="j.id" class="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-gray-100 sm:flex-row sm:items-center sm:justify-between">
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusClass[j.status]">{{ statusLabel[j.status] }}</span>
-                        <span class="text-xs text-gray-400">👁 {{ j.views }}</span>
+                        <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass[j.status]">{{ statusLabel[j.status] }}</span>
+                        <span class="text-xs text-gray-400"><Eye class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ j.views }}</span>
                     </div>
                     <Link :href="`/jobs/${j.slug}`" class="mt-1 block truncate font-semibold text-gray-900 hover:text-brand-700">{{ j.title }}</Link>
                     <p class="text-sm text-gray-500">{{ j.type_label }} · {{ j.category_label }}<span v-if="j.city"> · {{ j.city }}</span></p>

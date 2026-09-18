@@ -23,7 +23,7 @@ const submit = () => {
 <template>
     <Head title="Бүртгүүлэх" />
 
-    <GuestLayout title="Бүртгэл үүсгэх" subtitle="Хэдхэн алхамаар нэгдээрэй">
+    <GuestLayout title="Бүртгэл үүсгэх" subtitle="Зар, аялал нийтлэх, бусадтай бичилцэхэд бүртгэл хэрэгтэй">
         <form @submit.prevent="submit" class="space-y-5">
             <div class="space-y-1.5">
                 <Label for="name">Нэр</Label>

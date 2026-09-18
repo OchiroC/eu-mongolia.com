@@ -20,7 +20,7 @@ const content = computed(() => ({
     <PublicLayout>
         <div class="mx-auto flex max-w-lg flex-col items-center py-16 text-center sm:py-24">
             <p class="text-7xl font-extrabold tracking-tight text-brand-600 sm:text-8xl">{{ status }}</p>
-            <h1 class="mt-4 text-2xl font-bold text-gray-900">{{ content.title }}</h1>
+            <h1 class="mt-4 text-2xl font-semibold text-gray-900">{{ content.title }}</h1>
             <p class="mt-2 text-gray-500">{{ content.text }}</p>
 
             <div class="mt-8 flex flex-wrap justify-center gap-3">

@@ -1,4 +1,5 @@
 <script setup>
+import LocationPicker from '@/Components/LocationPicker.vue';
 import ImageUpload from '@/Components/ImageUpload.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
 import Button from '@/Components/ui/Button.vue';
@@ -31,6 +32,8 @@ const form = useForm({
     photo: null,
     remove_photo: false,
     city: props.professional?.city ?? '',
+    lat: props.professional?.lat ?? null,
+    lng: props.professional?.lng ?? null,
     country: props.professional?.country ?? '',
     languages: [...(props.professional?.languages ?? [])],
     services: props.professional?.services ?? '',
@@ -65,7 +68,7 @@ function submit() {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="text-2xl font-bold text-gray-900">{{ isEdit ? 'Профайл засах' : 'Мэргэжилтнээр бүртгүүлэх' }}</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">{{ isEdit ? 'Профайл засах' : 'Мэргэжилтнээр бүртгүүлэх' }}</h1>
             <p class="mt-1 text-sm text-gray-500">Бөглөж илгээсний дараа админ шалгаж баталгаажуулна. Баталгаажсаны дараа лавлахад нийтлэгдэнэ.</p>
 
             <form class="mt-6 space-y-5" @submit.prevent="submit">
@@ -84,9 +87,9 @@ function submit() {
                 <div class="space-y-1.5">
                     <Label>Ангилал</Label>
                     <Select v-model="categoryModel">
-                        <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="none">— Сонгох —</SelectItem>
+                            <SelectItem value="none">Сонгоогүй</SelectItem>
                             <SelectItem v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</SelectItem>
                         </SelectContent>
                     </Select>
@@ -95,13 +98,18 @@ function submit() {
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="space-y-1.5">
                         <Label>Хот</Label>
-                        <Input v-model="form.city" type="text" placeholder="Берлин" />
+                        <Input v-model="form.city" type="text" placeholder="Франкфурт" />
                     </div>
                     <div class="space-y-1.5">
                         <Label>Улс</Label>
                         <Input v-model="form.country" type="text" placeholder="Герман" />
                     </div>
                 </div>
+                <div class="space-y-1.5">
+                    <Label>Газрын зураг дээрх байршил</Label>
+                    <LocationPicker v-model:lat="form.lat" v-model:lng="form.lng" :query="[form.address, form.city, form.country].filter(Boolean).join(', ')" />
+                </div>
+
 
                 <div class="space-y-1.5">
                     <Label>Ярьдаг хэл</Label>
@@ -110,8 +118,8 @@ function submit() {
                             v-for="lang in languageOptions"
                             :key="lang"
                             type="button"
-                            class="rounded-full px-3 py-1 text-sm transition"
-                            :class="form.languages.includes(lang) ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                            class="rounded-md px-3 py-1 text-sm transition"
+                            :class="form.languages.includes(lang) ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                             @click="toggleLang(lang)"
                         >{{ lang }}</button>
                     </div>

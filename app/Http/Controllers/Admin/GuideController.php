@@ -96,6 +96,7 @@ class GuideController extends Controller
     {
         return [
             'topics' => collect(Guide::TOPICS)->map(fn ($label, $key) => ['key' => $key, 'label' => $label])->values(),
+            'stages' => collect(Guide::STAGES)->map(fn ($label, $key) => ['key' => $key, 'label' => $label])->values(),
             'countries' => ['Герман', 'Чех', 'Польш', 'Унгар', 'Австри', 'Франц', 'Бельги', 'Голланд', 'Швед', 'Итали', 'Испани'],
         ];
     }
@@ -113,6 +114,8 @@ class GuideController extends Controller
             'remove_cover' => ['boolean'],
             'topic' => ['required', Rule::in(array_keys(Guide::TOPICS))],
             'country' => ['nullable', 'string', 'max:64'],
+            'stage' => ['nullable', Rule::in(array_keys(Guide::STAGES))],
+            'stage_order' => ['nullable', 'integer', 'min:0', 'max:99'],
             'is_featured' => ['boolean'],
             'status' => ['required', 'in:draft,published'],
             'published_at' => ['nullable', 'date'],

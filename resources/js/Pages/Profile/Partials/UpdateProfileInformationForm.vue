@@ -87,7 +87,7 @@ const submit = () => {
             <div class="flex items-center gap-5">
                 <button type="button" class="group relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-white shadow-sm" @click="pickFile">
                     <img v-if="currentAvatar" :src="currentAvatar" alt="" class="h-full w-full object-cover" />
-                    <div v-else class="flex h-full w-full items-center justify-center text-3xl font-bold text-brand-700">{{ initials }}</div>
+                    <div v-else class="flex h-full w-full items-center justify-center text-3xl font-semibold text-brand-700">{{ initials }}</div>
                     <span class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
                         <svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     </span>
@@ -97,7 +97,7 @@ const submit = () => {
                         <Button type="button" size="sm" @click="pickFile">Зураг сонгох</Button>
                         <Button v-if="currentAvatar" type="button" size="sm" variant="outline" @click="removeAvatar">Устгах</Button>
                     </div>
-                    <p class="mt-2 text-xs text-gray-400">JPG, PNG, WebP — 2MB хүртэл. Сонгосны дараа тохируулна.</p>
+                    <p class="mt-2 text-xs text-gray-400">JPG, PNG, WebP. Хамгийн ихдээ 2MB. Сонгосны дараа тайрч тохируулна.</p>
                     <input ref="fileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="onFile" />
                 </div>
             </div>
@@ -140,7 +140,7 @@ const submit = () => {
             <div class="flex items-center gap-4">
                 <Button type="submit" :disabled="form.processing">Хадгалах</Button>
                 <transition enter-active-class="transition" enter-from-class="opacity-0" leave-active-class="transition" leave-to-class="opacity-0">
-                    <p v-if="form.recentlySuccessful" class="text-sm text-emerald-600">Хадгалагдлаа ✓</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-emerald-600">Хадгалагдлаа.</p>
                 </transition>
             </div>
         </form>

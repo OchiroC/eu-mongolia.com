@@ -1,10 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#1d4ed8"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <text x="32" y="45" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800" fill="#ffffff" text-anchor="middle">Я</text>
+  <rect width="64" height="64" rx="7" fill="#1b1b19"/>
+  <path d="M7 0h50a7 7 0 0 1 7 7v25H0V7a7 7 0 0 1 7-7z" fill="#2a2b2e"/>
+  <text x="32" y="42.5" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="28" font-weight="600" fill="#ffb81c" text-anchor="middle">OM</text>
 </svg>

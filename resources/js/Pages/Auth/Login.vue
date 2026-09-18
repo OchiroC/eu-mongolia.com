@@ -28,7 +28,7 @@ const submit = () => {
 <template>
     <Head title="Нэвтрэх" />
 
-    <GuestLayout title="Тавтай морил 👋" subtitle="Бүртгэлдээ нэвтэрнэ үү">
+    <GuestLayout title="Нэвтрэх" subtitle="И-мэйл хаяг, нууц үгээ оруулна уу">
         <div v-if="status" class="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
             {{ status }}
         </div>

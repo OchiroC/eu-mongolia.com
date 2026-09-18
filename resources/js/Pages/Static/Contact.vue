@@ -5,23 +5,23 @@ import { Head } from '@inertiajs/vue3';
 const channels = [
     {
         title: 'И-мэйл',
-        value: 'info@yazguur.com',
-        href: 'mailto:info@yazguur.com',
+        value: 'info@om137.de',
+        href: 'mailto:info@om137.de',
         desc: 'Ерөнхий асуулт, санал хүсэлт',
         icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
     },
     {
-        title: 'Реклам байршуулах',
-        value: 'ads@yazguur.com',
-        href: 'mailto:ads@yazguur.com',
-        desc: 'Баннер болон сурталчилгаа',
+        title: 'Сурталчилгаа',
+        value: 'ads@om137.de',
+        href: 'mailto:ads@om137.de',
+        desc: 'Баннер байршуулах, хамтран ажиллах',
         icon: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z',
     },
     {
-        title: 'Гомдол / зөрчил',
-        value: 'support@yazguur.com',
-        href: 'mailto:support@yazguur.com',
-        desc: 'Зар, агуулгын зөрчил мэдээлэх',
+        title: 'Гомдол',
+        value: 'support@om137.de',
+        href: 'mailto:support@om137.de',
+        desc: 'Дүрэм зөрчсөн зар, агуулга мэдээлэх',
         icon: 'M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.71-3L13.71 4a2 2 0 00-3.42 0L3.36 16a2 2 0 001.71 3z',
     },
 ];
@@ -32,15 +32,15 @@ const channels = [
 
     <PublicLayout>
         <div class="mx-auto max-w-3xl">
-            <h1 class="text-3xl font-bold text-gray-900">Холбоо барих</h1>
-            <p class="mt-2 text-lg text-gray-500">Бидэнтэй холбогдох олон арга бий. Бид 1–2 ажлын өдөрт хариу өгөхийг хичээдэг.</p>
+            <h1 class="text-3xl font-semibold text-gray-900">Холбоо барих</h1>
+            <p class="mt-2 text-lg text-gray-500">Санал, асуулт, хамтын ажиллагааны талаар доорх хаягаар холбогдоно уу. Ажлын 1-2 өдөрт хариу өгнө.</p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-3">
                 <a
                     v-for="c in channels"
                     :key="c.title"
                     :href="c.href"
-                    class="group rounded-2xl border border-gray-100 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-md"
+                    class="group rounded-2xl border border-gray-100 bg-white p-5 shadow-soft transition hover:shadow-md"
                 >
                     <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" :d="c.icon" /></svg>
@@ -52,7 +52,7 @@ const channels = [
             </div>
 
             <div class="mt-8 rounded-2xl bg-gray-50 p-6 text-sm leading-relaxed text-gray-600">
-                <p>Yazguur нь хараат бус олон нийтийн платформ. Зар, мэдээ, эвентийн агуулгыг хэрэглэгчид өөрсдөө нийтэлдэг тул аливаа зөрчилтэй агуулгыг олж мэдвэл бидэнд мэдэгдэнэ үү — бид нэн даруй шалгана.</p>
+                <p>Сайтын зар, мэдээ, арга хэмжээний мэдээллийг хэрэглэгчид өөрсдөө нийтэлдэг. Дүрэм зөрчсөн агуулга харвал бидэнд мэдэгдэнэ үү. Бид даруй шалгана.</p>
             </div>
         </div>
     </PublicLayout>

@@ -26,7 +26,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
         <template #title>Монгол бизнес лавлах</template>
 
         <div class="mb-5 flex flex-wrap gap-2">
-            <button v-for="t in tabs" :key="t.key" class="rounded-full px-4 py-1.5 text-sm font-medium transition" :class="filter === t.key ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'" @click="go(t.key)">{{ t.label }} <span class="ml-1 text-xs opacity-80">{{ counts[t.key] }}</span></button>
+            <button v-for="t in tabs" :key="t.key" class="rounded-md px-4 py-1.5 text-sm font-medium transition" :class="filter === t.key ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'" @click="go(t.key)">{{ t.label }} <span class="ml-1 text-xs opacity-80">{{ counts[t.key] }}</span></button>
         </div>
 
         <div v-if="businesses.data.length" class="space-y-3">
@@ -38,7 +38,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
                     <div class="min-w-0">
                         <div class="flex flex-wrap items-center gap-1.5">
                             <span class="font-semibold text-gray-900">{{ b.name }}</span>
-                            <span v-if="b.is_featured" class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">Онцлох</span>
+                            <span v-if="b.is_featured" class="rounded-md bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">Онцлох</span>
                         </div>
                         <p class="truncate text-xs text-gray-400">{{ b.category_label }} · {{ b.city }}<span v-if="b.owner"> · {{ b.owner }}</span></p>
                     </div>
@@ -58,7 +58,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
         </div>
 
         <div v-if="businesses.links && businesses.links.length > 3" class="mt-6 flex flex-wrap gap-1">
-            <Link v-for="link in businesses.links" :key="link.label" :href="link.url || ''" v-html="link.label" class="rounded-md px-3 py-1 text-sm" :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']" />
+            <Link v-for="link in businesses.links" :key="link.label" :href="link.url || ''" v-html="link.label" class="rounded-md px-3 py-1 text-sm" :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']" />
         </div>
     </AdminLayout>
 </template>

@@ -36,7 +36,7 @@ function destroy(id) {
                             <Link :href="`/questions/${q.slug}`" target="_blank" class="font-medium text-gray-800 hover:text-brand-700">{{ q.title }}</Link>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ q.category_label }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ q.user ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500">{{ q.user ?? '-' }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ q.answers }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ q.views }}</td>
                         <td class="px-4 py-3 text-right">
@@ -57,7 +57,7 @@ function destroy(id) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </AdminLayout>

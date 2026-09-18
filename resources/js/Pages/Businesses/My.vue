@@ -1,4 +1,5 @@
 <script setup>
+import { Eye } from 'lucide-vue-next';
 import Button from '@/Components/ui/Button.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -27,7 +28,7 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
 
     <PublicLayout>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">Миний бизнес</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Миний бизнес</h1>
             <Button :as="Link" href="/businesses/new">+ Бизнес нэмэх</Button>
         </div>
 
@@ -38,15 +39,15 @@ function initial(name) { return (name || '?').charAt(0).toUpperCase(); }
                 </span>
                 <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusMap[b.status]?.cls">{{ statusMap[b.status]?.label }}</span>
-                        <span v-if="b.is_featured" class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">★ Онцлох · {{ b.featured_until }}</span>
-                        <span class="text-xs text-gray-400">👁 {{ b.views }}</span>
+                        <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusMap[b.status]?.cls">{{ statusMap[b.status]?.label }}</span>
+                        <span v-if="b.is_featured" class="rounded-md bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">Онцлох, {{ b.featured_until }} хүртэл</span>
+                        <span class="text-xs text-gray-400"><Eye class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ b.views }}</span>
                     </div>
                     <Link :href="`/businesses/${b.slug}`" class="mt-1 block font-semibold text-gray-900 hover:text-brand-700">{{ b.name }}</Link>
                     <p class="text-sm text-gray-500">{{ b.category_label }} · {{ b.city }}</p>
                 </div>
                 <div class="flex shrink-0 flex-wrap gap-2">
-                    <Button size="sm" class="bg-amber-500 hover:bg-amber-600" @click="promote(b)">★ {{ b.is_featured ? 'Сунгах' : 'Онцлох' }}</Button>
+                    <Button size="sm" class="bg-amber-500 hover:bg-amber-600" @click="promote(b)">{{ b.is_featured ? 'Сунгах' : 'Онцлох' }}</Button>
                     <Button :as="Link" :href="`/businesses/${b.id}/edit`" variant="secondary" size="sm">Засах</Button>
                     <Button variant="destructive" size="sm" @click="destroy(b)">Устгах</Button>
                 </div>

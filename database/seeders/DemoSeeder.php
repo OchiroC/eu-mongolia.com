@@ -79,12 +79,12 @@ class DemoSeeder extends Seeder
                     'user_id' => $user->id,
                     'name' => $d['name'],
                     'category' => $d['cat'],
-                    'description' => $d['name'].' — Европ дахь монголчуудад үйлчилж байна. (demo)',
+                    'description' => $d['name'].' нь Европ дахь монголчуудад үйлчилдэг.',
                     'city' => $d['city'],
                     'country' => $d['country'],
                     'address' => $d['address'],
                     'phone' => '+49 30 0000000',
-                    'hours' => 'Да–Ня 10:00–22:00',
+                    'hours' => 'Да-Ня 10:00-22:00',
                     'is_featured' => $d['featured'],
                     'featured_until' => $d['featured'] ? now()->addDays(30) : null,
                     'status' => 'active',
@@ -118,7 +118,7 @@ class DemoSeeder extends Seeder
                     'size' => $d['size'],
                     'furnished' => $d['furnished'],
                     'gender_pref' => 'any',
-                    'description' => 'Дэлгэрэнгүйг холбоо барьж асууна уу. (demo)',
+                    'description' => 'Дэлгэрэнгүйг холбоо барьж асууна уу.',
                     'contact_phone' => '+49 170 0000000',
                     'status' => 'active',
                 ],
@@ -130,7 +130,7 @@ class DemoSeeder extends Seeder
     private function author(): User
     {
         return User::first() ?? User::create([
-            'name' => 'Yazguur',
+            'name' => config('app.name'),
             'email' => 'demo@eu-mongolia.test',
             'password' => bcrypt(Str::random(32)),
             'email_verified_at' => now(),
@@ -144,7 +144,7 @@ class DemoSeeder extends Seeder
         \App\Models\Question::where('answers_count', 0)->get()->each(function ($q) use ($user) {
             $a = $q->answers()->create([
                 'user_id' => $user->id,
-                'body' => 'Миний туршлагаас хэлэхэд эхлээд холбогдох байгууллагаас цаг авч, шаардлагатай бичиг баримтаа бүрдүүлээрэй. (demo хариулт)',
+                'body' => 'Миний туршлагаас хэлэхэд эхлээд холбогдох байгууллагаас цаг авч, шаардлагатай бичиг баримтаа бүрдүүлээрэй.',
                 'votes_count' => 0,
             ]);
             $q->update(['answers_count' => 1, 'best_answer_id' => $a->id]);
@@ -161,7 +161,7 @@ class DemoSeeder extends Seeder
             }
             $post->comments()->create([
                 'user_id' => $user->id,
-                'body' => 'Сонирхолтой мэдээ байна, баярлалаа! (demo)',
+                'body' => 'Сонирхолтой мэдээ байна, баярлалаа!',
                 'status' => 'approved',
             ]);
         });
@@ -183,7 +183,7 @@ class DemoSeeder extends Seeder
                 [
                     'from_country' => $d['fc'], 'to_country' => $d['tc'],
                     'seats' => $d['seats'], 'price' => $d['price'],
-                    'notes' => 'Цуглах цэгийг тохиролцоно. (demo)',
+                    'notes' => 'Цуглах цэгийг тохиролцоно.',
                     'contact_phone' => '+49 170 0000000',
                     'status' => 'active',
                 ],
@@ -207,7 +207,7 @@ class DemoSeeder extends Seeder
                     'country' => $d['country'],
                     'city' => $d['city'],
                     'website' => $d['website'],
-                    'notes' => 'Холбоо барих мэдээллийг албан ёсны вэбсайтаас баталгаажуулна уу. (demo)',
+                    'notes' => 'Холбоо барих мэдээллийг албан ёсны вэбсайтаас баталгаажуулна уу.',
                     'sort_order' => $d['sort'],
                     'is_active' => true,
                 ],
@@ -232,7 +232,7 @@ class DemoSeeder extends Seeder
                 [
                     'user_id' => $user->id,
                     'title' => $d['title'],
-                    'body' => $d['title'].' Хэн нэг туршлагатай хүн зөвлөгөө өгөөч. (demo)',
+                    'body' => $d['title'].' Хэн нэг туршлагатай хүн зөвлөгөө өгөөч.',
                     'category' => $d['cat'],
                     'country' => $d['country'],
                 ],
@@ -259,7 +259,7 @@ class DemoSeeder extends Seeder
                     'user_id' => $user->id,
                     'title' => $d['title'],
                     'company' => $d['company'],
-                    'description' => $d['title'].' — дэлгэрэнгүй мэдээллийг холбоо барьж асууна уу. (demo)',
+                    'description' => $d['title'].'. Дэлгэрэнгүй мэдээллийг холбогдож лавлана уу.',
                     'employment_type' => $d['type'],
                     'category' => $d['cat'],
                     'city' => $d['city'],
@@ -279,7 +279,7 @@ class DemoSeeder extends Seeder
         $demo = [
             ['title' => 'Германд хотын бүртгэл (Anmeldung) хийх', 'topic' => 'registration', 'country' => 'Герман', 'featured' => true, 'excerpt' => 'Шинээр нүүж ирээд 14 хоногийн дотор Bürgeramt дээр бүртгүүлэх алхмууд.'],
             ['title' => 'ВНЖ (Aufenthaltstitel) сунгах заавар', 'topic' => 'visa', 'country' => 'Герман', 'featured' => true, 'excerpt' => 'Цаг авах, бүрдүүлэх бичиг баримт, хураамж, анхаарах зүйлс.'],
-            ['title' => 'Эрүүл мэндийн даатгал хэрхэн сонгох', 'topic' => 'insurance', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Gesetzlich vs privat — оюутан, ажилтанд аль нь тохиромжтой вэ.'],
+            ['title' => 'Эрүүл мэндийн даатгал хэрхэн сонгох', 'topic' => 'insurance', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Gesetzlich эсвэл privat: оюутан, ажилтанд аль нь тохиромжтой вэ.'],
             ['title' => 'Чехэд оюутны визээр ирэхэд', 'topic' => 'study', 'country' => 'Чех', 'featured' => false, 'excerpt' => 'Элсэлт, виз, ирсний дараах бүртгэлийн талаар.'],
             ['title' => 'Жолооны үнэмлэхээ хөрвүүлэх', 'topic' => 'driving', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Монгол үнэмлэхээ ЕХ-ны үнэмлэх рүү хөрвүүлэх боломж, нөхцөл.'],
             ['title' => 'Банкны данс нээх (Германд)', 'topic' => 'bank', 'country' => 'Герман', 'featured' => false, 'excerpt' => 'Шаардлагатай бичиг баримт, онлайн банкны сонголтууд.'],
@@ -292,7 +292,7 @@ class DemoSeeder extends Seeder
                     'user_id' => $user->id,
                     'title' => $d['title'],
                     'excerpt' => $d['excerpt'],
-                    'body' => '<h2>Ерөнхий мэдээлэл</h2><p>'.$d['excerpt'].' Энэ нь жишээ агуулга (demo).</p><h3>Алхмууд</h3><ol><li>Цаг товлох / бүртгүүлэх</li><li>Бичиг баримт бүрдүүлэх</li><li>Холбогдох газартаа очих</li></ol><p>Дэлгэрэнгүйг албан ёсны эх сурвалжаас шалгана уу.</p>',
+                    'body' => '<h2>Ерөнхий мэдээлэл</h2><p>'.$d['excerpt'].' Энэ нь жишээ агуулга.</p><h3>Алхмууд</h3><ol><li>Цаг товлох / бүртгүүлэх</li><li>Бичиг баримт бүрдүүлэх</li><li>Холбогдох газартаа очих</li></ol><p>Дэлгэрэнгүйг албан ёсны эх сурвалжаас шалгана уу.</p>',
                     'topic' => $d['topic'],
                     'country' => $d['country'],
                     'is_featured' => $d['featured'],
@@ -329,7 +329,7 @@ class DemoSeeder extends Seeder
                     'professional_category_id' => $byName($d['cat']),
                     'name' => $d['name'],
                     'profession' => $d['profession'],
-                    'bio' => '<p>'.$d['profession'].'. Европ дахь монголчуудад мэргэжлийн үйлчилгээ үзүүлж байна. (demo)</p>',
+                    'bio' => '<p>'.$d['profession'].'. Европ дахь монголчуудад мэргэжлийн үйлчилгээ үзүүлж байна.</p>',
                     'city' => $d['city'],
                     'country' => $d['country'],
                     'languages' => $d['langs'],
@@ -380,7 +380,7 @@ class DemoSeeder extends Seeder
         Listing::where('status', 'active')->inRandomOrder()->take(3)->get()->each(function (Listing $listing) use ($user, $reasons) {
             Report::firstOrCreate(
                 ['listing_id' => $listing->id, 'reporter_id' => $user->id, 'status' => 'pending'],
-                ['reason' => $reasons[array_rand($reasons)], 'note' => 'Жишээ гомдол (demo).'],
+                ['reason' => $reasons[array_rand($reasons)], 'note' => 'Жишээ гомдол.'],
             );
         });
     }

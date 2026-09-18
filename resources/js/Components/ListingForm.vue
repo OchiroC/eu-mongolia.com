@@ -80,7 +80,7 @@ function submit() {
                 <div class="space-y-1.5">
                     <Label>Ангилал</Label>
                     <Select v-model="form.listing_category_id">
-                        <SelectTrigger><SelectValue placeholder="— Ангилал сонгох —" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Ангилал сонгох" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</SelectItem>
                         </SelectContent>
@@ -155,9 +155,9 @@ function submit() {
                 <div class="space-y-1.5">
                     <Label>Улс</Label>
                     <Select v-model="countryModel">
-                        <SelectTrigger><SelectValue placeholder="—" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Сонгоогүй" /></SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="none">—</SelectItem>
+                            <SelectItem value="none">Сонгоогүй</SelectItem>
                             <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                         </SelectContent>
                     </Select>

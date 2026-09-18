@@ -100,7 +100,7 @@ function removeNews(cat) {
                     <div v-for="cat in listingCategories" :key="cat.id" class="flex items-center justify-between px-5 py-3">
                         <div class="min-w-0">
                             <p class="font-medium text-gray-800">{{ cat.name }}</p>
-                            <p class="text-xs text-gray-400">{{ cat.icon || '—' }} · {{ cat.listings_count }} зар</p>
+                            <p class="text-xs text-gray-400">{{ cat.icon || '-' }} · {{ cat.listings_count }} зар</p>
                         </div>
                         <div class="flex shrink-0 gap-1">
                             <Button variant="ghost" size="icon" title="Засах" @click="openEdit('listing', cat)">
@@ -125,7 +125,7 @@ function removeNews(cat) {
                     <div v-for="cat in professionalCategories" :key="cat.id" class="flex items-center justify-between px-5 py-3">
                         <div class="min-w-0">
                             <p class="font-medium text-gray-800">{{ cat.name }}</p>
-                            <p class="text-xs text-gray-400">{{ cat.icon || '—' }} · {{ cat.professionals_count }} мэргэжилтэн</p>
+                            <p class="text-xs text-gray-400">{{ cat.icon || '-' }} · {{ cat.professionals_count }} мэргэжилтэн</p>
                         </div>
                         <div class="flex shrink-0 gap-1">
                             <Button variant="ghost" size="icon" title="Засах" @click="openEdit('professional', cat)">
@@ -161,7 +161,7 @@ function removeNews(cat) {
                                 <Button variant="ghost" size="icon" title="Засах" @click="openEdit('news', parent)">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                                 </Button>
-                                <span v-if="parent.slug === 'uncategorized'" class="flex h-9 w-9 items-center justify-center text-gray-300" title="Энэ ангилал хамгаалагдсан — устгах боломжгүй">
+                                <span v-if="parent.slug === 'uncategorized'" class="flex h-9 w-9 items-center justify-center text-gray-300" title="Хамгаалагдсан ангилал тул устгах боломжгүй">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                                 </span>
                                 <Button v-else variant="ghost" size="icon" class="text-destructive hover:text-destructive" title="Устгах" @click="removeNews(parent)">
@@ -211,7 +211,7 @@ function removeNews(cat) {
                 <div v-if="type === 'news'" class="space-y-1.5">
                     <Label>Эцэг ангилал</Label>
                     <SelectNative v-model="parentModel">
-                        <option value="none">— Үндсэн (дээд түвшин) —</option>
+                        <option value="none">Үндсэн ангилал (дээд түвшин)</option>
                         <option v-for="p in newsTopLevel" :key="p.id" :value="p.id" :disabled="editingId === p.id">{{ p.name }}</option>
                     </SelectNative>
                 </div>

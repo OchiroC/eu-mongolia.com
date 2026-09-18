@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Flight;
+use App\Models\Guide;
+use App\Models\HousingPost;
+use App\Models\JobPost;
 use App\Models\Listing;
 use App\Models\ListingCategory;
 use App\Models\Post;
 use App\Models\Professional;
+use App\Models\Ride;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
@@ -80,11 +86,74 @@ class HomeController extends Controller
                 'news' => Post::where('status', 'published')->count(),
                 'events' => Event::where('status', 'published')->count(),
             ],
+            // Чиглүүлэх самбарын мөр бүрийн тоо — самбар хэзээ ч хоосон харагдахгүй.
+            'counts' => [
+                'flights' => Flight::upcoming()->where('direction', 'arrival')->where('scheduled_at', '<=', now()->addDays(14))->count(),
+                'rides' => Ride::active()->upcoming()->count(),
+                'guides' => Guide::published()->count(),
+                'housing' => HousingPost::active()->count(),
+                'jobs' => JobPost::active()->count(),
+                'listings' => Listing::active()->count(),
+                'events' => Event::published()->where('starts_at', '>=', now())->count(),
+            ],
+            // Хөдлөх самбар — удахгүй болох аяллууд.
+            'upcomingRides' => Ride::active()
+                ->upcoming()
+                ->orderBy('depart_at')
+                ->take(6)
+                ->get(['id', 'from_city', 'to_city', 'depart_at', 'seats', 'price']),
+            // Аяллын зам: үе шат бүрийн гарын авлага дарааллаараа.
+            'journey' => $this->journey(),
+            // Нэвтэрсэн хэрэглэгчийн хийсэн гэж тэмдэглэсэн алхмууд (зочинд localStorage ашиглана).
+            'journeyDone' => $request->user()?->journeyGuides()->pluck('slug') ?? [],
+            // Нислэгийн самбар: ойрын ирэх, хөдлөх нислэгүүд.
+            'upcomingFlights' => Flight::upcoming()
+                ->withCount(['passengers', 'rides' => fn ($q) => $q->where('status', 'active'), 'parcels' => fn ($q) => $q->where('status', 'active')])
+                ->orderBy('scheduled_at')
+                ->take(8)
+                ->get()
+                ->map->card(),
+            // Мэдэгдлийн мөрөнд харагдах гарын авлагууд.
+            'guides' => Guide::published()
+                ->orderByDesc('is_featured')
+                ->latest('published_at')
+                ->take(6)
+                ->get(['id', 'title', 'slug', 'excerpt', 'topic'])
+                ->map(fn ($g) => [
+                    'title' => $g->title,
+                    'slug' => $g->slug,
+                    'excerpt' => $g->excerpt,
+                    'topic' => $g->topic_label,
+                ]),
             'seo' => [
-                'title' => 'Yazguur — Европ дахь монголчуудын платформ',
-                'description' => 'Зар, мэдээ, эвент — бүгд нэг дороос. Худалдаа, ажил, орон сууц, үйлчилгээ.',
+                'title' => config('app.name').' | Франкфурт дахь монголчуудын мэдээллийн сайт',
+                'description' => 'Франкфурт болон ойр орчмын монголчуудад зориулсан байр, ажил, зар, арга хэмжээ, бичиг баримтын заавар.',
             ],
         ]);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function journey(): array
+    {
+        $byStage = Guide::published()
+            ->whereNotNull('stage')
+            ->orderBy('stage_order')
+            ->orderBy('id')
+            ->get(['id', 'title', 'slug', 'excerpt', 'stage'])
+            ->groupBy('stage');
+
+        return collect(Guide::STAGES)
+            ->map(fn ($label, $key) => [
+                'key' => $key,
+                'label' => $label,
+                'guides' => ($byStage[$key] ?? collect())
+                    ->map(fn ($g) => ['title' => $g->title, 'slug' => $g->slug, 'excerpt' => $g->excerpt])
+                    ->values(),
+            ])
+            ->values()
+            ->all();
     }
 
     /**

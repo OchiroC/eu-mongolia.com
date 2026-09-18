@@ -101,11 +101,11 @@ const catIcon = {
                     <h2 class="mb-3 text-sm font-bold text-gray-900">Үнэ (€)</h2>
                     <div class="flex items-center gap-2">
                         <Input v-model="priceRange.min_price" type="number" min="0" placeholder="0" class="h-9 text-sm" @change="apply()" />
-                        <span class="text-gray-400">—</span>
+                        <span class="text-gray-400">-</span>
                         <Input v-model="priceRange.max_price" type="number" min="0" placeholder="∞" class="h-9 text-sm" @change="apply()" />
                     </div>
                     <Button :variant="filters.price_type === 'free' ? 'default' : 'secondary'" size="sm" class="mt-3 w-full" @click="apply({ price_type: filters.price_type === 'free' ? undefined : 'free' })">
-                        {{ filters.price_type === 'free' ? '✓ ' : '' }}Зөвхөн үнэгүй
+                        Зөвхөн үнэгүй
                     </Button>
                 </div>
             </aside>
@@ -134,7 +134,7 @@ const catIcon = {
                         v-html="link.label"
                         class="rounded-lg px-3.5 py-2 text-sm"
                         :class="[
-                            link.active ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50',
+                            link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600',
                             !link.url ? 'pointer-events-none opacity-40' : '',
                         ]"
                     />

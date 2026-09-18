@@ -30,7 +30,7 @@ class OrderPaid extends Notification
 
         // Тасалбар бүрийн QR кодыг хавсаргана (хаалган дээр шалгуулна).
         foreach ($this->order->tickets as $ticket) {
-            $mail->line('• '.($ticket->ticketType?->name ?? 'Тасалбар').' — код: '.$ticket->code);
+            $mail->line('• '.($ticket->ticketType?->name ?? 'Тасалбар').', код: '.$ticket->code);
             $mail->attachData(\App\Support\Qr::png($ticket->code), 'ticket-'.$ticket->code.'.png', [
                 'mime' => 'image/png',
             ]);
@@ -49,7 +49,7 @@ class OrderPaid extends Notification
         return [
             'type' => 'order',
             'title' => 'Тасалбар баталгаажлаа',
-            'message' => ($this->order->event?->title ?? 'Эвент').' — '.$this->order->total.'€',
+            'message' => ($this->order->event?->title ?? 'Эвент').', '.$this->order->total.'€',
             'url' => '/orders/'.$this->order->id,
         ];
     }

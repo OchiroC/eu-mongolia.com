@@ -1,4 +1,5 @@
 <script setup>
+import { X } from 'lucide-vue-next';
 import ImageUpload from '@/Components/ImageUpload.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
 import Button from '@/Components/ui/Button.vue';
@@ -109,9 +110,9 @@ async function submit() {
             <div class="space-y-1.5">
                 <Label>Улс</Label>
                 <Select v-model="countryModel">
-                    <SelectTrigger><SelectValue placeholder="—" /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder="Сонгоогүй" /></SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="none">—</SelectItem>
+                        <SelectItem value="none">Сонгоогүй</SelectItem>
                         <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                     </SelectContent>
                 </Select>
@@ -142,14 +143,14 @@ async function submit() {
         </div>
 
         <label class="flex w-fit items-center gap-2 text-sm text-gray-700">
-            <input v-model="form.is_featured" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" />
+            <input v-model="form.is_featured" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
             Онцлох (нүүр хуудсанд тэргүүлж харагдана)
         </label>
 
         <!-- Эвентийн төрөл: тасалбартай эсэх -->
         <div class="rounded-lg border border-gray-200 p-4">
             <label class="flex cursor-pointer items-start gap-3">
-                <input v-model="form.has_tickets" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary focus:ring-ring" />
+                <input v-model="form.has_tickets" type="checkbox" class="mt-0.5 rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                 <span>
                     <span class="block text-sm font-medium text-gray-800">Тасалбартай эвент</span>
                     <span class="block text-xs text-gray-500">Идэвхжүүлбэл тасалбар зарах систем холбогдоно. Үгүй бол зөвхөн мэдээллийн эвент болно.</span>
@@ -177,7 +178,7 @@ async function submit() {
                         <Label class="text-xs text-gray-500">Тоо</Label>
                         <Input v-model.number="t.quantity" type="number" min="0" />
                     </div>
-                    <Button type="button" variant="ghost" size="icon" class="text-destructive hover:text-destructive" :title="t.sold > 0 ? 'Зарагдсан тул устгахгүй' : 'Устгах'" @click="removeType(i)">✕</Button>
+                    <Button type="button" variant="ghost" size="icon" class="text-destructive hover:text-destructive" :title="t.sold > 0 ? 'Зарагдсан тул устгахгүй' : 'Устгах'" @click="removeType(i)"><X class="h-4 w-4" /></Button>
                 </div>
             </div>
         </div>

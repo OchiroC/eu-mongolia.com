@@ -1,5 +1,7 @@
 <script setup>
+import { X } from 'lucide-vue-next';
 import BannerDisplay from '@/Components/BannerDisplay.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { timeAgo } from '@/lib/date';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -53,21 +55,17 @@ function filterTag(slug) {
     <PublicLayout>
         <BannerDisplay placement="news_top" :placeholder="true" class="mb-6" />
 
-        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h1 class="text-2xl font-bold">Мэдээ мэдээлэл</h1>
-            <input
-                v-model="search"
-                type="search"
-                placeholder="Хайх..."
-                class="w-full rounded-md border-gray-300 sm:w-64"
-            />
-        </div>
+        <PageHeader kicker="Мэдээ" title="Мэдээ мэдээлэл" subtitle="Европ дахь монголчуудын мэдээ, мэдээлэл.">
+            <template #actions>
+                <input v-model="search" type="search" placeholder="Хайх…" class="h-10 w-full rounded-md border-brand-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 sm:w-64" />
+            </template>
+        </PageHeader>
 
         <!-- Категори (дээд түвшин) -->
         <div class="mb-3 flex flex-wrap gap-2">
             <button
-                class="rounded-full px-3 py-1 text-sm transition"
-                :class="!filters.category ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-sm transition"
+                :class="!filters.category ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCategory(null)"
             >
                 Бүгд
@@ -75,8 +73,8 @@ function filterTag(slug) {
             <button
                 v-for="cat in topLevel"
                 :key="cat.id"
-                class="rounded-full px-3 py-1 text-sm transition"
-                :class="filters.category === cat.slug || activeParentId === cat.id ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-sm transition"
+                :class="filters.category === cat.slug || activeParentId === cat.id ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCategory(cat.slug)"
             >
                 {{ cat.name }}
@@ -87,8 +85,8 @@ function filterTag(slug) {
         <div v-if="subCategories.length" class="mb-4 flex flex-wrap items-center gap-2 rounded-xl bg-gray-50 px-3 py-2.5">
             <span class="text-xs font-medium text-gray-400">Дэд ангилал:</span>
             <button
-                class="rounded-full px-3 py-1 text-xs transition"
-                :class="filters.category === activeParentCat?.slug ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-3 py-1 text-xs transition"
+                :class="filters.category === activeParentCat?.slug ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCategory(activeParentCat?.slug)"
             >
                 Бүгд
@@ -96,8 +94,8 @@ function filterTag(slug) {
             <button
                 v-for="sub in subCategories"
                 :key="sub.id"
-                class="rounded-full px-3 py-1 text-xs transition"
-                :class="filters.category === sub.slug ? 'bg-brand-600 text-white' : 'bg-white text-brand-700 ring-1 ring-brand-100 hover:bg-brand-50'"
+                class="rounded-md px-3 py-1 text-xs transition"
+                :class="filters.category === sub.slug ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="filterCategory(sub.slug)"
             >
                 {{ sub.name }}
@@ -106,9 +104,9 @@ function filterTag(slug) {
 
         <!-- Таг шүүлт -->
         <div v-if="filters.tag || popularTags.length" class="mb-6 flex flex-wrap items-center gap-2">
-            <span v-if="filters.tag" class="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-sm font-medium text-white">
+            <span v-if="filters.tag" class="inline-flex items-center gap-1.5 rounded-md bg-brand-600 px-3 py-1 text-sm font-medium text-white">
                 #{{ activeTag || filters.tag }}
-                <button type="button" class="text-brand-200 hover:text-white" @click="filterTag(null)">✕</button>
+                <button type="button" class="text-brand-200 hover:text-white" @click="filterTag(null)"><X class="h-3.5 w-3.5" /></button>
             </span>
             <template v-if="popularTags.length">
                 <span class="text-sm text-gray-400">Түгээмэл таг:</span>
@@ -116,7 +114,7 @@ function filterTag(slug) {
                     <button
                         v-if="t.slug !== filters.tag"
                         type="button"
-                        class="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
+                        class="rounded-md bg-gray-100 px-2.5 py-1 text-xs text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
                         @click="filterTag(t.slug)"
                     >#{{ t.name }}</button>
                 </template>
@@ -128,7 +126,7 @@ function filterTag(slug) {
                 v-for="post in posts.data"
                 :key="post.id"
                 :href="`/news/${post.slug}`"
-                class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-card-lg"
+                class="group overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-gray-100 transition duration-300 hover:shadow-card-lg"
             >
                 <div class="aspect-video overflow-hidden bg-gray-100">
                     <img v-if="post.cover_image" :src="post.cover_image" :alt="post.title" class="h-full w-full object-cover" />
@@ -159,7 +157,7 @@ function filterTag(slug) {
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
                 :class="[
-                    link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200',
+                    link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600',
                     !link.url ? 'pointer-events-none opacity-50' : '',
                 ]"
             />

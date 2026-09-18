@@ -1,4 +1,5 @@
 <script setup>
+import { X } from 'lucide-vue-next';
 import ImageUpload from '@/Components/ImageUpload.vue';
 import MultiImageUpload from '@/Components/MultiImageUpload.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
@@ -119,9 +120,9 @@ async function submit() {
             <div class="space-y-1.5">
                 <Label>Ангилал</Label>
                 <Select v-model="categoryModel">
-                    <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="none">— Сонгох —</SelectItem>
+                        <SelectItem value="none">Сонгоогүй</SelectItem>
                         <SelectItem v-for="cat in categories" :key="cat.id" :value="cat.id">
                             <span :class="cat.depth ? 'text-gray-500' : ''">{{ cat.depth ? '↳ ' : '' }}{{ cat.name }}</span>
                         </SelectItem>
@@ -131,9 +132,9 @@ async function submit() {
             <div class="space-y-1.5">
                 <Label>Улс</Label>
                 <Select v-model="countryModel">
-                    <SelectTrigger><SelectValue placeholder="— Сонгох —" /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder="Сонгох" /></SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="none">— Сонгох —</SelectItem>
+                        <SelectItem value="none">Сонгоогүй</SelectItem>
                         <SelectItem v-for="c in countries" :key="c" :value="c">{{ c }}</SelectItem>
                     </SelectContent>
                 </Select>
@@ -155,9 +156,9 @@ async function submit() {
         <div class="space-y-1.5">
             <Label>Таг (шошго)</Label>
             <div class="flex flex-wrap items-center gap-1.5 rounded-md border border-input bg-background p-2 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                <span v-for="(t, i) in form.tags" :key="i" class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-0.5 text-sm text-brand-700">
+                <span v-for="(t, i) in form.tags" :key="i" class="inline-flex items-center gap-1 rounded-md bg-brand-50 px-2.5 py-0.5 text-sm text-brand-700">
                     {{ t }}
-                    <button type="button" class="text-brand-400 transition hover:text-brand-700" @click="removeTag(i)">✕</button>
+                    <button type="button" class="text-brand-400 transition hover:text-brand-700" @click="removeTag(i)"><X class="h-3 w-3" /></button>
                 </span>
                 <input
                     v-model="tagInput"
@@ -186,11 +187,11 @@ async function submit() {
 
         <div class="flex flex-wrap items-center gap-6">
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input v-model="form.is_featured" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" />
+                <input v-model="form.is_featured" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                 Онцлох
             </label>
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input v-model="form.comments_enabled" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" />
+                <input v-model="form.comments_enabled" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                 Сэтгэгдэл бичихийг зөвшөөрөх
             </label>
             <div class="flex items-center gap-2">

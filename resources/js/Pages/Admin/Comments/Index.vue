@@ -42,8 +42,8 @@ function destroy(id) {
             <button
                 v-for="t in tabs"
                 :key="t.key"
-                class="rounded-full px-4 py-1.5 text-sm font-medium transition"
-                :class="filter === t.key ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'"
+                class="rounded-md px-4 py-1.5 text-sm font-medium transition"
+                :class="filter === t.key ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                 @click="go(t.key)"
             >
                 {{ t.label }}
@@ -57,7 +57,7 @@ function destroy(id) {
                     <div class="min-w-0 flex-1">
                         <div class="flex flex-wrap items-center gap-2 text-xs text-gray-400">
                             <span class="font-semibold text-gray-700">{{ c.user }}</span>
-                            <span v-if="c.is_reply" class="rounded-full bg-gray-100 px-2 py-0.5 text-gray-500">хариу</span>
+                            <span v-if="c.is_reply" class="rounded-md bg-gray-100 px-2 py-0.5 text-gray-500">хариу</span>
                             <span>· {{ c.created_at }}</span>
                         </div>
                         <p class="mt-2 whitespace-pre-line text-sm text-gray-700">{{ c.body }}</p>
@@ -88,7 +88,7 @@ function destroy(id) {
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
                 :class="[
-                    link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200',
+                    link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600',
                     !link.url ? 'pointer-events-none opacity-50' : '',
                 ]"
             />

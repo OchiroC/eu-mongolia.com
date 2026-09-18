@@ -40,9 +40,9 @@ function destroy(id) {
                         <td class="px-4 py-3"><Link :href="`/housing/${p.slug}`" target="_blank" class="font-medium text-gray-800 hover:text-brand-700">{{ p.title }}</Link></td>
                         <td class="px-4 py-3 text-gray-500">{{ p.type_label }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ p.city }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ p.price ? p.price + '€' : '—' }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ p.user ?? '—' }}</td>
-                        <td class="px-4 py-3"><span class="rounded-full px-2 py-0.5 text-xs" :class="statusClass[p.status]">{{ statusLabel[p.status] }}</span></td>
+                        <td class="px-4 py-3 text-gray-500">{{ p.price ? p.price + '€' : '-' }}</td>
+                        <td class="px-4 py-3 text-gray-500">{{ p.user ?? '-' }}</td>
+                        <td class="px-4 py-3"><span class="rounded-md px-2 py-0.5 text-xs" :class="statusClass[p.status]">{{ statusLabel[p.status] }}</span></td>
                         <td class="px-4 py-3">
                             <div class="flex justify-end gap-2">
                                 <Button variant="outline" size="sm" @click="close(p.id)">{{ p.status === 'closed' ? 'Нээх' : 'Хаах' }}</Button>
@@ -64,7 +64,7 @@ function destroy(id) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </AdminLayout>

@@ -1,4 +1,5 @@
 <script setup>
+import { Check } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -46,10 +47,10 @@ function initial(name) {
             <!-- Асуулт -->
             <div class="mt-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-soft">
                 <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">{{ question.category_label }}</span>
-                    <span v-if="question.country" class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">{{ question.country }}</span>
+                    <span class="rounded-md bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">{{ question.category_label }}</span>
+                    <span v-if="question.country" class="rounded-md bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">{{ question.country }}</span>
                 </div>
-                <h1 class="mt-2 text-2xl font-bold text-gray-900">{{ question.title }}</h1>
+                <h1 class="mt-2 text-2xl font-semibold text-gray-900">{{ question.title }}</h1>
                 <div class="rich-content mt-3 max-w-none whitespace-pre-line text-gray-700">{{ question.body }}</div>
                 <div class="mt-4 flex items-center justify-between text-sm text-gray-400">
                     <span class="inline-flex items-center gap-1.5">
@@ -75,7 +76,7 @@ function initial(name) {
                     <div class="flex flex-col items-center">
                         <button
                             class="flex h-9 w-9 items-center justify-center rounded-full transition"
-                            :class="a.voted ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-brand-50 hover:text-brand-600'"
+                            :class="a.voted ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600 hover:text-brand-600'"
                             title="Тус болсон"
                             @click="vote(a)"
                         >
@@ -85,7 +86,7 @@ function initial(name) {
                     </div>
 
                     <div class="min-w-0 flex-1">
-                        <span v-if="a.is_best" class="mb-1 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">✓ Шилдэг хариулт</span>
+                        <span v-if="a.is_best" class="mb-1 inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700"><Check class="h-3 w-3" />Шилдэг хариулт</span>
                         <p class="whitespace-pre-line text-sm text-gray-700">{{ a.body }}</p>
                         <div class="mt-2 flex items-center gap-3 text-xs text-gray-400">
                             <span class="inline-flex items-center gap-1.5">
@@ -95,7 +96,7 @@ function initial(name) {
                                 {{ a.user }} · {{ a.created_at }}
                             </span>
                             <button v-if="question.owned" class="font-medium transition" :class="a.is_best ? 'text-emerald-600' : 'text-gray-400 hover:text-emerald-600'" @click="accept(a)">
-                                {{ a.is_best ? 'Шилдэг ✓' : 'Шилдгээр тэмдэглэх' }}
+                                {{ a.is_best ? 'Шилдэг хариулт' : 'Шилдгээр тэмдэглэх' }}
                             </button>
                             <button v-if="user && user.id === a.user_id" class="text-gray-400 hover:text-red-500" @click="deleteAnswer(a)">Устгах</button>
                         </div>
@@ -111,11 +112,11 @@ function initial(name) {
                     v-model="form.body"
                     rows="4"
                     placeholder="Туршлага, зөвлөгөөгөө хуваалцаарай…"
-                    class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+                    class="w-full rounded-md border border-brand-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
                 ></textarea>
                 <p v-if="form.errors.body" class="mt-1 text-sm text-destructive">{{ form.errors.body }}</p>
                 <div class="mt-2 text-right">
-                    <button type="button" :disabled="form.processing || !form.body.trim()" class="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0 disabled:opacity-50" @click="submitAnswer">Хариулт нэмэх</button>
+                    <button type="button" :disabled="form.processing || !form.body.trim()" class="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-brand-700 disabled:opacity-50" @click="submitAnswer">Хариулт нэмэх</button>
                 </div>
             </div>
             <p v-else class="mt-6 rounded-2xl bg-brand-50/60 px-4 py-3 text-center text-sm text-gray-600">

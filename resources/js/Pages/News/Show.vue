@@ -1,4 +1,5 @@
 <script setup>
+import { X } from 'lucide-vue-next';
 import BannerDisplay from '@/Components/BannerDisplay.vue';
 import CommentsSection from '@/Components/CommentsSection.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
@@ -65,7 +66,7 @@ const quickLinks = [
                 <!-- Гол нийтлэл -->
                 <article class="min-w-0">
                     <span v-if="post.category" class="block text-sm font-medium text-brand-700">{{ post.category.name }}</span>
-                    <h1 class="mt-1 text-3xl font-bold leading-tight text-gray-900">{{ post.title }}</h1>
+                    <h1 class="mt-1 text-3xl font-semibold leading-tight text-gray-900">{{ post.title }}</h1>
 
                     <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-gray-500">
                         <span class="inline-flex items-center gap-1.5">
@@ -98,7 +99,7 @@ const quickLinks = [
                                 class="group relative aspect-square overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200"
                                 @click="openLightbox(i)"
                             >
-                                <img :src="img" alt="" loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105" />
+                                <img :src="img" alt="" loading="lazy" class="h-full w-full object-cover transition" />
                                 <span
                                     v-if="i === visibleGallery.length - 1 && hiddenCount > 0"
                                     class="absolute inset-0 flex items-center justify-center bg-black/60 text-base font-semibold text-white transition group-hover:bg-black/70"
@@ -112,7 +113,7 @@ const quickLinks = [
                             v-for="t in post.tags"
                             :key="t.id"
                             :href="`/news?tag=${t.slug}`"
-                            class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
+                            class="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
                         >#{{ t.name }}</Link>
                     </div>
 
@@ -136,7 +137,7 @@ const quickLinks = [
                             </span>
                             <span class="text-sm font-medium text-gray-700 group-hover:text-brand-700">{{ link.name }}</span>
                         </Link>
-                        <Link :href="user ? '/zar/new' : '/register'" class="flex items-center justify-center gap-1.5 bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-brand-glow active:translate-y-0">
+                        <Link :href="user ? '/zar/new' : '/register'" class="flex items-center justify-center gap-1.5 bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-brand-700">
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                             Зар нэмэх
                         </Link>
@@ -197,7 +198,7 @@ const quickLinks = [
                     class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white transition hover:bg-white/20"
                     aria-label="Хаах"
                     @click="closeLightbox"
-                >✕</button>
+                ><X class="h-6 w-6" /></button>
 
                 <button
                     v-if="gallery.length > 1"
@@ -217,7 +218,7 @@ const quickLinks = [
                     @click.stop="nextImage"
                 >›</button>
 
-                <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+                <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-md bg-black/50 px-3 py-1 text-sm text-white">
                     {{ lightboxIndex + 1 }} / {{ gallery.length }}
                 </span>
             </div>

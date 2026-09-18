@@ -38,7 +38,7 @@ class JobController extends Controller
             'countries' => JobPost::active()->whereNotNull('country')->distinct()->orderBy('country')->pluck('country'),
             'filters' => $request->only(['category', 'type', 'country', 'search']),
             'seo' => [
-                'title' => 'Ажлын байр — Yazguur',
+                'title' => 'Ажлын байр | '.config('app.name'),
                 'description' => 'Европ дахь монголчуудад зориулсан ажлын зар: бүтэн/цагийн ажил, дадлага, түр ажил.',
             ],
         ]);
@@ -85,7 +85,7 @@ class JobController extends Controller
                 ->get()
                 ->map(fn ($j) => $this->card($j)),
             'seo' => [
-                'title' => $job->title.($job->company ? ' — '.$job->company : ''),
+                'title' => $job->title.($job->company ? ', '.$job->company : ''),
                 'description' => Str::limit(strip_tags($job->description), 150),
                 'url' => url("/jobs/{$job->slug}"),
             ],

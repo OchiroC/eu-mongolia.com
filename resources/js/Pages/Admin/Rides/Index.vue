@@ -41,8 +41,8 @@ function destroy(id) {
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ r.depart_at }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ r.seats }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ r.user ?? '—' }}</td>
-                        <td class="px-4 py-3"><span class="rounded-full px-2 py-0.5 text-xs" :class="statusClass[r.status]">{{ statusLabel[r.status] }}</span></td>
+                        <td class="px-4 py-3 text-gray-500">{{ r.user ?? '-' }}</td>
+                        <td class="px-4 py-3"><span class="rounded-md px-2 py-0.5 text-xs" :class="statusClass[r.status]">{{ statusLabel[r.status] }}</span></td>
                         <td class="px-4 py-3">
                             <div class="flex justify-end gap-2">
                                 <Button variant="outline" size="sm" @click="close(r.id)">{{ r.status === 'closed' ? 'Нээх' : 'Хаах' }}</Button>
@@ -64,7 +64,7 @@ function destroy(id) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
     </AdminLayout>

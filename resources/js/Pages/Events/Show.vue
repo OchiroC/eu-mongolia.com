@@ -1,4 +1,5 @@
 <script setup>
+import { CalendarDays, MapPin, UserRound } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { formatDateTime } from '@/lib/date';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
@@ -39,11 +40,11 @@ function submit() {
         <div class="mt-4 grid gap-8 lg:grid-cols-3">
             <div class="lg:col-span-2">
                 <img v-if="event.cover_image" :src="event.cover_image" :alt="event.title" class="mb-6 w-full rounded-lg" />
-                <h1 class="text-3xl font-bold">{{ event.title }}</h1>
+                <h1 class="text-3xl font-semibold">{{ event.title }}</h1>
                 <div class="mt-3 space-y-1 text-gray-600">
-                    <p>📅 {{ formatDateTime(event.starts_at) }}</p>
-                    <p v-if="event.venue">📍 {{ event.venue }}<span v-if="event.city">, {{ event.city }}</span><span v-if="event.country"> ({{ event.country }})</span></p>
-                    <p v-if="event.organizer">👤 {{ event.organizer.name }}</p>
+                    <p><CalendarDays class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ formatDateTime(event.starts_at) }}</p>
+                    <p v-if="event.venue"><MapPin class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ event.venue }}<span v-if="event.city">, {{ event.city }}</span><span v-if="event.country"> ({{ event.country }})</span></p>
+                    <p v-if="event.organizer"><UserRound class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ event.organizer.name }}</p>
                 </div>
                 <div class="rich-content mt-6 max-w-none" v-html="event.description"></div>
             </div>
@@ -68,18 +69,18 @@ function submit() {
                             type="number"
                             min="0"
                             :max="t.remaining"
-                            class="w-20 rounded-md border-gray-300"
+                            class="w-20 rounded-md border-brand-200 focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
                         />
                     </div>
 
                     <div class="border-t pt-4">
                         <label class="block text-sm font-medium text-gray-700">Нэр</label>
-                        <input v-model="form.buyer_name" type="text" class="mt-1 w-full rounded-md border-gray-300" />
+                        <input v-model="form.buyer_name" type="text" class="mt-1 w-full rounded-md border-brand-200 focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                         <p v-if="form.errors.buyer_name" class="mt-1 text-sm text-red-600">{{ form.errors.buyer_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">И-мэйл</label>
-                        <input v-model="form.buyer_email" type="email" class="mt-1 w-full rounded-md border-gray-300" />
+                        <input v-model="form.buyer_email" type="email" class="mt-1 w-full rounded-md border-brand-200 focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                         <p v-if="form.errors.buyer_email" class="mt-1 text-sm text-red-600">{{ form.errors.buyer_email }}</p>
                     </div>
 
@@ -106,8 +107,8 @@ function submit() {
                 </div>
                 <p class="mt-2 text-sm text-gray-500">Энэ эвент тасалбаргүй, нээлттэй оролцоно.</p>
                 <div class="mt-4 space-y-2 border-t pt-4 text-sm text-gray-600">
-                    <p>📅 {{ formatDateTime(event.starts_at) }}</p>
-                    <p v-if="event.venue">📍 {{ event.venue }}<span v-if="event.city">, {{ event.city }}</span></p>
+                    <p><CalendarDays class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ formatDateTime(event.starts_at) }}</p>
+                    <p v-if="event.venue"><MapPin class="mr-1.5 inline-block h-4 w-4 align-[-3px]" />{{ event.venue }}<span v-if="event.city">, {{ event.city }}</span></p>
                 </div>
             </div>
         </div>

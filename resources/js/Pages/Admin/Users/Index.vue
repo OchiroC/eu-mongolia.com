@@ -103,13 +103,13 @@ function initials(name) {
                             </div>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="u.is_admin ? 'bg-gray-900 text-white' : 'bg-brand-50 text-brand-700'">{{ roleLabel(u) }}</span>
+                            <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="u.is_admin ? 'bg-gray-900 text-white' : 'bg-brand-50 text-brand-700'">{{ roleLabel(u) }}</span>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ u.listings_count }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ u.created_at }}</td>
                         <td class="px-4 py-3">
-                            <span v-if="u.blocked" class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Блоклогдсон</span>
-                            <span v-else class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Идэвхтэй</span>
+                            <span v-if="u.blocked" class="rounded-md bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Блоклогдсон</span>
+                            <span v-else class="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Идэвхтэй</span>
                         </td>
                         <td class="px-4 py-3">
                             <!-- Админ бүртгэлийг хамгаална -->
@@ -140,7 +140,7 @@ function initials(name) {
                 :href="link.url || ''"
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
-                :class="[link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200', !link.url ? 'pointer-events-none opacity-50' : '']"
+                :class="[link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600', !link.url ? 'pointer-events-none opacity-50' : '']"
             />
         </div>
 

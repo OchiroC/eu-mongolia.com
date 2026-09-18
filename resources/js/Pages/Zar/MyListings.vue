@@ -1,4 +1,5 @@
 <script setup>
+import { Eye } from 'lucide-vue-next';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import Button from '@/Components/ui/Button.vue';
 import Dialog from '@/Components/ui/Dialog.vue';
@@ -61,7 +62,7 @@ function destroy(l) {
 
     <PublicLayout>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">Миний зар</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Миний зар</h1>
             <Button :as="Link" href="/zar/new">+ Зар нэмэх</Button>
         </div>
 
@@ -80,9 +81,9 @@ function destroy(l) {
 
                 <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusClass[l.status]">{{ statusLabel[l.status] }}</span>
-                        <span v-if="l.is_featured" class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">★ Онцлох · {{ l.featured_until }} хүртэл</span>
-                        <span class="text-xs text-gray-400">👁 {{ l.views }}</span>
+                        <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass[l.status]">{{ statusLabel[l.status] }}</span>
+                        <span v-if="l.is_featured" class="rounded-md bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">Онцлох, {{ l.featured_until }} хүртэл</span>
+                        <span class="text-xs text-gray-400"><Eye class="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />{{ l.views }}</span>
                     </div>
                     <Link :href="`/zar/${l.slug}`" class="mt-1 block truncate font-semibold text-gray-900 hover:text-brand-700">{{ l.title }}</Link>
                     <p class="text-sm font-bold text-gray-900">{{ priceLabel(l) }}</p>
@@ -90,7 +91,7 @@ function destroy(l) {
 
                 <div class="flex shrink-0 flex-wrap gap-2">
                     <Button v-if="l.status === 'active'" size="sm" class="bg-amber-500 hover:bg-amber-600" @click="openPromote(l)">
-                        ★ {{ l.is_featured ? 'Сунгах' : 'Онцлох' }}
+                        {{ l.is_featured ? 'Сунгах' : 'Онцлох' }}
                     </Button>
                     <Button v-if="l.status !== 'sold'" variant="outline" size="sm" @click="setStatus(l, 'sold')">Зарагдсан</Button>
                     <Button v-else variant="secondary" size="sm" @click="setStatus(l, 'active')">Дахин нийтлэх</Button>
@@ -110,7 +111,7 @@ function destroy(l) {
             <DialogContent class="max-w-md">
                 <DialogTitle>Зар онцлох</DialogTitle>
                 <DialogDescription>
-                    Онцлох зар нь жагсаалт болон нүүр хуудсанд <span class="font-medium text-amber-600">★ тэмдэгтэйгээр дээр</span> харагдана. Илүү олон хүн харж, хурдан зарагдана.
+                    Онцлох зар нь жагсаалт болон нүүр хуудсанд <span class="font-medium text-amber-600">"Онцлох" тэмдэгтэйгээр дээгүүр</span> харагдана. Илүү олон хүн харж, хурдан зарагдана.
                 </DialogDescription>
 
                 <div class="mt-2 space-y-2">
@@ -125,14 +126,14 @@ function destroy(l) {
                         <div>
                             <p class="font-semibold text-gray-900">
                                 {{ p.label }}
-                                <span v-if="p.popular" class="ml-1 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Түгээмэл</span>
+                                <span v-if="p.popular" class="ml-1 rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-900">Түгээмэл</span>
                             </p>
                             <p class="text-xs text-gray-400">Зарыг {{ p.label }} онцолно</p>
                         </div>
                         <span class="text-lg font-bold text-gray-900">{{ p.price }}€</span>
                     </button>
                 </div>
-                <p class="mt-1 text-center text-xs text-gray-400">Туршилтын (mock) төлбөр — карт холбогдоогүй.</p>
+                <p class="mt-1 text-center text-xs text-gray-400">Туршилтын төлбөр. Карт холбогдоогүй.</p>
             </DialogContent>
         </Dialog>
     </PublicLayout>

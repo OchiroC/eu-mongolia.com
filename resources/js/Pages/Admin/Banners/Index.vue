@@ -69,18 +69,18 @@ function destroy(id) {
                         <td class="px-4 py-3 font-medium text-gray-800">{{ b.title }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ placementLabels[b.placement] }}</td>
                         <td class="px-4 py-3">
-                            <span class="rounded-full px-2 py-0.5 text-xs" :class="statusClass[b.status]">
+                            <span class="rounded-md px-2 py-0.5 text-xs" :class="statusClass[b.status]">
                                 {{ statusLabels[b.status] }}
                             </span>
                         </td>
                         <td class="px-4 py-3">
-                            <span v-if="b.is_paid" class="text-green-600">✓ {{ b.price }}€</span>
+                            <span v-if="b.is_paid" class="text-green-600">Төлсөн, {{ b.price }}€</span>
                             <button v-else class="rounded bg-emerald-600 px-2 py-1 text-xs text-white hover:bg-emerald-700" @click="pay(b.id)">
                                 Төлбөр авах
                             </button>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ b.impressions }} / {{ b.clicks }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ b.ends_at ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500">{{ b.ends_at ?? '-' }}</td>
                         <td class="px-4 py-3 text-right whitespace-nowrap">
                             <button v-if="b.status === 'pending'" class="text-green-700 hover:underline" @click="setStatus(b.id, 'active')">Зөвшөөрөх</button>
                             <button v-if="b.status === 'pending'" class="ml-2 text-red-600 hover:underline" @click="setStatus(b.id, 'rejected')">Татгалзах</button>
@@ -103,7 +103,7 @@ function destroy(id) {
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
                 :class="[
-                    link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200',
+                    link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600',
                     !link.url ? 'pointer-events-none opacity-50' : '',
                 ]"
             />

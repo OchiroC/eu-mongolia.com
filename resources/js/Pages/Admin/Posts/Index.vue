@@ -49,17 +49,17 @@ function destroy(id) {
                                 <span class="font-medium text-gray-800">{{ post.title }}</span>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-gray-500">{{ post.category ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500">{{ post.category ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span
-                                class="rounded-full px-2 py-0.5 text-xs"
+                                class="rounded-md px-2 py-0.5 text-xs"
                                 :class="post.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
                             >
                                 {{ post.status === 'published' ? 'Нийтлэгдсэн' : 'Ноорог' }}
                             </span>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ post.views }}</td>
-                        <td class="px-4 py-3 text-gray-500">{{ post.published_at ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500">{{ post.published_at ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <div class="flex justify-end gap-1">
                                 <Button :as="Link" :href="`/admin/posts/${post.id}/edit`" variant="ghost" size="icon" title="Засах">
@@ -86,7 +86,7 @@ function destroy(id) {
                 v-html="link.label"
                 class="rounded-md px-3 py-1 text-sm"
                 :class="[
-                    link.active ? 'bg-brand-700 text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200',
+                    link.active ? 'border border-brand-600 bg-brand-600 text-white' : 'border border-brand-200 text-brand-500 hover:border-brand-600',
                     !link.url ? 'pointer-events-none opacity-50' : '',
                 ]"
             />

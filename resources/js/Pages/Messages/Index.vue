@@ -14,7 +14,7 @@ function initial(name) {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="mb-5 text-2xl font-bold text-gray-900">Зурвас</h1>
+            <h1 class="mb-5 text-2xl font-semibold text-gray-900">Зурвас</h1>
 
             <div v-if="conversations.length" class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft">
                 <Link
@@ -35,7 +35,7 @@ function initial(name) {
                         <p v-if="c.listing" class="truncate text-xs text-brand-700">{{ c.listing.title }}</p>
                         <p class="truncate text-sm text-gray-500">{{ c.last }}</p>
                     </div>
-                    <span v-if="c.unread" class="flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded-full bg-brand-600 px-1.5 text-xs font-bold text-white">{{ c.unread }}</span>
+                    <span v-if="c.unread" class="flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded-md bg-brand-600 px-1.5 text-xs font-bold text-white">{{ c.unread }}</span>
                 </Link>
             </div>
 

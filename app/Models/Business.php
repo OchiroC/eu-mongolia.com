@@ -23,6 +23,7 @@ class Business extends Model
         'user_id', 'name', 'slug', 'category', 'description', 'city', 'country',
         'address', 'phone', 'email', 'website', 'facebook', 'hours', 'photo',
         'is_featured', 'featured_until', 'status',
+        'lat', 'lng',
     ];
 
     protected $casts = [

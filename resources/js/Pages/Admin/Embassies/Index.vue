@@ -133,14 +133,14 @@ function destroy(id) {
                     </div>
                     <div class="space-y-1.5">
                         <Label>Ажиллах цаг</Label>
-                        <Input v-model="form.hours" type="text" placeholder="Да–Ба 09:00–17:00" />
+                        <Input v-model="form.hours" type="text" placeholder="Да-Ба 09:00-17:00" />
                     </div>
                     <div class="space-y-1.5">
                         <Label>Тэмдэглэл</Label>
                         <Textarea v-model="form.notes" rows="2" />
                     </div>
                     <label class="flex items-center gap-2 text-sm text-gray-700">
-                        <input v-model="form.is_active" type="checkbox" class="rounded border-gray-300 text-primary focus:ring-ring" />
+                        <input v-model="form.is_active" type="checkbox" class="rounded border-brand-200 text-primary focus:ring-ring focus:border-brand-600 focus:ring-1 focus:ring-brand-600" />
                         Идэвхтэй (нийтэд харагдана)
                     </label>
                 </div>

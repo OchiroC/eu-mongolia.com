@@ -36,7 +36,7 @@ class EmbassyController extends Controller
             'countries' => Embassy::active()->distinct()->orderBy('country')->pluck('country'),
             'filters' => $request->only(['country']),
             'seo' => [
-                'title' => 'Элчин сайдын яам / Яаралтай тусламж — Yazguur',
+                'title' => 'Элчин сайдын яам / Яаралтай тусламж | '.config('app.name'),
                 'description' => 'Европ дахь Монгол улсын элчин сайдын яам, консулын газрын холбоо барих мэдээлэл болон яаралтай тусламжийн дугаарууд.',
             ],
         ]);

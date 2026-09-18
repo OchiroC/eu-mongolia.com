@@ -21,7 +21,7 @@ function money(n) {
 </script>
 
 <template>
-    <Head :title="`${event.title} — борлуулалт`" />
+    <Head :title="`Борлуулалт: ${event.title}`" />
 
     <AdminLayout>
         <template #title>Борлуулалтын тайлан</template>
@@ -48,24 +48,24 @@ function money(n) {
             <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
                     <p class="text-sm text-gray-400">Орлого (төлсөн)</p>
-                    <p class="mt-1 text-2xl font-bold text-gray-900">{{ money(stats.revenue) }}</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-900">{{ money(stats.revenue) }}</p>
                     <p class="mt-0.5 text-xs text-gray-400">{{ stats.orders_paid }} захиалга</p>
                 </div>
                 <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
                     <p class="text-sm text-gray-400">Зарагдсан тасалбар</p>
-                    <p class="mt-1 text-2xl font-bold text-gray-900">{{ stats.sold }} <span class="text-base font-normal text-gray-400">/ {{ stats.capacity }}</span></p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-900">{{ stats.sold }} <span class="text-base font-normal text-gray-400">/ {{ stats.capacity }}</span></p>
                     <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-gray-100">
                         <div class="h-full rounded-full bg-brand-500" :style="{ width: stats.capacity ? Math.min(100, (stats.sold / stats.capacity) * 100) + '%' : '0%' }"></div>
                     </div>
                 </div>
                 <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
                     <p class="text-sm text-gray-400">Шалгасан (орсон)</p>
-                    <p class="mt-1 text-2xl font-bold text-gray-900">{{ stats.checked_in }}</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-900">{{ stats.checked_in }}</p>
                     <p class="mt-0.5 text-xs text-gray-400">{{ stats.valid }} хүчинтэй үлдсэн</p>
                 </div>
                 <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
                     <p class="text-sm text-gray-400">Хүлээгдэж буй</p>
-                    <p class="mt-1 text-2xl font-bold text-gray-900">{{ stats.orders_pending }}</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-900">{{ stats.orders_pending }}</p>
                     <p class="mt-0.5 text-xs text-gray-400">төлбөр хүлээгдэж буй захиалга</p>
                 </div>
             </div>
@@ -120,7 +120,7 @@ function money(n) {
                                 <td class="px-5 py-3 text-gray-600">{{ o.tickets }}</td>
                                 <td class="px-5 py-3 text-gray-600">{{ money(o.total) }}</td>
                                 <td class="px-5 py-3">
-                                    <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusMap[o.status]?.cls">{{ statusMap[o.status]?.label || o.status }}</span>
+                                    <span class="rounded-md px-2 py-0.5 text-xs font-medium" :class="statusMap[o.status]?.cls">{{ statusMap[o.status]?.label || o.status }}</span>
                                 </td>
                                 <td class="px-5 py-3 text-xs text-gray-400">{{ o.created_at }}</td>
                             </tr>

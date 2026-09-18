@@ -92,7 +92,7 @@ function initial(name) {
                         v-model="form.body"
                         rows="3"
                         placeholder="Сэтгэгдлээ бичнэ үү…"
-                        class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+                        class="w-full rounded-md border border-brand-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
                     ></textarea>
                     <p v-if="form.errors.body" class="mt-1 text-sm text-destructive">{{ form.errors.body }}</p>
                     <div class="mt-2 flex items-center justify-between">
@@ -149,7 +149,7 @@ function initial(name) {
                                 v-model="replyForm.body"
                                 rows="2"
                                 placeholder="Хариу бичих…"
-                                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+                                class="w-full rounded-md border border-brand-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
                             ></textarea>
                             <div class="mt-2 flex justify-end gap-2">
                                 <button type="button" class="rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:text-gray-800" @click="openReply(c.id)">Болих</button>

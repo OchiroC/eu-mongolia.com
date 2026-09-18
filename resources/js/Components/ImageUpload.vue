@@ -70,7 +70,7 @@ function clear() {
                 <span class="text-xs">{{ label }}</span>
             </div>
         </div>
-        <p class="mt-1.5 text-xs text-gray-400">JPG, PNG, WebP — 4MB хүртэл.</p>
+        <p class="mt-1.5 text-xs text-gray-400">JPG, PNG, WebP. Хамгийн ихдээ 4MB.</p>
         <input ref="input" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="onFile" />
     </div>
 </template>

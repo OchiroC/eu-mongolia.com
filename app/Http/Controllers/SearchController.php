@@ -52,7 +52,7 @@ class SearchController extends Controller
                     ->latest()->take(5)->get()
                     ->map(fn ($p) => ['title' => $p->name, 'subtitle' => $p->profession, 'url' => "/professionals/{$p->slug}"])),
 
-                $this->group('Guide', '/guides', Guide::published()
+                $this->group('Гарын авлага', '/guides', Guide::published()
                     ->where(fn ($w) => $w->where('title', 'like', $like)->orWhere('excerpt', 'like', $like))
                     ->latest('published_at')->take(5)->get()
                     ->map(fn ($g) => ['title' => $g->title, 'subtitle' => $g->country, 'url' => "/guides/{$g->slug}"])),

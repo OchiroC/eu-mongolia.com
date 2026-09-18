@@ -23,18 +23,18 @@ function promote() {
 
     <PublicLayout>
         <div class="mx-auto max-w-2xl">
-            <h1 class="text-2xl font-bold text-gray-900">Миний мэргэжилтний профайл</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Миний мэргэжилтний профайл</h1>
 
             <div class="mt-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-soft">
                 <div class="flex items-start justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-2">
                             <h2 class="text-lg font-semibold text-gray-900">{{ professional.name }}</h2>
-                            <span v-if="professional.is_verified" class="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">Баталгаажсан</span>
+                            <span v-if="professional.is_verified" class="rounded-md bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">Баталгаажсан</span>
                         </div>
                         <p v-if="professional.profession" class="text-sm text-brand-700">{{ professional.profession }}</p>
                     </div>
-                    <span class="shrink-0 rounded-full px-3 py-1 text-xs font-medium" :class="statusMap[professional.status]?.cls">
+                    <span class="shrink-0 rounded-md px-3 py-1 text-xs font-medium" :class="statusMap[professional.status]?.cls">
                         {{ statusMap[professional.status]?.label }}
                     </span>
                 </div>
