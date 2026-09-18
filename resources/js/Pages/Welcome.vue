@@ -37,10 +37,11 @@ const user = computed(() => usePage().props.auth?.user);
 const directions = computed(() => [
     { gate: 'A1', label: 'Виз, гааль, Anmeldung', dest: 'Гарын авлага', href: '/guides', count: props.counts.guides, unit: 'заавар' },
     { gate: 'A2', label: 'Нислэг, угтах хүн, ачаа', dest: 'Нислэг', href: '/flights', count: props.counts.flights, unit: 'нислэг' },
-    { gate: 'A3', label: 'Байр хайх', dest: 'Орон сууц', href: '/housing', count: props.counts.housing, unit: 'зар' },
-    { gate: 'A4', label: 'Ажил хайх', dest: 'Ажил', href: '/jobs', count: props.counts.jobs, unit: 'зар' },
-    { gate: 'A5', label: 'Бараа худалдах, авах', dest: 'Зар', href: '/zar', count: props.counts.listings, unit: 'зар' },
-    { gate: 'A6', label: 'Арга хэмжээ, уулзалт', dest: 'Эвент', href: '/events', count: props.counts.events, unit: 'эвент' },
+    { gate: 'A3', label: 'Франкфуртаар дамжих', dest: 'Транзит', href: '/damjih', count: props.counts.transit, unit: 'хот' },
+    { gate: 'A4', label: 'Байр хайх', dest: 'Орон сууц', href: '/housing', count: props.counts.housing, unit: 'зар' },
+    { gate: 'A5', label: 'Ажил хайх', dest: 'Ажил', href: '/jobs', count: props.counts.jobs, unit: 'зар' },
+    { gate: 'A6', label: 'Бараа худалдах, авах', dest: 'Зар', href: '/zar', count: props.counts.listings, unit: 'зар' },
+    { gate: 'A7', label: 'Арга хэмжээ, уулзалт', dest: 'Эвент', href: '/events', count: props.counts.events, unit: 'эвент' },
 ].map((d) => ({ ...d, status: `${d.count || 0} ${d.unit}` })));
 
 // Самбарын hover: мөр бүрийн хавтанг дахин эргүүлэх тоолуур.

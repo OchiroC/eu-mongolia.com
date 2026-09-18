@@ -25,7 +25,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'OM137';
  */
 const primaryNav = [
     // Нислэг, хамт аялах, ачаа гурав нэг төв (TravelTabs).
-    { name: 'Нислэг', href: '/flights', match: ['/flights', '/rides', '/achaa'] },
+    { name: 'Нислэг', href: '/flights', match: ['/flights', '/damjih', '/rides', '/achaa'] },
     { name: 'Гарын авлага', href: '/guides' },
     { name: 'Орон сууц', href: '/housing' },
     { name: 'Ажил', href: '/jobs' },
@@ -303,6 +303,7 @@ const accountLinks = computed(() => [
                             <li v-for="item in primaryNav.slice(0, 5)" :key="item.href">
                                 <Link :href="item.href" class="text-brand-500 transition-colors hover:text-brand-600">{{ item.name }}</Link>
                             </li>
+                            <li><Link href="/damjih" class="text-brand-500 transition-colors hover:text-brand-600">Франкфуртаар дамжих</Link></li>
                             <li><Link href="/achaa" class="text-brand-500 transition-colors hover:text-brand-600">Ачаа, илгээмж</Link></li>
                             <li><Link href="/rides" class="text-brand-500 transition-colors hover:text-brand-600">Хамт аялах</Link></li>
                         </ul>

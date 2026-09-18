@@ -32,7 +32,7 @@ class Flight extends Model
 
     public function passengers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'flight_passengers')->withTimestamps();
+        return $this->belongsToMany(User::class, 'flight_passengers')->withPivot('destination')->withTimestamps();
     }
 
     public function rides(): HasMany

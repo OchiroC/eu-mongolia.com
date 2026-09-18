@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FlightController;
+use App\Http\Controllers\TransitController;
 use App\Http\Controllers\JourneyController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ParcelController;
@@ -109,6 +110,9 @@ Route::get('/rides', [RideController::class, 'index'])->name('rides.index');
 // Нислэг, ачаа, ирэх өдрийн багц, газрын зураг
 Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
 Route::get('/flights/{flight}', [FlightController::class, 'show'])->name('flights.show');
+Route::get('/flights/{flight}/share.png', [FlightController::class, 'share'])->name('flights.share');
+Route::get('/damjih', [TransitController::class, 'index'])->name('transit.index');
+Route::get('/damjih/{city}', [TransitController::class, 'show'])->name('transit.show');
 Route::get('/achaa', [ParcelController::class, 'index'])->name('parcels.index');
 Route::view('/ireh', 'arrival-kit')->name('arrival-kit');
 Route::get('/map', [MapController::class, 'index'])->name('map');
@@ -174,6 +178,7 @@ Route::middleware('auth')->group(function () {
 
     // Нислэгийн зорчигчийн тэмдэглэгээ, бэлтгэлийн жагсаалт
     Route::post('/flights/{flight}/board', [FlightController::class, 'board'])->name('flights.board');
+    Route::put('/flights/{flight}/board', [FlightController::class, 'updateDestination'])->name('flights.board.destination');
     Route::post('/journey/{guide:slug}', [JourneyController::class, 'toggle'])->name('journey.toggle');
 
     // Ачаа, илгээмж

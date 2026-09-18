@@ -4,8 +4,8 @@ import CustomsNotice from '@/Components/CustomsNotice.vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { formatDateTime } from '@/lib/date';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Car, Check, Package, PlaneLanding, PlaneTakeoff, Plus, UserRound, Users, WifiOff } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Car, Check, Link2, Package, PlaneLanding, PlaneTakeoff, Plus, Share2, UserRound, Users, WifiOff } from 'lucide-vue-next';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
     flight: { type: Object, required: true },
@@ -14,6 +14,8 @@ const props = defineProps({
     rides: { type: Array, default: () => [] },
     parcels: { type: Array, default: () => [] },
     arrivalGuide: { type: Object, default: null },
+    myDestination: { type: String, default: null },
+    destinations: { type: Object, default: () => ({}) },
 });
 
 const user = computed(() => usePage().props.auth?.user);
@@ -22,12 +24,37 @@ const cancelled = computed(() => props.flight.status === 'cancelled');
 const [y, m, d] = props.flight.date.split('-');
 const dateLabel = `${d}.${m}.${y}`;
 
+// Ирэх нислэгт: Франкфуртаас цааш хаашаа явах. Нэг хот руу явах хүмүүс /damjih дээр бие биеэ харна.
+const destination = ref(props.myDestination ?? '');
+watch(() => props.myDestination, (v) => (destination.value = v ?? ''));
+const hasDestinations = computed(() => Object.keys(props.destinations).length > 0);
+
 function toggleBoard() {
     if (!user.value) {
         router.visit('/login');
         return;
     }
-    router.post(`/flights/${props.flight.slug}/board`, {}, { preserveScroll: true });
+    router.post(`/flights/${props.flight.slug}/board`, props.onBoard ? {} : { destination: destination.value || null }, { preserveScroll: true });
+}
+
+function saveDestination() {
+    if (props.onBoard) {
+        router.put(`/flights/${props.flight.slug}/board`, { destination: destination.value || null }, { preserveScroll: true });
+    }
+}
+
+// Хуваалцах: утсанд системийн цонх, компьютерт Facebook болон холбоос хуулах.
+const shareUrl = typeof window !== 'undefined' ? window.location.origin + `/flights/${props.flight.slug}` : '';
+const canNativeShare = typeof navigator !== 'undefined' && !!navigator.share;
+const copied = ref(false);
+function nativeShare() {
+    navigator.share({ title: `${props.flight.code} ${dateLabel}`, url: shareUrl }).catch(() => {});
+}
+function copyLink() {
+    navigator.clipboard?.writeText(shareUrl).then(() => {
+        copied.value = true;
+        setTimeout(() => (copied.value = false), 2000);
+    });
 }
 </script>
 
@@ -79,6 +106,17 @@ function toggleBoard() {
                         <span class="inline-flex items-center gap-2"><Package class="h-4 w-4 text-signal-400" /><b class="font-medium text-white">{{ parcels.length }}</b> ачаа</span>
                     </div>
                     <div v-if="!cancelled" class="flex flex-wrap gap-3">
+                        <label v-if="hasDestinations && user" class="inline-flex h-11 items-center gap-2 rounded-md border border-white/20 pl-4 pr-2 text-sm text-white/60">
+                            Цааш хаашаа
+                            <select
+                                v-model="destination"
+                                class="h-9 rounded border-0 bg-transparent py-0 pl-1 pr-8 text-sm font-medium text-white focus:ring-1 focus:ring-signal-400 [&>option]:text-brand-600"
+                                @change="saveDestination"
+                            >
+                                <option value="">Сонгоогүй</option>
+                                <option v-for="(label, key) in destinations" :key="key" :value="key">{{ label }}</option>
+                            </select>
+                        </label>
                         <button
                             v-if="!onBoard"
                             type="button"
@@ -97,9 +135,26 @@ function toggleBoard() {
                         </template>
                     </div>
                 </div>
-                <p class="border-t border-board-line py-4 text-xs text-white/40">
-                    Энэ нь МИАТ-ын албан ёсны хуудас биш. Нислэгийн цаг, төлөвийг тасалбар эсвэл МИАТ-ын вэбсайтаас шалгаарай.
-                </p>
+                <div class="flex flex-col gap-4 border-t border-board-line py-4 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-xs text-white/40">
+                        Энэ нь МИАТ-ын албан ёсны хуудас биш. Нислэгийн цаг, төлөвийг тасалбар эсвэл МИАТ-ын вэбсайтаас шалгаарай.
+                    </p>
+                    <div class="flex shrink-0 flex-wrap items-center gap-2 text-sm">
+                        <span class="mr-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">Хуваалцах</span>
+                        <button v-if="canNativeShare" type="button" class="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/20 px-3 text-white/80 transition-colors hover:border-white" @click="nativeShare">
+                            <Share2 class="h-4 w-4" /> Илгээх
+                        </button>
+                        <a
+                            :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`"
+                            target="_blank"
+                            rel="noopener"
+                            class="inline-flex h-9 items-center rounded-md border border-white/20 px-3 text-white/80 transition-colors hover:border-white"
+                        >Facebook</a>
+                        <button type="button" class="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/20 px-3 text-white/80 transition-colors hover:border-white" @click="copyLink">
+                            <Link2 class="h-4 w-4" /> {{ copied ? 'Хуулагдлаа' : 'Холбоос хуулах' }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -181,6 +236,13 @@ function toggleBoard() {
                             </a>
                             <p class="mt-1 text-brand-400">Нэг удаа нээхэд утсанд хадгалагдаж, интернэтгүй үед ч нээгдэнэ.</p>
                         </li>
+                        <li>
+                            <Link href="/damjih" class="group flex items-start justify-between gap-3 font-medium text-brand-600">
+                                <span class="group-hover:underline group-hover:underline-offset-4">Франкфуртаар дамжих</span>
+                                <ArrowRight class="mt-0.5 h-4 w-4 shrink-0 text-brand-300" />
+                            </Link>
+                            <p class="mt-1 text-brand-400">Европын бусад хот руу явах бол терминал, виз, галт тэрэгний заавар.</p>
+                        </li>
                     </ul>
                 </div>
 
@@ -189,6 +251,7 @@ function toggleBoard() {
                     <ul v-if="passengers.length" class="mt-3 space-y-2">
                         <li v-for="p in passengers" :key="p.id" class="flex items-center gap-2.5 text-sm text-brand-600">
                             <UserRound class="h-4 w-4 text-brand-300" /> {{ p.name }}
+                            <span v-if="p.destination" class="ml-auto font-mono text-[11px] uppercase tracking-[0.08em] text-brand-400">{{ p.destination }}</span>
                         </li>
                     </ul>
                     <p v-else-if="user" class="mt-3 text-sm text-brand-400">Одоогоор хэн ч тэмдэглээгүй байна.</p>

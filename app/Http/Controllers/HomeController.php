@@ -12,6 +12,7 @@ use App\Models\ListingCategory;
 use App\Models\Post;
 use App\Models\Professional;
 use App\Models\Ride;
+use App\Support\Transit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -91,6 +92,7 @@ class HomeController extends Controller
                 'flights' => Flight::upcoming()->where('direction', 'arrival')->where('scheduled_at', '<=', now()->addDays(14))->count(),
                 'rides' => Ride::active()->upcoming()->count(),
                 'guides' => Guide::published()->count(),
+                'transit' => count(Transit::CITIES),
                 'housing' => HousingPost::active()->count(),
                 'jobs' => JobPost::active()->count(),
                 'listings' => Listing::active()->count(),
